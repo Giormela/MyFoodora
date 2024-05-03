@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora;
+
 
 public class Example {
 
