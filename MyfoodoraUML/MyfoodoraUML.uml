@@ -1,6 +1,230 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_xs5HwArpEe-aYN2YJT3p6A" name="MyfoodoraUML">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_xs5HwArpEe-aYN2YJT3p6A" name="MyfoodoraUML" visibility="public">
   <packageImport xmi:type="uml:PackageImport" xmi:id="_xvJKgArpEe-aYN2YJT3p6A">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_6zzMcArqEe-aYN2YJT3p6A" name="User" visibility="package" isAbstract="true">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_MJEu0AruEe-BGPhRYAe7pA" name="id" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_tm_FgArtEe-BGPhRYAe7pA" name="name" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_c9Dz8ArvEe-BGPhRYAe7pA" name="LocalizedUser" visibility="package" isAbstract="true">
+    <generalization xmi:type="uml:Generalization" xmi:id="_5XPVkArvEe-BGPhRYAe7pA" general="_6zzMcArqEe-aYN2YJT3p6A"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_E8StIArwEe-BGPhRYAe7pA" name="Location" visibility="package">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_KpSsMArwEe-BGPhRYAe7pA" name="latitude" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_RQ-K0ArwEe-BGPhRYAe7pA" name="longitude" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_VeiXcArwEe-BGPhRYAe7pA" visibility="private" memberEnd="_VekzsArwEe-BGPhRYAe7pA _VelawgrwEe-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VekMoArwEe-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_VekMoQrwEe-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_VelawgrwEe-BGPhRYAe7pA" name="localizeduser" type="_c9Dz8ArvEe-BGPhRYAe7pA" association="_VeiXcArwEe-BGPhRYAe7pA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_VekzsArwEe-BGPhRYAe7pA" name="location" type="_E8StIArwEe-BGPhRYAe7pA" association="_VeiXcArwEe-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_IodncArxEe-BGPhRYAe7pA" name="Restaurant" visibility="package">
+    <generalization xmi:type="uml:Generalization" xmi:id="_W_leAArxEe-BGPhRYAe7pA" general="_c9Dz8ArvEe-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_bPrWAAr4Ee-BGPhRYAe7pA" name="genericDiscount" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_jdlyoAr4Ee-BGPhRYAe7pA" name="specialDiscount" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_m1GlMArxEe-BGPhRYAe7pA" name="Credential" visibility="package">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_0IZnQArxEe-BGPhRYAe7pA" name="username" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_3j6E0ArxEe-BGPhRYAe7pA" name="password" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_izLLYAryEe-BGPhRYAe7pA" name="permission" visibility="private" type="_AZKOQAryEe-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_AZKOQAryEe-BGPhRYAe7pA" name="Permission">
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Ke5vMAryEe-BGPhRYAe7pA" name="Manager"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_LsEF4AryEe-BGPhRYAe7pA" name="Restaurant"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Mt7LgAryEe-BGPhRYAe7pA" name="Customer"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_OZumAAryEe-BGPhRYAe7pA" name="Deliver"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_worioAryEe-BGPhRYAe7pA" visibility="private" memberEnd="_wosJsgryEe-BGPhRYAe7pA _wosJtQryEe-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_wosJsAryEe-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_wosJsQryEe-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wosJtQryEe-BGPhRYAe7pA" name="credential" type="_m1GlMArxEe-BGPhRYAe7pA" association="_worioAryEe-BGPhRYAe7pA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wosJsgryEe-BGPhRYAe7pA" name="user" type="_6zzMcArqEe-aYN2YJT3p6A" aggregation="composite" association="_worioAryEe-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wosJswryEe-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wosJtAryEe-BGPhRYAe7pA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_K20OAAr0Ee-BGPhRYAe7pA" name="FoodItem" visibility="package" isAbstract="true">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Eya7QAr3Ee-BGPhRYAe7pA" name="standard" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Ln_E4Ar3Ee-BGPhRYAe7pA" name="vegeterian" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_QImJUAr3Ee-BGPhRYAe7pA" name="glutenFree" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_qJxBoAr2Ee-BGPhRYAe7pA" name="getPrice" visibility="package" isAbstract="true"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_YdFPYAr0Ee-BGPhRYAe7pA" visibility="private" memberEnd="_YdGdggr0Ee-BGPhRYAe7pA _YdI5wAr0Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_YdGdgAr0Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_YdGdgQr0Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_YdI5wAr0Ee-BGPhRYAe7pA" name="fooditems" type="_K20OAAr0Ee-BGPhRYAe7pA" association="_YdFPYAr0Ee-BGPhRYAe7pA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cOwKMAr0Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_YdGdggr0Ee-BGPhRYAe7pA" name="restaurant" type="_IodncArxEe-BGPhRYAe7pA" aggregation="composite" association="_YdFPYAr0Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_wKNzEAr0Ee-BGPhRYAe7pA" name="Dish" visibility="package">
+    <generalization xmi:type="uml:Generalization" xmi:id="_fZQh4Ar1Ee-BGPhRYAe7pA" general="_K20OAAr0Ee-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_gqRBUAr2Ee-BGPhRYAe7pA" name="price" visibility="private" aggregation="shared">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_UPuMMAr2Ee-BGPhRYAe7pA" name="type" visibility="private" type="_zCt0wAr1Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bSN0AAr1Ee-BGPhRYAe7pA" name="Meal" visibility="package">
+    <generalization xmi:type="uml:Generalization" xmi:id="_gKGwAAr1Ee-BGPhRYAe7pA" general="_K20OAAr0Ee-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_tkXDwAr3Ee-BGPhRYAe7pA" name="type" visibility="private" type="_lijJcAr3Ee-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_-vujkAr3Ee-BGPhRYAe7pA" name="mealOfTheWeek" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_zCt0wAr1Ee-BGPhRYAe7pA" name="DishType" visibility="package">
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_5H1_8Ar1Ee-BGPhRYAe7pA" name="Starter"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_6c3SIAr1Ee-BGPhRYAe7pA" name="MainDish"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_7ON2kAr1Ee-BGPhRYAe7pA" name="Dessert"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_HeeuUAr2Ee-BGPhRYAe7pA" visibility="package" memberEnd="_HefVYAr2Ee-BGPhRYAe7pA _HefVYwr2Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_HeeuUQr2Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_HeeuUgr2Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_HefVYwr2Ee-BGPhRYAe7pA" name="meal" type="_bSN0AAr1Ee-BGPhRYAe7pA" aggregation="composite" association="_HeeuUAr2Ee-BGPhRYAe7pA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_HefVYAr2Ee-BGPhRYAe7pA" name="dishes" type="_wKNzEAr0Ee-BGPhRYAe7pA" association="_HeeuUAr2Ee-BGPhRYAe7pA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HefVYgr2Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_lijJcAr3Ee-BGPhRYAe7pA" name="MealType" visibility="package">
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_q_WJUAr3Ee-BGPhRYAe7pA" name="HalfMeal"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_r3QBsAr3Ee-BGPhRYAe7pA" name="FullMeal"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4pCcsAr4Ee-BGPhRYAe7pA" name="Customer" visibility="package">
+    <generalization xmi:type="uml:Generalization" xmi:id="_GyeckAr5Ee-BGPhRYAe7pA" general="_c9Dz8ArvEe-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_77N_IAr4Ee-BGPhRYAe7pA" name="surname" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_A9DhUAr5Ee-BGPhRYAe7pA" name="email" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_DipDgAr5Ee-BGPhRYAe7pA" name="phone" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_vUHCwAr6Ee-BGPhRYAe7pA" name="consensus" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_QSmvAAr5Ee-BGPhRYAe7pA" name="Order" visibility="package"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_TFUuQAr5Ee-BGPhRYAe7pA" visibility="private" memberEnd="_TFV8YQr5Ee-BGPhRYAe7pA _TFV8ZAr5Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_TFVVUAr5Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_TFV8YAr5Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_TFV8ZAr5Ee-BGPhRYAe7pA" name="order" type="_QSmvAAr5Ee-BGPhRYAe7pA" association="_TFUuQAr5Ee-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Yas3gAr5Ee-BGPhRYAe7pA"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_TFV8YQr5Ee-BGPhRYAe7pA" name="fooditems" type="_K20OAAr0Ee-BGPhRYAe7pA" association="_TFUuQAr5Ee-BGPhRYAe7pA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Xv5nAAr5Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_yo9UIAr5Ee-BGPhRYAe7pA" name="FidelityProgram" visibility="package">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Nw3VkAr6Ee-BGPhRYAe7pA" name="points" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Po84kAr6Ee-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PoQ8EAr6Ee-BGPhRYAe7pA" value="*"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_175EgAr5Ee-BGPhRYAe7pA" memberEnd="_175rkgr5Ee-BGPhRYAe7pA _175rlQr5Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_175rkAr5Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_175rkQr5Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_175rlQr5Ee-BGPhRYAe7pA" name="fidelityprograms" type="_yo9UIAr5Ee-BGPhRYAe7pA" association="_175EgAr5Ee-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_D1iU4Ar6Ee-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_D1yMgAr6Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_175rkgr5Ee-BGPhRYAe7pA" name="restaurant" type="_IodncArxEe-BGPhRYAe7pA" association="_175EgAr5Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_9leFAAr5Ee-BGPhRYAe7pA" visibility="package" memberEnd="_9lesEgr5Ee-BGPhRYAe7pA _9lesFQr5Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_9lesEAr5Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_9lesEQr5Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_9lesFQr5Ee-BGPhRYAe7pA" name="fidelityprograms" type="_yo9UIAr5Ee-BGPhRYAe7pA" association="_9leFAAr5Ee-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Cex9UAr6Ee-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CJ4rYAr6Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_9lesEgr5Ee-BGPhRYAe7pA" name="customer" type="_4pCcsAr4Ee-BGPhRYAe7pA" association="_9leFAAr5Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_U-vRgAr6Ee-BGPhRYAe7pA" memberEnd="_U-v4kgr6Ee-BGPhRYAe7pA _U-v4lQr6Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_U-v4kAr6Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_U-v4kQr6Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_U-v4lQr6Ee-BGPhRYAe7pA" name="customer" type="_4pCcsAr4Ee-BGPhRYAe7pA" association="_U-vRgAr6Ee-BGPhRYAe7pA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_U-v4kgr6Ee-BGPhRYAe7pA" name="orders" type="_QSmvAAr5Ee-BGPhRYAe7pA" association="_U-vRgAr6Ee-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_U-v4kwr6Ee-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U-v4lAr6Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_jCuwsAr6Ee-BGPhRYAe7pA" name="Courier">
+    <generalization xmi:type="uml:Generalization" xmi:id="_mMjBUAr6Ee-BGPhRYAe7pA" general="_c9Dz8ArvEe-BGPhRYAe7pA"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_673JAAr6Ee-BGPhRYAe7pA" name="surname" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_7m2mwAr6Ee-BGPhRYAe7pA" name="phone" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_E5jhMAr7Ee-BGPhRYAe7pA" name="state" visibility="private" type="__yKJkAr6Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="__yKJkAr6Ee-BGPhRYAe7pA" name="CourierState" visibility="package">
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_C7xl4Ar7Ee-BGPhRYAe7pA" name="OnDuty"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_DwV2YAr7Ee-BGPhRYAe7pA" name="OffDuty"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_WaXFgAr7Ee-BGPhRYAe7pA" name="Manager">
+    <generalization xmi:type="uml:Generalization" xmi:id="_ZfC-gAr7Ee-BGPhRYAe7pA" general="_6zzMcArqEe-aYN2YJT3p6A"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_YH1T8Ar7Ee-BGPhRYAe7pA" name="surname" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_nhlFIAr7Ee-BGPhRYAe7pA" name="System">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_LIJ8AAr8Ee-BGPhRYAe7pA" name="serviceFee" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Odp4MAr8Ee-BGPhRYAe7pA" name="markupPercentage" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_UeQvwAr8Ee-BGPhRYAe7pA" name="deliveryCost" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_rbR6kAr7Ee-BGPhRYAe7pA" visibility="private" memberEnd="_rbShogr7Ee-BGPhRYAe7pA _rbTIsgr7Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_rbShoAr7Ee-BGPhRYAe7pA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_rbShoQr7Ee-BGPhRYAe7pA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_rbTIsgr7Ee-BGPhRYAe7pA" name="user" type="_6zzMcArqEe-aYN2YJT3p6A" association="_rbR6kAr7Ee-BGPhRYAe7pA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uvEmkAr7Ee-BGPhRYAe7pA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uvTQEAr7Ee-BGPhRYAe7pA" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_rbShogr7Ee-BGPhRYAe7pA" name="system" type="_nhlFIAr7Ee-BGPhRYAe7pA" association="_rbR6kAr7Ee-BGPhRYAe7pA"/>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="__6vQEAr1Ee-BGPhRYAe7pA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__6y6cAr1Ee-BGPhRYAe7pA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
 </uml:Model>
