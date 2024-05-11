@@ -1,6 +1,6 @@
-package fr.cs.oose.myFoodora;
+package fr.cs.oose.myFoodora.user;
 
-abstract class User {
+public abstract class User {
 	private Integer id;
 	private String name;
 	private Credential credential;
@@ -10,6 +10,10 @@ abstract class User {
 		this.id = id;
 		this.name = name;
 		this.credential = credential;
+	}
+	
+	User() {
+		super();
 	}
 	
 	

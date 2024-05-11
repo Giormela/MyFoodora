@@ -2,8 +2,9 @@ package fr.cs.oose.myFoodora.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
 
-class Test {
+class TestUser {
 
 	@Test
 	void test() {

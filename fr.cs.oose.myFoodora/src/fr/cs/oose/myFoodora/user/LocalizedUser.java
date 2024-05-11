@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora;
+package fr.cs.oose.myFoodora.user;
 
 abstract class LocalizedUser extends User {
 	private Location location;
@@ -7,10 +7,11 @@ abstract class LocalizedUser extends User {
 		super(id, name, credential);
 		this.location = location;
 	}
-	
-	class ciaooo{
-		
+
+	LocalizedUser() {
+		super();
 	}
+	
 	
 	
 }

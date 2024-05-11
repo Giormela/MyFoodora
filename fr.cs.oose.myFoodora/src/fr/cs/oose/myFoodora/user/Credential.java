@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora;
+package fr.cs.oose.myFoodora.user;
 
 class Credential {
 	private String username;
