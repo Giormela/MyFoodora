@@ -10,6 +10,48 @@ public class Customer extends LocalizedUser {
 	Customer() {
 		super();
 	}
+
+
+	public String getSurname() {
+		return surname;
+	}
+
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	public Boolean getConsensus() {
+		return consensus;
+	}
+
+
+	public void setConsensus(Boolean consensus) {
+		this.consensus = consensus;
+	}
+	
+	
 	
 	
 }

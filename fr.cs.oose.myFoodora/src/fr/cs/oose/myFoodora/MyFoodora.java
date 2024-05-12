@@ -26,11 +26,16 @@ public class MyFoodora {
 		this.markupPercentage = 0.0;
 		this.deliveryCost = 0.0;
 	}
+	
 	public MyFoodora(Double serviceFee, Double markupPercentage, Double deliveryCost) {
 		super();
 		this.serviceFee = serviceFee;
 		this.markupPercentage = markupPercentage;
 		this.deliveryCost = deliveryCost;
 	}	
+	
+	public void testName() {
+		User u = UserBuilder.buildCustomer().addSurname("Rossi").addName("Mario").getResult();
+	}
 	
 }
