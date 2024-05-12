@@ -5,11 +5,6 @@ public class Customer extends LocalizedUser {
 	private String email;
 	private String phone;
 	private Boolean consensus;
-	
-	
-	Customer() {
-		super();
-	}
 
 
 	public String getSurname() {

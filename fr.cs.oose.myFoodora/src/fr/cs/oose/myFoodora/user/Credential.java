@@ -1,6 +1,6 @@
 package fr.cs.oose.myFoodora.user;
 
-class Credential {
+public class Credential {
 	private String username;
 	private String password;
 	private UserType permission;
@@ -9,6 +9,30 @@ class Credential {
 		super();
 		this.username = username;
 		this.password = password;
+		this.permission = permission;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public UserType getPermission() {
+		return permission;
+	}
+
+	public void setPermission(UserType permission) {
 		this.permission = permission;
 	}
 	
