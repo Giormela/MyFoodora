@@ -19,8 +19,8 @@ public class Restaurant extends LocalizedUser {
 		super();
 		this.genericDiscountFactor = 5.0;
 		this.specialDiscountFactor = 10.0;
-//		this.menu = new ArrayList<Dish>();
-//		this.meals = new ArrayList<Meal>();
+//		this.menu = new HashMap<Dish>();
+//		this.meals = new HashMap<Meal>();
 	}
 	
 //	public void addDish(Dish newDish) {
@@ -30,6 +30,16 @@ public class Restaurant extends LocalizedUser {
 //	public void removeDish(String name) {
 //		if (menu.contains(name))
 //			menu.remove(name);
+//	}
+	
+//	public void addMeal(String mealName, Collection<Dish> dishes,  ) {
+//		Meal newMeal = new Meal(mealName, dishes, )
+//		this.meals.add(newMeal);
+//	}
+	
+//	public void removeDish(String name) {
+//		if (meals.contains(name))
+//			meals.remove(name);
 //	}
 
 	public Double getGenericDiscountFactor() {

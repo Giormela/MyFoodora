@@ -9,12 +9,12 @@ class TestUser {
 
 	@Test
 	void creatingManager() {
-		Manager m = UserBuilder.buildManager()
+		Manager m = (Manager) UserBuilder.buildUserOfType(UserType.Manager)
 			.addName("Mario")
 			.addSurname("Rossi")
 			.addCredential("tizio", "123")
 			.getResult();
-		
+			
 		assertEquals("Mario", m.getName());
 		assertEquals("Rossi", m.getSurname());
 		assertEquals(UserType.Manager, m.getCredential().getPermission());
@@ -26,7 +26,7 @@ class TestUser {
 	@Test
 	void CreatingRestaurant() {
 		Location l = new Location(12.0, 10.0);
-		Restaurant r = UserBuilder.buildRestaurant()
+		Restaurant r = (Restaurant) UserBuilder.buildUserOfType(UserType.Restaurant)
 			.addCredential("Vivalapizza", "456")
 			.addGenericDiscountFactor(15.0)
 			.addLocation(l)

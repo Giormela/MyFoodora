@@ -6,7 +6,7 @@ public class Example {
 
 	public static void main(String[] args) {
 		MyFoodora app = MyFoodora.getInstance();
-		app.testName();
+
 		System.out.println("Hola mundo");
 
 	}

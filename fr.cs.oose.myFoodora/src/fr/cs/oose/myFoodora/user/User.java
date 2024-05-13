@@ -31,6 +31,4 @@ public abstract class User {
 	public Integer getId() {
 		return id;
 	}
-	
-	
 }

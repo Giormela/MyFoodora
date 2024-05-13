@@ -1,72 +1,88 @@
 package fr.cs.oose.myFoodora.user;
 
-public abstract class UserBuilder{	
-	private static UserBuilder.ManagerBuilder managerBuilder;
-	private static UserBuilder.CustomerBuilder customerBuilder;
-	private static UserBuilder.RestaurantBuilder restaurantBuilder;
-	private static UserBuilder.CourierBuilder courierBuilder;
+public abstract class UserBuilder {	
 	
 	protected User user;
 	
-	protected abstract UserBuilder reset();
-	
-	protected abstract UserBuilder addCredential(String username, String password);
-	
-	public static ManagerBuilder buildManager() {
-		if (managerBuilder == null) 
-			managerBuilder = new ManagerBuilder();
-		return managerBuilder.reset(); 
-	}
-	
-	public static CustomerBuilder buildCustomer() {
-		if (customerBuilder == null) 
-			customerBuilder = new CustomerBuilder();
-		return customerBuilder.reset();
-	}
-	
-	public static RestaurantBuilder buildRestaurant() {
-		if (restaurantBuilder == null) 
-			restaurantBuilder = new RestaurantBuilder();
-		return restaurantBuilder.reset(); 
-	}
-	
-	public static CourierBuilder buildCourier() {
-		if (courierBuilder == null) 
-			courierBuilder = new CourierBuilder();
-		return courierBuilder.reset(); 
+	public static UserBuilder buildUserOfType(UserType userType) {
+		switch (userType) {
+		case Manager: {
+			return UserBuilder.ManagerBuilder.getInstance();
+		}
+		case Courier:{
+			return UserBuilder.CourierBuilder.getInstance();
+		}
+		case Customer:{
+			return UserBuilder.CustomerBuilder.getInstance();
+		}
+		case Restaurant:{
+			return UserBuilder.RestaurantBuilder.getInstance();
+		}
+		default:
+			return buildUserOfType(UserType.Customer);
+		}
 	}
 	
 	public UserBuilder addName(String name) {
 		this.user.setName(name);
 		return this;
 	}
-
-	public User getResult() {
-		return this.user;
+	
+	public abstract User getResult();
+	
+	public abstract UserBuilder reset();
+	
+	public abstract UserBuilder addCredential(String username, String password);
+	
+	public UserBuilder addLocation(Location location) {
+		return this;
 	}
 	
-	public static class ManagerBuilder extends UserBuilder{
-		@Override
-		public Manager getResult() {
-			return (Manager) super.getResult();
+	public UserBuilder addSurname(String surname){
+		return this;
+	}
+	
+	public UserBuilder addEmail(String email){
+		return this;
+	}
+	
+	public UserBuilder addPhone(String phone){
+		return this;
+	}
+	
+	public UserBuilder addGenericDiscountFactor(Double genericDiscountFactor){
+		return this;
+	}
+	
+	public UserBuilder addSpecialDiscountFactor(Double specialDiscountFactor){
+		return this;
+	}
+	
+	static class ManagerBuilder extends UserBuilder{
+		private static ManagerBuilder managerBuilder;
+		
+		private static UserBuilder getInstance() {
+			if (managerBuilder == null) 
+				managerBuilder = new ManagerBuilder();
+			return managerBuilder.reset(); 
 		}
 		@Override
-		protected ManagerBuilder reset() {
+		public Manager getResult() {
+			return (Manager) this.user;
+		}
+		@Override
+		public UserBuilder reset() {
 			this.user = new Manager();
 			return this;
 		}
 		@Override
-		public  ManagerBuilder addCredential(String username, String password) {
+		public  UserBuilder addCredential(String username, String password) {
 			Credential credential = new Credential(username, password, UserType.Manager);
 			this.user.setCredential(credential);
 			return this;
 		}
 		@Override
-		public ManagerBuilder addName(String name) {
-			super.addName(name);
-			return this;
-		}
-		public ManagerBuilder addSurname(String surname) {
+		public UserBuilder addSurname(String surname) {
 			((Manager) this.user).setSurname(surname);
 			return this;
 		}
@@ -80,39 +96,39 @@ public abstract class UserBuilder{
 	}
 	
 	public static class CustomerBuilder extends LocalizedUserBuilder {
-		@Override
-		public Customer getResult() {
-			return (Customer) super.getResult();
+		private static CustomerBuilder customerBuilder;
+
+		private static UserBuilder getInstance() {
+			if (customerBuilder == null) 
+				customerBuilder = new CustomerBuilder();
+			return customerBuilder.reset();
 		}
 		@Override
-		protected CustomerBuilder reset() {
+		public Customer getResult() {
+			return (Customer) this.user;
+		}
+		@Override
+		public UserBuilder reset() {
 			this.user = new Customer();
 			return this;
 		}
 		@Override
-		public CustomerBuilder addCredential(String username, String password) {
+		public UserBuilder addCredential(String username, String password) {
 			Credential credential = new Credential(username, password, UserType.Customer);
 			this.user.setCredential(credential);
 			return this;
 		}
 		@Override
-		public CustomerBuilder addName(String name) {
-			super.addName(name);
-			return this;
-		}
-		@Override
-		public CustomerBuilder addLocation(Location location) {
-			super.addLocation(location);
-			return this;
-		}
 		public CustomerBuilder addSurname(String surname) {
 			((Customer) this.user).setSurname(surname);
 			return this;
 		}
+		@Override
 		public CustomerBuilder addEmail(String email) {
 			((Customer) this.user).setEmail(email);
 			return this;
 		}
+		@Override
 		public CustomerBuilder addPhone(String phone) {
 			((Customer) this.user).setPhone(phone);
 			return this;
@@ -122,36 +138,35 @@ public abstract class UserBuilder{
 	
 	
 	public static class RestaurantBuilder extends LocalizedUserBuilder {
-		@Override
-		public Restaurant getResult() {
-			return (Restaurant) super.getResult();
+		private static RestaurantBuilder restaurantBuilder;
+		
+		private static UserBuilder getInstance() {
+			if (restaurantBuilder == null) 
+				restaurantBuilder = new RestaurantBuilder();
+			return restaurantBuilder.reset();
 		}
 		@Override
-		protected RestaurantBuilder reset() {
+		public Restaurant getResult() {
+			return (Restaurant) this.user;
+		}
+		@Override
+		public UserBuilder reset() {
 			this.user = new Restaurant();
 			return this;
 		}
 		@Override
-		public RestaurantBuilder addCredential(String username, String password) {
+		public UserBuilder addCredential(String username, String password) {
 			Credential credential = new Credential(username, password, UserType.Restaurant);
 			this.user.setCredential(credential);
 			return this;
 		}
 		@Override
-		public RestaurantBuilder addName(String name) {
-			super.addName(name);
-			return this;
-		}
-		@Override
-		public RestaurantBuilder addLocation(Location location) {
-			super.addLocation(location);
-			return this;
-		}
-		public RestaurantBuilder addGenericDiscountFactor(Double genericDiscountFactor) {
+		public UserBuilder addGenericDiscountFactor(Double genericDiscountFactor) {
 			((Restaurant) this.user).setGenericDiscountFactor(genericDiscountFactor);
 			return this;
 		}
-		public RestaurantBuilder addSpecialDiscountFactor(Double specialDiscountFactor) {
+		@Override
+		public UserBuilder addSpecialDiscountFactor(Double specialDiscountFactor) {
 			((Restaurant) this.user).setSpecialDiscountFactor(specialDiscountFactor);
 			return this;
 		}
@@ -160,36 +175,35 @@ public abstract class UserBuilder{
 
 	
 	public static class CourierBuilder extends LocalizedUserBuilder {
-		@Override
-		public Courier getResult() {
-			return (Courier) super.getResult();
+		private static CourierBuilder courierBuilder;
+		
+		private static UserBuilder getInstance() {
+			if (courierBuilder == null) 
+				courierBuilder = new CourierBuilder();
+			return courierBuilder.reset();
 		}
 		@Override
-		protected CourierBuilder reset() {
+		public Courier getResult() {
+			return (Courier) this.user;
+		}
+		@Override
+		public UserBuilder reset() {
 			this.user = new Courier();
 			return this;
 		}
 		@Override
-		public CourierBuilder addCredential(String username, String password) {
+		public UserBuilder addCredential(String username, String password) {
 			Credential credential = new Credential(username, password, UserType.Courier);
 			this.user.setCredential(credential);
 			return this;
 		}
 		@Override
-		public CourierBuilder addName(String name) {
-			super.addName(name);
-			return this;
-		}
-		@Override
-		public CourierBuilder addLocation(Location location) {
-			super.addLocation(location);
-			return this;
-		}
-		public CourierBuilder addSurname(String surname) {
+		public UserBuilder addSurname(String surname) {
 			((Courier) this.user).setSurname(surname);
 			return this;
 		}
-		public CourierBuilder addPhone(String phone) {
+		@Override
+		public UserBuilder addPhone(String phone) {
 			((Courier) this.user).setPhone(phone);
 			return this;
 		}

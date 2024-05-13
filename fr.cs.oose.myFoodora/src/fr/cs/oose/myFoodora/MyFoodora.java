@@ -33,9 +33,4 @@ public class MyFoodora {
 		this.deliveryCost = 0.0;
 	}
 	
-	
-	public void testName() {
-		User u = UserBuilder.buildCustomer().addSurname("Rossi").addName("Mario").getResult();
-	}
-	
 }
