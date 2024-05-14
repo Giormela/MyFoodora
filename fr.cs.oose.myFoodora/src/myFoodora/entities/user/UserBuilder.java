@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora.user;
+package myFoodora.entities.user;
 
 public abstract class UserBuilder {	
 	
@@ -28,8 +28,6 @@ public abstract class UserBuilder {
 		return this;
 	}
 	
-	public abstract User getResult();
-	
 	public abstract UserBuilder reset();
 	
 	public abstract UserBuilder addCredential(String username, String password);
@@ -58,6 +56,10 @@ public abstract class UserBuilder {
 		return this;
 	}
 	
+	public User getResult() {
+		return this.user;
+	}
+	
 	static class ManagerBuilder extends UserBuilder{
 		private static ManagerBuilder managerBuilder;
 		
@@ -65,10 +67,6 @@ public abstract class UserBuilder {
 			if (managerBuilder == null) 
 				managerBuilder = new ManagerBuilder();
 			return managerBuilder.reset(); 
-		}
-		@Override
-		public Manager getResult() {
-			return (Manager) this.user;
 		}
 		@Override
 		public UserBuilder reset() {
@@ -102,10 +100,6 @@ public abstract class UserBuilder {
 			if (customerBuilder == null) 
 				customerBuilder = new CustomerBuilder();
 			return customerBuilder.reset();
-		}
-		@Override
-		public Customer getResult() {
-			return (Customer) this.user;
 		}
 		@Override
 		public UserBuilder reset() {
@@ -146,10 +140,6 @@ public abstract class UserBuilder {
 			return restaurantBuilder.reset();
 		}
 		@Override
-		public Restaurant getResult() {
-			return (Restaurant) this.user;
-		}
-		@Override
 		public UserBuilder reset() {
 			this.user = new Restaurant();
 			return this;
@@ -181,10 +171,6 @@ public abstract class UserBuilder {
 			if (courierBuilder == null) 
 				courierBuilder = new CourierBuilder();
 			return courierBuilder.reset();
-		}
-		@Override
-		public Courier getResult() {
-			return (Courier) this.user;
 		}
 		@Override
 		public UserBuilder reset() {

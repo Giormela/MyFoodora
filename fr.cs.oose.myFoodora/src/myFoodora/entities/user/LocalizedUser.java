@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora.user;
+package myFoodora.entities.user;
 
 abstract class LocalizedUser extends User {
 	private Location location;

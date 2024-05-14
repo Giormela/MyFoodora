@@ -1,8 +1,9 @@
-package fr.cs.oose.myFoodora.order;
+package myFoodora.entities.order;
 
 import java.util.Collection;
-
-import fr.cs.oose.myFoodora.user.*;
+import myFoodora.entities.user.Courier;
+import myFoodora.entities.user.Customer;
+import myFoodora.entities.user.Restaurant;
 
 public class Order {
 	private Customer customer;
@@ -11,7 +12,12 @@ public class Order {
 	private Courier courier;
 	private OrderState state;
 	
-	
+	public Order(Customer customer, Restaurant restaurant) {
+		super();
+		this.customer = customer;
+		this.restaurant = restaurant;
+		this.state = OrderState.Pending;
+	}
 	public Customer getCustomer() {
 		return customer;
 	}

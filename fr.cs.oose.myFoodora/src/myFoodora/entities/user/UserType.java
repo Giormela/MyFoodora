@@ -1,4 +1,4 @@
-package fr.cs.oose.myFoodora.user;
+package myFoodora.entities.user;
 
 public enum UserType {
 	Manager, Restaurant, Courier, Customer

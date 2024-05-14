@@ -1,16 +1,12 @@
-package fr.cs.oose.myFoodora.user;
+package myFoodora.entities.user;
 
-import fr.cs.oose.myFoodora.food.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
-
+import java.util.Set;
+import myFoodora.entities.order.Order;
 
 public class Restaurant extends LocalizedUser {
 	private Double genericDiscountFactor;
 	private Double specialDiscountFactor;
+	private Set<Order> orderHistory;
 //	private Map<String, Dish> menu;
 //	private Map<String, Meal> meals;
 	
@@ -41,6 +37,10 @@ public class Restaurant extends LocalizedUser {
 //		if (meals.contains(name))
 //			meals.remove(name);
 //	}
+	
+	public void addOrder(Order order) {
+		this.orderHistory.add(order);
+	}
 
 	public Double getGenericDiscountFactor() {
 		return genericDiscountFactor;

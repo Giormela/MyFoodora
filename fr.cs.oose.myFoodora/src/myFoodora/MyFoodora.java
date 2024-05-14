@@ -1,22 +1,15 @@
-package fr.cs.oose.myFoodora;
+package myFoodora;
 
-import fr.cs.oose.myFoodora.order.*;
-import fr.cs.oose.myFoodora.user.*;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import myFoodora.services.*;
 
 public class MyFoodora {
 	private static MyFoodora instance;
-	
 	private Double serviceFee;
 	private Double markupPercentage;
 	private Double deliveryCost;
 	
-	private Map<Integer, User> users;
-	private Set<Order> orders;
+	public UserService userService;
+	public OrderService orderService;
 	
 	public static MyFoodora getInstance() {
 		if (instance == null)
@@ -26,8 +19,6 @@ public class MyFoodora {
 	
 	private MyFoodora() {
 		super();
-		this.users = new HashMap<Integer, User>();
-		this.orders = new HashSet<Order>();
 		this.serviceFee = 0.0;
 		this.markupPercentage = 0.0;
 		this.deliveryCost = 0.0;

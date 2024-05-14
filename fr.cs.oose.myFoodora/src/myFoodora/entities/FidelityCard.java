@@ -1,4 +1,7 @@
-package fr.cs.oose.myFoodora.user;
+package myFoodora.entities;
+
+import myFoodora.entities.user.Customer;
+import myFoodora.entities.user.Restaurant;
 
 public class FidelityCard {
 	private Customer customer;

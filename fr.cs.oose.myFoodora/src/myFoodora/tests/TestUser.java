@@ -1,9 +1,9 @@
-package fr.cs.oose.myFoodora.test;
+package myFoodora.tests;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import fr.cs.oose.myFoodora.user.*;
+import myFoodora.entities.user.*;
 
 class TestUser {
 
