@@ -3,6 +3,9 @@ package myFoodora.services;
 import java.util.HashMap;
 import java.util.Map;
 
+import myFoodora.entities.FidelityCard;
+import myFoodora.entities.user.Customer;
+import myFoodora.entities.user.Restaurant;
 import myFoodora.entities.user.User;
 
 public class UserService {
@@ -21,6 +24,17 @@ public class UserService {
 	
 	public void removeUser(Integer userId) {
 		this.users.remove(userId);
+	}
+	
+	public void registerFidelityCard(Customer customer, Restaurant restaurant) {
+		FidelityCard newFidelityCard = new FidelityCard(customer, restaurant);
+		customer.addFidelityCard(newFidelityCard);
+		restaurant.addFidelityCard(newFidelityCard);
+	}
+	
+	public void removeFidelityCard(Customer customer, Restaurant restaurant) {
+		customer.removeFidelityCard(restaurant);
+		restaurant.removeFidelityCard(customer);
 	}
 	
 }

@@ -1,12 +1,17 @@
 package myFoodora.entities.user;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import myFoodora.entities.order.Order;
+
+import myFoodora.entities.FidelityCard;
+import myFoodora.entities.Order;
 
 public class Restaurant extends LocalizedUser {
 	private Double genericDiscountFactor;
 	private Double specialDiscountFactor;
 	private Set<Order> orderHistory;
+	private Set<FidelityCard> fidelityCards;
 //	private Map<String, Dish> menu;
 //	private Map<String, Meal> meals;
 	
@@ -15,6 +20,7 @@ public class Restaurant extends LocalizedUser {
 		super();
 		this.genericDiscountFactor = 5.0;
 		this.specialDiscountFactor = 10.0;
+		this.fidelityCards = new HashSet<FidelityCard>();
 //		this.menu = new HashMap<Dish>();
 //		this.meals = new HashMap<Meal>();
 	}
@@ -40,6 +46,17 @@ public class Restaurant extends LocalizedUser {
 	
 	public void addOrder(Order order) {
 		this.orderHistory.add(order);
+	}
+	
+	public void addFidelityCard(FidelityCard fidelityCard) {
+		this.fidelityCards.add(fidelityCard);
+	}
+	
+	public void removeFidelityCard(Customer customer) {
+		Optional<FidelityCard> optional = this.fidelityCards.stream().filter(fc -> fc.getCustomer().equals(customer)).findAny();
+		if (optional.isPresent()) {
+			this.fidelityCards.remove(optional.get());
+		}
 	}
 
 	public Double getGenericDiscountFactor() {

@@ -1,6 +1,8 @@
-package myFoodora.entities.order;
+package myFoodora.entities;
 
 import java.util.Collection;
+
+import myFoodora.MyFoodora;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
@@ -11,6 +13,7 @@ public class Order {
 	//private Collection<Food> food;
 	private Courier courier;
 	private OrderState state;
+	private Double profit;
 	
 	public Order(Customer customer, Restaurant restaurant) {
 		super();
@@ -41,5 +44,11 @@ public class Order {
 	}
 	public void setState(OrderState state) {
 		this.state = state;
+	}
+	public Double getProfit() {
+		return profit;
+	}
+	public void setProfit(Double profit) {
+		this.profit = profit;
 	}
 }

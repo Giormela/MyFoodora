@@ -1,4 +1,4 @@
-package myFoodora.entities.user;
+package myFoodora.entities;
 
 public class Location {
 	private Double longitude;

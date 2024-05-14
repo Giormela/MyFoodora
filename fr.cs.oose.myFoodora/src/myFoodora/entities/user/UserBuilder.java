@@ -1,5 +1,7 @@
 package myFoodora.entities.user;
 
+import myFoodora.entities.Location;
+
 public abstract class UserBuilder {	
 	
 	protected User user;
