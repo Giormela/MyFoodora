@@ -22,6 +22,8 @@ public class MyFoodora {
 		this.serviceFee = 0.0;
 		this.markupPercentage = 0.0;
 		this.deliveryCost = 0.0;
+		this.userService = new UserService();
+		this.orderService = new OrderService();
 	}
 	
 }

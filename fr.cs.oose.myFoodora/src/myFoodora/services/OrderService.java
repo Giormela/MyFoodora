@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import myFoodora.entities.Order;
-import myFoodora.entities.OrderState;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
+import myFoodora.enums.OrderState;
 
 public class OrderService {
 	private Set<Order> orders;

@@ -1,5 +1,7 @@
 package myFoodora.entities.user;
 
+import myFoodora.entities.Credential;
+
 public abstract class User {
 	private static Integer count = 0;
 	
@@ -7,7 +9,7 @@ public abstract class User {
 	private String name;
 	private Credential credential;
 	
-	User() {
+	public User() {
 		super();
 		this.id = User.count++;
 	}

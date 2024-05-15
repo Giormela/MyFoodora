@@ -1,4 +1,4 @@
-package myFoodora.entities.user;
+package myFoodora.enums;
 
 public enum CourierState {
 	OnDuty, OffDuty

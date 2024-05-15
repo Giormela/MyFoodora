@@ -6,6 +6,7 @@ import myFoodora.MyFoodora;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
+import myFoodora.enums.OrderState;
 
 public class Order {
 	private Customer customer;

@@ -1,12 +1,14 @@
 package myFoodora.entities.user;
 
+import myFoodora.enums.CourierState;
+
 public class Courier extends LocalizedUser {
 	private String surname;
 	private String phone;
 	private Integer count;
 	private CourierState state;
 	
-	Courier() {
+	public Courier() {
 		super();
 		this.count = 0; 
 		this.state = CourierState.OffDuty;

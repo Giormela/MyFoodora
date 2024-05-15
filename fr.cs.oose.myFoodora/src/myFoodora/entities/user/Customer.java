@@ -3,7 +3,9 @@ package myFoodora.entities.user;
 import myFoodora.entities.FidelityCard;
 import myFoodora.entities.Order;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,25 +15,22 @@ public class Customer extends LocalizedUser {
 	private String phone;
 	private Boolean consensus;
 	private Set<Order> orderHistory;
-	private Set<FidelityCard> fidelityCards;
+	private Map<Restaurant, FidelityCard> fidelityCards;
 	
 	
 	
-	Customer() {
+	public Customer() {
 		super();
 		this.orderHistory = new HashSet<Order>();
-		this.fidelityCards = new HashSet<FidelityCard>();
+		this.fidelityCards = new HashMap<Restaurant, FidelityCard>();
 	}
 	
 	public void addFidelityCard(FidelityCard fidelityCard) {
-		this.fidelityCards.add(fidelityCard);
+		this.fidelityCards.putIfAbsent(fidelityCard.getRestaurant(), fidelityCard);
 	}
 	
 	public void removeFidelityCard(Restaurant restaurant) {
-		Optional<FidelityCard> optional = this.fidelityCards.stream().filter(fc -> fc.getRestaurant().equals(restaurant)).findAny();
-		if (optional.isPresent()) {
-			this.fidelityCards.remove(optional.get());
-		}
+		this.fidelityCards.remove(restaurant);
 	}
 	
 	public void addOrder(Order order) {

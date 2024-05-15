@@ -1,4 +1,4 @@
-package myFoodora.entities;
+package myFoodora.enums;
 
 public enum OrderState {
 	Pending, Processing, Delivered

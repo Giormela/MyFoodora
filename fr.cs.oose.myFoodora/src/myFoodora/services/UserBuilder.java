@@ -1,9 +1,11 @@
-package myFoodora.entities.user;
+package myFoodora.services;
 
+import myFoodora.entities.Credential;
 import myFoodora.entities.Location;
+import myFoodora.entities.user.*;
+import myFoodora.enums.UserType;
 
 public abstract class UserBuilder {	
-	
 	protected User user;
 	
 	public static UserBuilder buildUserOfType(UserType userType) {
@@ -21,7 +23,7 @@ public abstract class UserBuilder {
 			return UserBuilder.RestaurantBuilder.getInstance();
 		}
 		default:
-			return buildUserOfType(UserType.Customer);
+			return UserBuilder.CustomerBuilder.getInstance();
 		}
 	}
 	
@@ -77,7 +79,7 @@ public abstract class UserBuilder {
 		}
 		@Override
 		public  UserBuilder addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, UserType.Manager);
+			Credential credential = new Credential(username, password, this.user.getId(), UserType.Manager);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -110,7 +112,7 @@ public abstract class UserBuilder {
 		}
 		@Override
 		public UserBuilder addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, UserType.Customer);
+			Credential credential = new Credential(username, password, this.user.getId(), UserType.Customer);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -148,7 +150,7 @@ public abstract class UserBuilder {
 		}
 		@Override
 		public UserBuilder addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, UserType.Restaurant);
+			Credential credential = new Credential(username, password, this.user.getId(), UserType.Restaurant);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -181,7 +183,7 @@ public abstract class UserBuilder {
 		}
 		@Override
 		public UserBuilder addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, UserType.Courier);
+			Credential credential = new Credential(username, password, this.user.getId(), UserType.Courier);
 			this.user.setCredential(credential);
 			return this;
 		}

@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import myFoodora.entities.Location;
 import myFoodora.entities.user.*;
+import myFoodora.enums.UserType;
+import myFoodora.services.UserBuilder;
 
-class TestUser {
+class UserTest {
 
 	@Test
 	void creatingManager() {

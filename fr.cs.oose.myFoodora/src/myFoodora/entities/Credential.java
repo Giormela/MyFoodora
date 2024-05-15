@@ -1,15 +1,26 @@
-package myFoodora.entities.user;
+package myFoodora.entities;
+
+import myFoodora.enums.UserType;
 
 public class Credential {
 	private String username;
 	private String password;
+	private Integer userId;
 	private UserType permission;
 	
-	Credential(String username, String password, UserType permission) {
+	public Credential(String username, String password, Integer userID,  UserType permission) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.permission = permission;
+	}
+	
+	public boolean checkCorrespondance(String username, String password) {
+		return (this.username == username && this.password == password);
+	}
+
+	public Integer getUserId() {
+		return userId;
 	}
 
 	public String getUsername() {

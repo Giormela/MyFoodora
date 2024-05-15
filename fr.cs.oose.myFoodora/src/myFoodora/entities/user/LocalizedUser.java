@@ -2,7 +2,7 @@ package myFoodora.entities.user;
 
 import myFoodora.entities.Location;
 
-abstract class LocalizedUser extends User {
+public abstract class LocalizedUser extends User {
 	private Location location;
 
 	public Location getLocation() {
