@@ -1,9 +1,11 @@
 package myFoodora.services;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 import myFoodora.entities.Order;
+import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.OrderState;
@@ -24,12 +26,17 @@ public class OrderService {
 		this.orders.add(newOrder);
 	}
 	
-//	public Double getProfitTimeInterval(Data from, Data to) {
-//		return this.orders.stream()
-//					.filter(o->o.getState()==OrderState.Delivered)
-//					.mapToDouble(Order::getProfit)
-//					.sum();
-//	}
+	public Double getTotalProfit() {
+		return this.orders.stream()
+			.mapToDouble(Order::getProfit)
+			.sum();
+	}
 	
-	
+	public Double getAverageProfitPerCustomer() {
+		long numberActiveCustomers = orders.stream()
+			.map(Order::getCustomer)
+			.distinct()
+			.count();
+		return getTotalProfit() / numberActiveCustomers;
+	}	
 }

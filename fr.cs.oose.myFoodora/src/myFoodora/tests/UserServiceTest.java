@@ -21,12 +21,12 @@ class UserServiceTest {
 		
 		try {
 			app.userService.registerUser(
-					UserBuilder.buildUserOfType(UserType.Manager)
+				UserBuilder.buildUserOfType(UserType.Manager)
 					.addName("Mario")
 					.addSurname("Rossi")
 					.addCredential("tizio", "123")
 					.getResult()
-				);
+			);
 		} catch (UserRegistrationException e) {
 			System.out.println(e.message);
 		}

@@ -14,6 +14,18 @@ public class Courier extends LocalizedUser {
 		this.state = CourierState.OffDuty;
 	}
 	
+	public void setState(CourierState state) {
+		this.state = state;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public CourierState getState() {
+		return state;
+	}
+	
 	public String getSurname() {
 		return surname;
 	}

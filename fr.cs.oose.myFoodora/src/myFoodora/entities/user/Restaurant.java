@@ -46,6 +46,10 @@ public class Restaurant extends LocalizedUser {
 //			meals.remove(name);
 //	}
 	
+	public Double getProfit() {
+		return this.orderHistory.stream().mapToDouble(Order::getProfit).sum();
+	}
+	
 	public void addOrder(Order order) {
 		this.orderHistory.add(order);
 	}
