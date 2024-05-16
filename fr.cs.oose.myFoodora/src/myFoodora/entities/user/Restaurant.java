@@ -1,9 +1,7 @@
 package myFoodora.entities.user;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import myFoodora.entities.FidelityCard;

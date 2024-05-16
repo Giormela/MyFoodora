@@ -1,11 +1,11 @@
 package myFoodora.services;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import myFoodora.entities.Credential;
 import myFoodora.entities.FidelityCard;
@@ -24,10 +24,18 @@ public class UserService {
 		this.deliveryPolicy = Comparator.comparing(Courier::getCount);
 	}
 	
+	public void setDeliveryPolicy(Comparator<Courier> deliveryPolicy) {
+		this.deliveryPolicy = deliveryPolicy;
+	}
+	
 	public User getUserById(Integer userId) {
-		if (users.containsKey(userId))
-			return users.get(userId);
-		return null;
+		return users.get(userId);
+	}
+	
+	public <T extends User> Stream<T> getUsersOfType(Class<T> type){
+		return users.values().stream()
+			      .filter(type::isInstance)
+			      .map(u->(T)u);
 	}
 	
 	public void registerUser(User newUser) throws UserRegistrationException{
@@ -62,27 +70,21 @@ public class UserService {
 	}
 	
 	public Courier assigneCourier() throws NoSuchElementException {
-		return users.values().stream()
-			.filter(u-> u instanceof Courier)
-			.map(u->(Courier)u)
+		return getUsersOfType(Courier.class)
 			.sorted(deliveryPolicy)
 			.findFirst().get();
 	}
 	
 	public Restaurant getBestRestaurant() throws NoSuchElementException {
-		return users.values().stream()
-			.filter(u->u instanceof Restaurant)
-			.map(u->(Restaurant)u)
+		return getUsersOfType(Restaurant.class)
 			.sorted(Comparator.comparing(Restaurant::getProfit))
 			.findFirst().get();
 	}
 	
 	public Restaurant getWorstRestaurant() throws NoSuchElementException {
-		return users.values().stream()
-				.filter(u->u instanceof Restaurant)
-				.map(u->(Restaurant)u)
-				.sorted(Comparator.comparing(Restaurant::getProfit).reversed())
-				.findFirst().get();
+		return getUsersOfType(Restaurant.class)
+			.sorted(Comparator.comparing(Restaurant::getProfit).reversed())
+			.findFirst().get();
 	}
 	
 	private Optional<User> tryLogin(String username, String password) {
