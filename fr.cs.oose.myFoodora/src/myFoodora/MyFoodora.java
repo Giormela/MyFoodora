@@ -25,5 +25,4 @@ public class MyFoodora {
 		this.userService = new UserService();
 		this.orderService = new OrderService();
 	}
-	
 }
