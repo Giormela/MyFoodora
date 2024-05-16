@@ -42,7 +42,7 @@ public class Meal{
         if (mealOfTheWeek.isMealOfTheWeek()) {
             this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * (1-mealOfTheWeek.getDiscountFactor());
         } else {
-            this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * 0.95;
+            this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * 0.90;
         }
         this.dishes = new Dish[]{starterOrDessert, mainDish};
         this.mealOfTheWeek = mealOfTheWeek;
@@ -59,7 +59,7 @@ public class Meal{
             this.mealCategory = MealCategory.Standard;
         }
         this.mealType = MealType.Full_Meal;
-        this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.95;
+        this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.90;
         this.dishes = new Dish[]{starter, mainDish, dessert};
     }
 
@@ -77,7 +77,7 @@ public class Meal{
         if (mealOfTheWeek.isMealOfTheWeek()) {
             this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * (1- mealOfTheWeek.getDiscountFactor());
         } else {
-            this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.95;
+            this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.90;
         }
         this.dishes = new Dish[]{starter, mainDish, dessert};
         this.mealOfTheWeek = mealOfTheWeek;
