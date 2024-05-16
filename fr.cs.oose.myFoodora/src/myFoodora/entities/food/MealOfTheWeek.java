@@ -14,7 +14,7 @@ public class MealOfTheWeek {
         this.discountFactor = 0.1;
     }
 
-    public Boolean getMealOfTheWeek() {
+    public Boolean isMealOfTheWeek() {
         return isMealOfTheWeek;
     }
 

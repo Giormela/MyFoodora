@@ -39,7 +39,7 @@ public class Meal{
             this.mealCategory = MealCategory.Standard;
         }
         this.mealType = MealType.Half_Meal;
-        if (mealOfTheWeek.getMealOfTheWeek()) {
+        if (mealOfTheWeek.isMealOfTheWeek()) {
             this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * (1-mealOfTheWeek.getDiscountFactor());
         } else {
             this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * 0.95;
@@ -74,7 +74,7 @@ public class Meal{
             this.mealCategory = MealCategory.Standard;
         }
         this.mealType = MealType.Full_Meal;
-        if (mealOfTheWeek.getMealOfTheWeek()) {
+        if (mealOfTheWeek.isMealOfTheWeek()) {
             this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * (1- mealOfTheWeek.getDiscountFactor());
         } else {
             this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.95;
@@ -103,7 +103,7 @@ public class Meal{
         System.out.println(halfMeal2.mealType);
         System.out.println(halfMeal2.dishes[0].getName());
         System.out.println(halfMeal2.dishes[1].getName());
-        System.out.println(halfMeal2.mealOfTheWeek.getMealOfTheWeek());
+        System.out.println(halfMeal2.mealOfTheWeek.isMealOfTheWeek());
         System.out.println(halfMeal2.mealOfTheWeek.getDiscountFactor());
     }
 }
