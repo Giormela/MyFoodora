@@ -2,7 +2,6 @@ package myFoodora.entities.user;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import myFoodora.entities.FidelityCard;
 import myFoodora.entities.Order;
@@ -10,7 +9,6 @@ import myFoodora.entities.Order;
 public class Restaurant extends LocalizedUser {
 	private Double genericDiscountFactor;
 	private Double specialDiscountFactor;
-	private Set<Order> orderHistory;
 	private Map<Customer, FidelityCard> fidelityCards;
 //	private Map<String, Dish> menu;
 //	private Map<String, Meal> meals;
@@ -45,11 +43,7 @@ public class Restaurant extends LocalizedUser {
 //	}
 	
 	public Double getProfit() {
-		return this.orderHistory.stream().mapToDouble(Order::getProfit).sum();
-	}
-	
-	public void addOrder(Order order) {
-		this.orderHistory.add(order);
+		return orderHistory.stream().mapToDouble(Order::getProfit).sum();
 	}
 	
 	public void addFidelityCard(FidelityCard fidelityCard) {

@@ -10,7 +10,7 @@ public class CourierService extends UserService<Courier> {
 	
 	public CourierService() {
 		super();
-		this.deliveryPolicy = Comparator.comparing(Courier::getCount);
+		this.deliveryPolicy = Comparator.comparing(Courier::getOrderCount);
 	}
 
 	public Optional<Courier> assigneCourier() {
@@ -18,16 +18,28 @@ public class CourierService extends UserService<Courier> {
 			.sorted(deliveryPolicy)
 			.findFirst();
 	}
-	
+
+	/**
+	 * Finds the courier with the most deliveries completed.
+	 *
+	 * @return An {@link Optional} containing the courier with the most deliveries, or empty if no couriers exist.
+	 * @throws IllegalStateException if there are no users in the system.
+	 */
 	public Optional<Courier> getBestCourier() {
 		return users.values().stream()
-			.sorted(Comparator.comparing(Courier::getCount).reversed())
+			.sorted(Comparator.comparing(Courier::getOrderCount).reversed())
 			.findFirst();
 	}
 	
+	/**
+	 * Finds the courier with the fewest deliveries completed.
+	 *
+	 * @return An {@link Optional} containing the courier with the fewest deliveries, or empty if no couriers exist.
+	 * @throws IllegalStateException if there are no users in the system.
+	 */
 	public Optional<Courier> getWorstCourier() {
 		return users.values().stream()
-			.sorted(Comparator.comparing(Courier::getCount))
+			.sorted(Comparator.comparing(Courier::getOrderCount))
 			.findFirst();
 	}
 	
