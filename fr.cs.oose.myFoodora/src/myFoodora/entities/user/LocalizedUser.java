@@ -4,20 +4,20 @@ import myFoodora.entities.Location;
 
 public abstract class LocalizedUser extends User {
 	private Location location;
-	private Boolean activate;
+	private Boolean active;
 
 	public LocalizedUser() {
 		super();
-		this.activate = true;
+		this.active = true;
 	}
 	
-	public Boolean getActivate() {
-		return activate;
+	public Boolean isActive() {
+		return active;
 	}
 
 
-	public void setActivate(Boolean activate) {
-		this.activate = activate;
+	public void setAvtive(Boolean activate) {
+		this.active = activate;
 	}
 
 

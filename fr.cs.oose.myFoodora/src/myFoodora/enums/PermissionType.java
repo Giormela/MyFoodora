@@ -1,5 +1,5 @@
 package myFoodora.enums;
 
-public enum UserType {
+public enum PermissionType {
 	Manager, Restaurant, Courier, Customer
 }

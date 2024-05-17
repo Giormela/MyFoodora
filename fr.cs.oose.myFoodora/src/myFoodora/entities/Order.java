@@ -1,5 +1,8 @@
 package myFoodora.entities;
 
+import java.util.Collection;
+
+import myFoodora.entities.food.Buyable;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
@@ -8,18 +11,19 @@ import myFoodora.enums.OrderState;
 public class Order {
 	private Customer customer;
 	private Restaurant restaurant;
-	//private Collection<Food> food;
+	private Collection<Buyable> food;
 	private Courier courier;
 	private Date data;
 	private OrderState state;
 	private Double profit;
 	
 	
-	public Order(Customer customer, Restaurant restaurant, Date data) {
+	public Order(Customer customer, Restaurant restaurant, Collection<Buyable> food) {
 		super();
 		this.customer = customer;
 		this.restaurant = restaurant;
-		this.data = data;
+		this.food = food;
+		this.data = Date.now();
 		this.state = OrderState.Pending;
 	}
 	public Customer getCustomer() {
@@ -54,6 +58,9 @@ public class Order {
 	}
 	public Date getData() {
 		return data;
+	}
+	public Double getPrice() {
+		return food.stream().mapToDouble(Buyable::getPrice).sum();
 	}
 	
 }

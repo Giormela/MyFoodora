@@ -19,7 +19,7 @@ public class Date implements Comparable<Date>{
 	}
 	
 	public boolean isIncluded(Date from, Date to) {
-		return (this.compareTo(from) > 0 && this.compareTo(to) < 0);
+		return (this.compareTo(from) >= 0 && this.compareTo(to) <= 0);
 	}
 
 	@Override
