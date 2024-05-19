@@ -36,5 +36,8 @@ public class Courier extends LocalizedUser {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public boolean isOffDuty() {
+		return this.state == CourierState.OffDuty;
+	}
 	
 }

@@ -4,11 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 import myFoodora.entities.Credential;
 import myFoodora.entities.user.*;
 import myFoodora.exceptions.UserRegistrationException;
 
-class UserService <U extends User> {
+abstract class UserService <U extends User> {
 	protected Map<Integer, U> users;
 	private CredentialService credentialService;
 

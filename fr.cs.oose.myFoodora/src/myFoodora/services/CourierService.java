@@ -2,11 +2,11 @@ package myFoodora.services;
 
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import myFoodora.entities.Order;
 import myFoodora.entities.user.Courier;
+import myFoodora.entities.user.LocalizedUser;
 import myFoodora.enums.DeliveryPolicyType;
 
 public class CourierService extends UserService<Courier> {
@@ -18,7 +18,9 @@ public class CourierService extends UserService<Courier> {
 	}
 
 	public Optional<Courier> assigneCourier(Order orderToAssign) {
-		return users.values().stream()
+		return getList().stream()
+			.filter(LocalizedUser::isActive)
+			.filter(Courier::isOffDuty)
 			.sorted(deliveryPolicy.apply(orderToAssign))
 			.findFirst();
 	}
@@ -30,7 +32,7 @@ public class CourierService extends UserService<Courier> {
 	 * @throws IllegalStateException if there are no users in the system.
 	 */
 	public Optional<Courier> getBestCourier() {
-		return users.values().stream()
+		return getList().stream()
 			.sorted(Comparator.comparing(Courier::getOrderCount).reversed())
 			.findFirst();
 	}
@@ -42,7 +44,7 @@ public class CourierService extends UserService<Courier> {
 	 * @throws IllegalStateException if there are no users in the system.
 	 */
 	public Optional<Courier> getWorstCourier() {
-		return users.values().stream()
+		return getList().stream()
 			.sorted(Comparator.comparing(Courier::getOrderCount))
 			.findFirst();
 	}
