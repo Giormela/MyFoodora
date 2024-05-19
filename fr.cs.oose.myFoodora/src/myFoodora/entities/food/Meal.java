@@ -1,7 +1,7 @@
 package myFoodora.entities.food;
 
 
-import myFoodora.enums.CategoryEnum;
+import myFoodora.enums.DishType;
 import myFoodora.enums.MealCategory;
 import myFoodora.enums.MealType;
 
@@ -84,9 +84,9 @@ public class Meal{
     }
 
     public static void main(String[] args) {
-        Dish starterOrDessert = new Dish("Salad", 5.0, CategoryEnum.Starter, true, false);
-        Dish mainDish = new Dish("Pasta", 10.0, CategoryEnum.MainDish, false, false);
-        Dish dessert = new Dish("Ice cream", 3.0, CategoryEnum.Dessert, true, true);
+        Dish starterOrDessert = new Dish("Salad", 5.0, DishType.Starter, true, false);
+        Dish mainDish = new Dish("Pasta", 10.0, DishType.MainDish, false, false);
+        Dish dessert = new Dish("Ice cream", 3.0, DishType.Dessert, true, true);
         Meal halfMeal = new Meal(starterOrDessert, mainDish, dessert);
         System.out.println(halfMeal.price);
         System.out.println(halfMeal.mealCategory);

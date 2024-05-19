@@ -2,20 +2,24 @@ package myFoodora.services;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
+import myFoodora.entities.Order;
 import myFoodora.entities.user.Courier;
+import myFoodora.enums.DeliveryPolicyType;
 
 public class CourierService extends UserService<Courier> {
-	private Comparator<Courier> deliveryPolicy;
+	private Function<Order, Comparator<Courier>> deliveryPolicy;
 	
 	public CourierService() {
 		super();
-		this.deliveryPolicy = Comparator.comparing(Courier::getOrderCount);
+		selectDeliveryPolicy(DeliveryPolicyType.Fair);
 	}
 
-	public Optional<Courier> assigneCourier() {
+	public Optional<Courier> assigneCourier(Order orderToAssign) {
 		return users.values().stream()
-			.sorted(deliveryPolicy)
+			.sorted(deliveryPolicy.apply(orderToAssign))
 			.findFirst();
 	}
 
@@ -43,7 +47,21 @@ public class CourierService extends UserService<Courier> {
 			.findFirst();
 	}
 	
-	public void setDeliveryPolicy(Comparator<Courier> deliveryPolicy) {
+	private void setDeliveryPolicy(Function<Order, Comparator<Courier>> deliveryPolicy) {
 		this.deliveryPolicy = deliveryPolicy;
+	}
+	
+	public void selectDeliveryPolicy(DeliveryPolicyType deliveryPolicyType) {
+		switch (deliveryPolicyType) {
+		case Fast:
+			setDeliveryPolicy(o -> Comparator.comparing(c->c.getDistanceFrom(o.getCustomer())));
+			break;
+		case Fair:
+			setDeliveryPolicy(o -> Comparator.comparing(Courier::getOrderCount));
+			break;
+		default:
+			setDeliveryPolicy(o -> Comparator.comparing(Courier::getOrderCount));
+			break;
+		}
 	}
 }

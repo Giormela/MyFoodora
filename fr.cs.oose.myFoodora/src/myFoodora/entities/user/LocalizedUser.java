@@ -39,6 +39,9 @@ public abstract class LocalizedUser extends User {
 		this.location = location;
 	}
 	
+	public Double getDistanceFrom(LocalizedUser other) {
+		return this.location.getDistanceFrom(other.location);
+	}
 	
 	
 }

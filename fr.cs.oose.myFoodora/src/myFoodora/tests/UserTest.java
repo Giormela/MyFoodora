@@ -65,14 +65,11 @@ class UserTest {
 		assertEquals("Luigi", c.getName());
 		assertEquals("Verdi", c.getSurname());
 		assertEquals(l, c.getLocation());
-		assertEquals(PermissionType.Restaurant, c.getCredential().getPermission());
+		assertEquals(PermissionType.Customer, c.getCredential().getPermission());
 		assertEquals("username", c.getCredential().getUsername());
 		assertEquals("890", c.getCredential().getPassword());
 		assertEquals("mike.buongiorno@gmail.com", c.getEmail());
 		assertEquals("3486496333", c.getPhone());
 		assertTrue(c instanceof Customer);
 	}
-	
-	
-
 }

@@ -18,6 +18,10 @@ public class Date implements Comparable<Date>{
 		return new Date(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 	}
 	
+	public static Date oneMonthAgo() {
+		return new Date(Calendar.YEAR, (Calendar.MONTH - 1) % 12, Calendar.DAY_OF_MONTH);
+	}
+	
 	public boolean isIncluded(Date from, Date to) {
 		return (this.compareTo(from) >= 0 && this.compareTo(to) <= 0);
 	}

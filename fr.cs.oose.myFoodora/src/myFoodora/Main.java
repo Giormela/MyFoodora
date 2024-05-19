@@ -1,6 +1,6 @@
 package myFoodora;
 import myFoodora.entities.food.Dish;
-import myFoodora.enums.CategoryEnum;
+import myFoodora.enums.DishType;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -43,7 +43,7 @@ public class Main {
         System.out.println("Enter category (1 for STARTER, 2 for MAIN_COURSE, 3 for DESSERT):");
         int categoryChoice = scanner.nextInt();
         scanner.nextLine(); // consume newline left-over
-        CategoryEnum category = CategoryEnum.values()[categoryChoice - 1];
+        DishType category = DishType.values()[categoryChoice - 1];
 
         System.out.println("Is the dish vegetarian? (true/false)");
         boolean vegetarian = scanner.nextBoolean();

@@ -1,5 +1,5 @@
 package myFoodora.enums;
 
-public enum CategoryEnum {
+public enum DishType {
     Starter, MainDish, Dessert
 }

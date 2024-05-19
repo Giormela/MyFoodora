@@ -1,15 +1,15 @@
 package myFoodora.entities.food;
 
-import myFoodora.enums.CategoryEnum;
+import myFoodora.enums.DishType;
 
 public class Dish {
     private String name;
     private double price;
-    private CategoryEnum category;
+    private DishType category;
     private boolean vegetarian;
     private boolean glutenFree;
 
-    public Dish(String name, double price, CategoryEnum category, boolean vegetarian, boolean glutenFree) {
+    public Dish(String name, double price, DishType category, boolean vegetarian, boolean glutenFree) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -33,11 +33,11 @@ public class Dish {
         this.price = price;
     }
 
-    public CategoryEnum getCategory() {
+    public DishType getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryEnum category) {
+    public void setCategory(DishType category) {
         this.category = category;
     }
 
