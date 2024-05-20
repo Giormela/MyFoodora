@@ -6,14 +6,13 @@ public class Dish extends Food{
     private String name;
     private double price;
     private DishType category;
-    private boolean vegetarian;
-    private boolean glutenFree;
+
 
     public Dish(String name, double price, DishType category, boolean vegetarian, boolean glutenFree) {
         this.name = name;
         this.price = price;
         this.category = category;
-        this.vegetarian = vegetarian;
+        this.vegeterian = vegetarian;
         this.glutenFree = glutenFree;
     }
 
@@ -43,11 +42,11 @@ public class Dish extends Food{
     }
 
     public boolean isVegetarian() {
-        return vegetarian;
+        return this.vegeterian;
     }
 
     public void setVegetarian(boolean vegetarian) {
-        this.vegetarian = vegetarian;
+        this.vegeterian = vegetarian;
     }
 
     public boolean isGlutenFree() {

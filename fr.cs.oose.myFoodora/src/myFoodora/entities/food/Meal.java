@@ -1,87 +1,40 @@
 package myFoodora.entities.food;
 
 
+import java.util.Collection;
+
 import myFoodora.enums.DishType;
 import myFoodora.enums.MealCategory;
 import myFoodora.enums.MealType;
 
 
 public class Meal extends Food{
-    private MealCategory mealCategory; // Standard, Vegetarian, GlutenFree, VegetarianGlutenFree
+    //private MealCategory mealCategory; // Standard, Vegetarian, GlutenFree, VegetarianGlutenFree
     private MealType mealType; // Half_Meal, Full_Meal
 	private Double price;
-    private Dish[] dishes;
-    private MealOfTheWeek mealOfTheWeek;
-
-    public Meal(Dish starterOrDessert, Dish mainDish) {
-        if (starterOrDessert.isVegetarian() && starterOrDessert.isGlutenFree() && mainDish.isVegetarian() && mainDish.isGlutenFree()) {
-            this.mealCategory = MealCategory.VegetarianGlutenFree;
-        } else if (starterOrDessert.isGlutenFree() && mainDish.isGlutenFree()) {
-            this.mealCategory = MealCategory.GlutenFree;
-        } else if (starterOrDessert.isVegetarian() && mainDish.isVegetarian()) {
-            this.mealCategory = MealCategory.Vegetarian;
-        } else {
-            this.mealCategory = MealCategory.Standard;
-        }
-        this.mealType = MealType.Half_Meal;
-        this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * 0.95;
-        this.dishes = new Dish[]{starterOrDessert, mainDish};
+    private Collection<Dish> dishes;
+    private Boolean mealOfTheWeek;
+    
+    
+    public Meal(Collection<Dish> dishes) {//throws Exception{
+    	if(dishes.size()!=2 && dishes.size()!=3) {
+    		//throw new Exception();
+    	}
+    	if(dishes.size()==2) {
+    		this.mealType = MealType.Half_Meal;
+    	}
+    	if(dishes.size()==3) {
+    		this.mealType = MealType.Full_Meal;
+    	}
+    	this.dishes = dishes;
+    	this.vegeterian = dishes.stream().allMatch(Dish::isVegetarian);
+    	this.glutenFree = dishes.stream().allMatch(Dish::isGlutenFree);
+    	this.mealOfTheWeek = false;
     }
+    
+  
 
-    public Meal(Dish starterOrDessert, Dish mainDish, MealOfTheWeek mealOfTheWeek) {
-        if (starterOrDessert.isVegetarian() && starterOrDessert.isGlutenFree() && mainDish.isVegetarian() && mainDish.isGlutenFree()) {
-            this.mealCategory = MealCategory.VegetarianGlutenFree;
-        } else if (starterOrDessert.isGlutenFree() && mainDish.isGlutenFree()) {
-            this.mealCategory = MealCategory.GlutenFree;
-        } else if (starterOrDessert.isVegetarian() && mainDish.isVegetarian()) {
-            this.mealCategory = MealCategory.Vegetarian;
-        } else {
-            this.mealCategory = MealCategory.Standard;
-        }
-        this.mealType = MealType.Half_Meal;
-        if (mealOfTheWeek.isMealOfTheWeek()) {
-            this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * (1-mealOfTheWeek.getDiscountFactor());
-        } else {
-            this.price = (starterOrDessert.getPrice() + mainDish.getPrice()) * 0.90;
-        }
-        this.dishes = new Dish[]{starterOrDessert, mainDish};
-        this.mealOfTheWeek = mealOfTheWeek;
-    }
-
-    public Meal(Dish starter, Dish mainDish, Dish dessert) {
-        if (starter.isVegetarian() && starter.isGlutenFree() && mainDish.isVegetarian() && mainDish.isGlutenFree() && dessert.isVegetarian() && dessert.isGlutenFree()) {
-            this.mealCategory = MealCategory.VegetarianGlutenFree;
-        } else if (starter.isGlutenFree() && mainDish.isGlutenFree() && dessert.isGlutenFree()) {
-            this.mealCategory = MealCategory.GlutenFree;
-        } else if (starter.isVegetarian() && mainDish.isVegetarian() && dessert.isVegetarian()) {
-            this.mealCategory = MealCategory.Vegetarian;
-        } else {
-            this.mealCategory = MealCategory.Standard;
-        }
-        this.mealType = MealType.Full_Meal;
-        this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.90;
-        this.dishes = new Dish[]{starter, mainDish, dessert};
-    }
-
-    public Meal(Dish starter, Dish mainDish, Dish dessert, MealOfTheWeek mealOfTheWeek) {
-        if (starter.isVegetarian() && starter.isGlutenFree() && mainDish.isVegetarian() && mainDish.isGlutenFree() && dessert.isVegetarian() && dessert.isGlutenFree()) {
-            this.mealCategory = MealCategory.VegetarianGlutenFree;
-        } else if (starter.isGlutenFree() && mainDish.isGlutenFree() && dessert.isGlutenFree()) {
-            this.mealCategory = MealCategory.GlutenFree;
-        } else if (starter.isVegetarian() && mainDish.isVegetarian() && dessert.isVegetarian()) {
-            this.mealCategory = MealCategory.Vegetarian;
-        } else {
-            this.mealCategory = MealCategory.Standard;
-        }
-        this.mealType = MealType.Full_Meal;
-        if (mealOfTheWeek.isMealOfTheWeek()) {
-            this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * (1- mealOfTheWeek.getDiscountFactor());
-        } else {
-            this.price = (starter.getPrice() + mainDish.getPrice() + dessert.getPrice()) * 0.90;
-        }
-        this.dishes = new Dish[]{starter, mainDish, dessert};
-        this.mealOfTheWeek = mealOfTheWeek;
-    }
+    
 
     public static void main(String[] args) {
         Dish starterOrDessert = new Dish("Salad", 5.0, DishType.Starter, true, false);
@@ -111,6 +64,10 @@ public class Meal extends Food{
 	public Double getPrice() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Boolean isvegeterianAndGlutenFree() {
+		return vegeterian && glutenFree;
 	}
 	
 	 public MealType getMealType() {
