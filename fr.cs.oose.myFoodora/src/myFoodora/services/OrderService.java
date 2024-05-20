@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import myFoodora.entities.Date;
 import myFoodora.entities.Order;
-import myFoodora.entities.food.Buyable;
+import myFoodora.entities.food.Food;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
 
@@ -36,7 +36,7 @@ public class OrderService {
 	 * @param food a collection of buyable items constituting the order
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	public void registerOrder(Customer customer, Restaurant restaurant, Collection<Buyable> food) {
+	public void registerOrder(Customer customer, Restaurant restaurant, Collection<Food> food) {
 		Order newOrder = new Order(customer, restaurant, food);
 		setProfitToOrder(newOrder);
 		customer.addOrder(newOrder);

@@ -6,10 +6,10 @@ import myFoodora.enums.MealCategory;
 import myFoodora.enums.MealType;
 
 
-public class Meal{
+public class Meal extends Food{
     private MealCategory mealCategory; // Standard, Vegetarian, GlutenFree, VegetarianGlutenFree
     private MealType mealType; // Half_Meal, Full_Meal
-    private Double price;
+	private Double price;
     private Dish[] dishes;
     private MealOfTheWeek mealOfTheWeek;
 
@@ -106,4 +106,15 @@ public class Meal{
         System.out.println(halfMeal2.mealOfTheWeek.isMealOfTheWeek());
         System.out.println(halfMeal2.mealOfTheWeek.getDiscountFactor());
     }
+
+	@Override
+	public Double getPrice() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	 public MealType getMealType() {
+			return mealType;
+		}
+
 }

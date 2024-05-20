@@ -2,7 +2,7 @@ package myFoodora.entities.food;
 
 import myFoodora.enums.DishType;
 
-public class Dish {
+public class Dish extends Food{
     private String name;
     private double price;
     private DishType category;
@@ -25,7 +25,8 @@ public class Dish {
         this.name = name;
     }
 
-    public double getPrice() {
+    @Override
+    public Double getPrice() {
         return price;
     }
 

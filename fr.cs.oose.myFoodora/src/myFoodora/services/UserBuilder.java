@@ -26,7 +26,7 @@ public abstract class UserBuilder<U extends User> {
 		return this;
 	}
 	
-	public abstract UserBuilder<U> reset();
+	protected abstract UserBuilder<U> reset();
 	
 	public abstract UserBuilder<U> addCredential(String username, String password);
 	
@@ -54,6 +54,10 @@ public abstract class UserBuilder<U extends User> {
 		return this;
 	}
 	
+	public UserBuilder<U> addConsent(Boolean consent) {
+		return this;
+	}
+	
 	public U getResult() {
 		return this.user;
 	}
@@ -67,7 +71,7 @@ public abstract class UserBuilder<U extends User> {
 			return managerBuilder.reset(); 
 		}
 		@Override
-		public UserBuilder<Manager> reset() {
+		protected UserBuilder<Manager> reset() {
 			this.user = new Manager();
 			return this;
 		}
@@ -79,14 +83,14 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Manager> addSurname(String surname) {
-			((Manager) this.user).setSurname(surname);
+			this.user.setSurname(surname);
 			return this;
 		}
 	}
 	
 	public abstract static class LocalizedUserBuilder<L extends LocalizedUser> extends UserBuilder<L>{
 		public UserBuilder<L> addLocation(Location location) {
-			((LocalizedUser) this.user).setLocation(location);
+			this.user.setLocation(location);
 			return this;
 		}
 	}
@@ -100,7 +104,7 @@ public abstract class UserBuilder<U extends User> {
 			return customerBuilder.reset();
 		}
 		@Override
-		public UserBuilder<Customer> reset() {
+		protected UserBuilder<Customer> reset() {
 			this.user = new Customer();
 			return this;
 		}
@@ -112,17 +116,22 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Customer> addSurname(String surname) {
-			((Customer) this.user).setSurname(surname);
+			this.user.setSurname(surname);
 			return this;
 		}
 		@Override
 		public UserBuilder<Customer> addEmail(String email) {
-			((Customer) this.user).setEmail(email);
+			this.user.setEmail(email);
 			return this;
 		}
 		@Override
 		public UserBuilder<Customer> addPhone(String phone) {
-			((Customer) this.user).setPhone(phone);
+			this.user.setPhone(phone);
+			return this;
+		}
+		@Override
+		public UserBuilder<Customer> addConsent(Boolean consent) {
+			this.user.setConsent(consent);
 			return this;
 		}
 	}
@@ -138,7 +147,7 @@ public abstract class UserBuilder<U extends User> {
 			return restaurantBuilder.reset();
 		}
 		@Override
-		public UserBuilder<Restaurant> reset() {
+		protected UserBuilder<Restaurant> reset() {
 			this.user = new Restaurant();
 			return this;
 		}
@@ -150,12 +159,12 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Restaurant> addGenericDiscountFactor(Double genericDiscountFactor) {
-			((Restaurant) this.user).setGenericDiscountFactor(genericDiscountFactor);
+			this.user.setGenericDiscountFactor(genericDiscountFactor);
 			return this;
 		}
 		@Override
 		public UserBuilder<Restaurant> addSpecialDiscountFactor(Double specialDiscountFactor) {
-			((Restaurant) this.user).setSpecialDiscountFactor(specialDiscountFactor);
+			this.user.setSpecialDiscountFactor(specialDiscountFactor);
 			return this;
 		}
 	}
@@ -171,7 +180,7 @@ public abstract class UserBuilder<U extends User> {
 			return courierBuilder.reset();
 		}
 		@Override
-		public UserBuilder<Courier> reset() {
+		protected UserBuilder<Courier> reset() {
 			this.user = new Courier();
 			return this;
 		}
@@ -183,12 +192,12 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Courier> addSurname(String surname) {
-			((Courier) this.user).setSurname(surname);
+			this.user.setSurname(surname);
 			return this;
 		}
 		@Override
 		public UserBuilder<Courier> addPhone(String phone) {
-			((Courier) this.user).setPhone(phone);
+			this.user.setPhone(phone);
 			return this;
 		}
 	}

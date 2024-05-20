@@ -10,15 +10,23 @@ public class Customer extends LocalizedUser {
 	private String surname;
 	private String email;
 	private String phone;
-	private Boolean consensus;
+	private Boolean consent;
 	private Map<Restaurant, FidelityCard> fidelityCards;
 	
 	
 	
 	public Customer() {
 		super();
+		this.consent = false;
 		this.orderHistory = new HashSet<Order>();
 		this.fidelityCards = new HashMap<Restaurant, FidelityCard>();
+	}
+	
+	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
+		if(fidelityCards.containsKey(restaurant)) {
+			return fidelityCards.get(restaurant).applyDiscount(fullPrice);
+		}
+		else return fullPrice;
 	}
 	
 	public void addFidelityCard(FidelityCard fidelityCard) {
@@ -56,11 +64,11 @@ public class Customer extends LocalizedUser {
 	}
 
 
-	public Boolean getConsensus() {
-		return consensus;
+	public Boolean getConsent() {
+		return consent;
 	}
 
-	public void setConsensus(Boolean consensus) {
-		this.consensus = consensus;
+	public void setConsent(Boolean consensus) {
+		this.consent = consensus;
 	}	
 }

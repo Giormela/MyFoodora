@@ -1,14 +1,18 @@
 package myFoodora.entities.user;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import myFoodora.entities.FidelityCard;
 import myFoodora.entities.Order;
 import myFoodora.entities.food.Dish;
+import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
 import myFoodora.enums.DishType;
+import myFoodora.enums.MealType;
 
 public class Restaurant extends LocalizedUser {
 	private Double genericDiscountFactor;
@@ -25,6 +29,26 @@ public class Restaurant extends LocalizedUser {
 		this.fidelityCards = new HashMap<Customer, FidelityCard>();
 		this.menu = new HashMap<String, Dish>();
 		this.meals = new HashMap<Integer, Meal>();
+	}
+	
+	public Collection<Meal> getSortedMeals(){
+		Stream<Meal> allMealsOrdered = orderHistory.stream()
+			.flatMap(o->o.getMeals())
+			.filter(m->m.getMealType() == MealType.Half_Meal);
+		return sortByFrequence(allMealsOrdered);
+	}
+	
+	public Collection<Dish> getSortedDishes(){
+		Stream<Dish> allDishesOrdered = orderHistory.stream().flatMap(o->o.getDishes());
+		return sortByFrequence(allDishesOrdered);	
+	}
+	
+	private <T extends Food> Collection<T> sortByFrequence(Stream<T> stream){
+		return stream.collect(Collectors.toMap(f->f, f->1, (a,b)->a+b))
+			.entrySet().stream()
+			.sorted(Comparator.comparing(Map.Entry::getValue))
+			.map(Map.Entry::getKey)
+			.toList();
 	}
 	
 //	public void addDish(Dish newDish) {
