@@ -63,6 +63,8 @@ public class Meal extends Food{
 	@Override
 	public Double getPrice() {
 		// TODO Auto-generated method stub
+		//
+		//this.restaurant.getGenericDiscountFactor();
 		return null;
 	}
 	
