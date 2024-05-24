@@ -36,29 +36,29 @@ public class Meal extends Food{
 
     
 
-    public static void main(String[] args) {
-        Dish starterOrDessert = new Dish("Salad", 5.0, DishType.Starter, true, false);
-        Dish mainDish = new Dish("Pasta", 10.0, DishType.MainDish, false, false);
-        Dish dessert = new Dish("Ice cream", 3.0, DishType.Dessert, true, true);
-        Meal halfMeal = new Meal(starterOrDessert, mainDish, dessert);
-        System.out.println(halfMeal.price);
-        System.out.println(halfMeal.mealCategory);
-        System.out.println(halfMeal.mealType);
-        System.out.println(halfMeal.dishes[0].getName());
-        System.out.println(halfMeal.dishes[1].getName());
-        System.out.println(halfMeal.dishes[2].getName());
-
-        System.out.println("----------------");
-        MealOfTheWeek mealOfTheWeek = new MealOfTheWeek(true, 0.1);
-        Meal halfMeal2 = new Meal(starterOrDessert, mainDish, mealOfTheWeek);
-        System.out.println(halfMeal2.price);
-        System.out.println(halfMeal2.mealCategory);
-        System.out.println(halfMeal2.mealType);
-        System.out.println(halfMeal2.dishes[0].getName());
-        System.out.println(halfMeal2.dishes[1].getName());
-        System.out.println(halfMeal2.mealOfTheWeek.isMealOfTheWeek());
-        System.out.println(halfMeal2.mealOfTheWeek.getDiscountFactor());
-    }
+//    public static void main(String[] args) {
+//        Dish starterOrDessert = new Dish("Salad", 5.0, DishType.Starter, true, false);
+//        Dish mainDish = new Dish("Pasta", 10.0, DishType.MainDish, false, false);
+//        Dish dessert = new Dish("Ice cream", 3.0, DishType.Dessert, true, true);
+//        Meal halfMeal = new Meal(starterOrDessert, mainDish, dessert);
+//        System.out.println(halfMeal.price);
+//        System.out.println(halfMeal.mealCategory);
+//        System.out.println(halfMeal.mealType);
+//        System.out.println(halfMeal.dishes[0].getName());
+//        System.out.println(halfMeal.dishes[1].getName());
+//        System.out.println(halfMeal.dishes[2].getName());
+//
+//        System.out.println("----------------");
+//        MealOfTheWeek mealOfTheWeek = new MealOfTheWeek(true, 0.1);
+//        Meal halfMeal2 = new Meal(starterOrDessert, mainDish, mealOfTheWeek);
+//        System.out.println(halfMeal2.price);
+//        System.out.println(halfMeal2.mealCategory);
+//        System.out.println(halfMeal2.mealType);
+//        System.out.println(halfMeal2.dishes[0].getName());
+//        System.out.println(halfMeal2.dishes[1].getName());
+//        System.out.println(halfMeal2.mealOfTheWeek.isMealOfTheWeek());
+//        System.out.println(halfMeal2.mealOfTheWeek.getDiscountFactor());
+//    }
 
 	@Override
 	public Double getPrice() {

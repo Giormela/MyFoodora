@@ -1,8 +1,15 @@
 package myFoodora.entities;
 
+import java.util.Random;
+
 public class Location {
 	private Double longitude;
 	private Double latitude;
+	
+	public static Location convertFromAdressToCoordinates(String address) {
+		Random random = new Random();
+		return new Location(random.nextDouble(), random.nextDouble());
+	}
 	
 	public Location(Double longitude, Double latitude) {
 		super();
