@@ -7,5 +7,4 @@ public class UserRegistrationException extends Exception {
 		super();
 		this.message = message;
 	}
-	
 }

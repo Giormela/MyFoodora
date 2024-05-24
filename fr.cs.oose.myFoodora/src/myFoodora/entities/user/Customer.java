@@ -1,10 +1,12 @@
 package myFoodora.entities.user;
 
-import myFoodora.entities.FidelityCard;
+import myFoodora.entities.Fidelity.FidelityCard;
 import myFoodora.entities.Order;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Customer extends LocalizedUser {
 	private String surname;
@@ -20,21 +22,6 @@ public class Customer extends LocalizedUser {
 		this.consent = false;
 		this.orderHistory = new HashSet<Order>();
 		this.fidelityCards = new HashMap<Restaurant, FidelityCard>();
-	}
-	
-	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
-		if(fidelityCards.containsKey(restaurant)) {
-			return fidelityCards.get(restaurant).applyDiscount(fullPrice);
-		}
-		else return fullPrice;
-	}
-	
-	public void addFidelityCard(FidelityCard fidelityCard) {
-		this.fidelityCards.putIfAbsent(fidelityCard.getRestaurant(), fidelityCard);
-	}
-	
-	public void removeFidelityCard(Restaurant restaurant) {
-		this.fidelityCards.remove(restaurant);
 	}
 	
 	public String getSurname() {
@@ -70,5 +57,29 @@ public class Customer extends LocalizedUser {
 
 	public void setConsent(Boolean consensus) {
 		this.consent = consensus;
-	}	
+	}
+
+	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
+		if(fidelityCards.containsKey(restaurant)) {
+			return fidelityCards.get(restaurant).applyDiscount(fullPrice, this);
+		}
+		return fullPrice;
+	}
+
+	public void addFidelityCard(Restaurant restaurant, FidelityCard fidelityCard) {
+		this.fidelityCards.putIfAbsent(restaurant, fidelityCard);
+	}
+
+	public void removeFidelityCard(Restaurant restaurant) {
+		this.fidelityCards.remove(restaurant);
+	}
+
+	public Set<Restaurant> getRestaurantsWithFidelityCards() {
+		return this.fidelityCards.keySet();
+	}
+
+	public FidelityCard getFidelityCardForRestaurant(Restaurant restaurant) {
+		return this.fidelityCards.get(restaurant);
+	}
+
 }

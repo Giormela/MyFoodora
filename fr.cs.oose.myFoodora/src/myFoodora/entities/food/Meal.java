@@ -1,79 +1,62 @@
 package myFoodora.entities.food;
 
-
 import java.util.Collection;
 
-import myFoodora.enums.DishType;
-import myFoodora.enums.MealCategory;
+import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.MealType;
+import myFoodora.exceptions.MealCreationException;
 
 
-public class Meal extends Food{
+public class Meal extends Food {
     //private MealCategory mealCategory; // Standard, Vegetarian, GlutenFree, VegetarianGlutenFree
     private MealType mealType; // Half_Meal, Full_Meal
-	private Double price;
     private Collection<Dish> dishes;
     private Boolean mealOfTheWeek;
-    
-    
-    public Meal(Collection<Dish> dishes) {//throws Exception{
-    	if(dishes.size()!=2 && dishes.size()!=3) {
-    		//throw new Exception();
-    	}
-    	if(dishes.size()==2) {
-    		this.mealType = MealType.Half_Meal;
-    	}
-    	if(dishes.size()==3) {
-    		this.mealType = MealType.Full_Meal;
-    	}
-    	this.dishes = dishes;
-    	this.vegeterian = dishes.stream().allMatch(Dish::isVegetarian);
-    	this.glutenFree = dishes.stream().allMatch(Dish::isGlutenFree);
-    	this.mealOfTheWeek = false;
-    }
-    
-  
 
-    
-
-    public static void main(String[] args) {
-        Dish starterOrDessert = new Dish("Salad", 5.0, DishType.Starter, true, false);
-        Dish mainDish = new Dish("Pasta", 10.0, DishType.MainDish, false, false);
-        Dish dessert = new Dish("Ice cream", 3.0, DishType.Dessert, true, true);
-        Meal halfMeal = new Meal(starterOrDessert, mainDish, dessert);
-        System.out.println(halfMeal.price);
-        System.out.println(halfMeal.mealCategory);
-        System.out.println(halfMeal.mealType);
-        System.out.println(halfMeal.dishes[0].getName());
-        System.out.println(halfMeal.dishes[1].getName());
-        System.out.println(halfMeal.dishes[2].getName());
-
-        System.out.println("----------------");
-        MealOfTheWeek mealOfTheWeek = new MealOfTheWeek(true, 0.1);
-        Meal halfMeal2 = new Meal(starterOrDessert, mainDish, mealOfTheWeek);
-        System.out.println(halfMeal2.price);
-        System.out.println(halfMeal2.mealCategory);
-        System.out.println(halfMeal2.mealType);
-        System.out.println(halfMeal2.dishes[0].getName());
-        System.out.println(halfMeal2.dishes[1].getName());
-        System.out.println(halfMeal2.mealOfTheWeek.isMealOfTheWeek());
-        System.out.println(halfMeal2.mealOfTheWeek.getDiscountFactor());
+    public Meal(Collection<Dish> dishes, String name, Restaurant restaurant) throws MealCreationException {//throws Exception{
+        if (dishes.size() != 2 && dishes.size() != 3) {
+            throw new MealCreationException("A meal must have 2 or 3 dishes");
+        }
+        if (dishes.size() == 2) {
+            this.mealType = MealType.Half_Meal;
+        }
+        if (dishes.size() == 3) {
+            this.mealType = MealType.Full_Meal;
+        }
+        this.dishes = dishes;
+        this.restaurant = restaurant;
+        this.vegetarian = dishes.stream().allMatch(Dish::isVegetarian);
+        this.glutenFree = dishes.stream().allMatch(Dish::isGlutenFree);
+        this.mealOfTheWeek = false;
+        this.name = name;
     }
 
-	@Override
-	public Double getPrice() {
-		// TODO Auto-generated method stub
-		//
-		//this.restaurant.getGenericDiscountFactor();
-		return null;
-	}
-	
-	public Boolean isvegeterianAndGlutenFree() {
-		return vegeterian && glutenFree;
-	}
-	
-	 public MealType getMealType() {
-			return mealType;
-		}
+    @Override
+    public Double getPrice() {
+        if (mealOfTheWeek) {
+            return this.dishes.stream().mapToDouble(Dish::getPrice).sum() * (1 - (this.restaurant.getSpecialDiscountFactor() / 100));
+        } else {
+            return this.dishes.stream().mapToDouble(Dish::getPrice).sum() * (1 - (this.restaurant.getGenericDiscountFactor() / 100));
+        }
+    }
 
+    public Boolean isVegeterianAndGlutenFree() {
+        return vegetarian && glutenFree;
+    }
+
+    public MealType getMealType() {
+        return mealType;
+    }
+
+    public Boolean getMealOfTheWeek() {
+        return mealOfTheWeek;
+    }
+
+    public void setMealOfTheWeek(Boolean mealOfTheWeek) {
+        this.mealOfTheWeek = mealOfTheWeek;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

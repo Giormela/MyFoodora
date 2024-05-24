@@ -3,8 +3,6 @@ package myFoodora.entities.food;
 import myFoodora.enums.DishType;
 
 public class Dish extends Food{
-    private String name;
-    private double price;
     private DishType category;
 
 
@@ -12,7 +10,7 @@ public class Dish extends Food{
         this.name = name;
         this.price = price;
         this.category = category;
-        this.vegeterian = vegetarian;
+        this.vegetarian = vegetarian;
         this.glutenFree = glutenFree;
     }
 
@@ -42,11 +40,11 @@ public class Dish extends Food{
     }
 
     public boolean isVegetarian() {
-        return this.vegeterian;
+        return this.vegetarian;
     }
 
     public void setVegetarian(boolean vegetarian) {
-        this.vegeterian = vegetarian;
+        this.vegetarian = vegetarian;
     }
 
     public boolean isGlutenFree() {
