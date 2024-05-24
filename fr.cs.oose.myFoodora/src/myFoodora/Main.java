@@ -11,6 +11,8 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+    	MyFoodora app = MyFoodora.getInstance();
+    	app.run();
         boolean running = true;
         while (running) {
             System.out.println("Press 1 to create a dish, 2 to print all dishes, 3 to exit:");
