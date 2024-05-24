@@ -1,91 +1,54 @@
 package myFoodora.services;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import myFoodora.entities.Credential;
-import myFoodora.entities.FidelityCard;
 import myFoodora.entities.user.*;
 import myFoodora.exceptions.UserRegistrationException;
 
-public class UserService {
-	private Map<Integer, User> users;
+abstract class UserService <U extends User> {
+	protected Map<Integer, U> users;
 	private CredentialService credentialService;
-	private Comparator<Courier> deliveryPolicy;
 
-	public UserService() {
+	UserService() {
 		super();
-		this.users = new HashMap<Integer, User>();
+		this.users = new HashMap<Integer, U>();
 		this.credentialService = new CredentialService();
-		this.deliveryPolicy = Comparator.comparing(Courier::getCount);
+		
 	}
 	
-	public User getUserById(Integer userId) {
-		if (users.containsKey(userId))
-			return users.get(userId);
-		return null;
+	public Collection<U> getList(){
+		return users.values();
 	}
 	
-	public void registerUser(User newUser) throws UserRegistrationException{
+	public U getUserById(Integer userId) {
+		return users.get(userId);
+	}
+
+	public void registerUser(U newUser) throws UserRegistrationException{
 		checkUserRegistration(newUser);
 		
 		users.put(newUser.getId(), newUser);
 		credentialService.registerCredential(newUser.getCredential());
 	}
 	
-	private void checkUserRegistration(User user) throws UserRegistrationException{
-		if (users.containsKey(user.getId()))
+	private void checkUserRegistration(U newUser) throws UserRegistrationException{
+		if (users.containsKey(newUser.getId()))
 			throw new UserRegistrationException("User already registered");
 		
-		this.credentialService.checkCredentialRegistration(user.getCredential());		
+		credentialService.checkCredentialRegistration(newUser.getCredential());		
 	}
 	
 	public void removeUser(Integer userId) {
-		User removedUser = users.remove(userId);
+		U removedUser = users.remove(userId);
 		if (removedUser != null) 
-			this.credentialService.removeCredential(removedUser.getCredential().getUsername());
+			credentialService.removeCredential(removedUser.getCredential().getUsername());
 	}
 	
-	public void registerFidelityCard(Customer customer, Restaurant restaurant) {
-		FidelityCard newFidelityCard = new FidelityCard(customer, restaurant);
-		customer.addFidelityCard(newFidelityCard);
-		restaurant.addFidelityCard(newFidelityCard);
-	}
-	
-	public void removeFidelityCard(Customer customer, Restaurant restaurant) {
-		customer.removeFidelityCard(restaurant);
-		restaurant.removeFidelityCard(customer);
-	}
-	
-	public Courier assigneCourier() throws NoSuchElementException {
-		return users.values().stream()
-			.filter(u-> u instanceof Courier)
-			.map(u->(Courier)u)
-			.sorted(deliveryPolicy)
-			.findFirst().get();
-	}
-	
-	public Restaurant getBestRestaurant() throws NoSuchElementException {
-		return users.values().stream()
-			.filter(u->u instanceof Restaurant)
-			.map(u->(Restaurant)u)
-			.sorted(Comparator.comparing(Restaurant::getProfit))
-			.findFirst().get();
-	}
-	
-	public Restaurant getWorstRestaurant() throws NoSuchElementException {
-		return users.values().stream()
-				.filter(u->u instanceof Restaurant)
-				.map(u->(Restaurant)u)
-				.sorted(Comparator.comparing(Restaurant::getProfit).reversed())
-				.findFirst().get();
-	}
-	
-	private Optional<User> tryLogin(String username, String password) {
+	public  Optional<U> tryLogin(String username, String password) {
 		return credentialService.tryLogin(username, password).map(id->users.get(id));
 	}
 	
@@ -102,7 +65,7 @@ public class UserService {
 		}
 		
 		private void removeCredential(String username) {
-			this.credentials.remove(username);
+			credentials.remove(username);
 		}
 		
 		private void checkCredentialRegistration(Credential credential) throws UserRegistrationException {
@@ -116,10 +79,5 @@ public class UserService {
 			return Optional.empty();
 
 		}
-		
-		
 	}
-	
-	
-	
 }

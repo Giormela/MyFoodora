@@ -4,11 +4,11 @@ import myFoodora.services.*;
 
 public class MyFoodora {
 	private static MyFoodora instance;
-	private Double serviceFee;
-	private Double markupPercentage;
-	private Double deliveryCost;
 	
-	public UserService userService;
+	public ManagerService managerService;
+	public CustomerService customerService;
+	public RestaurantService restaurantService;
+	public CourierService courierService;
 	public OrderService orderService;
 	
 	public static MyFoodora getInstance() {
@@ -19,10 +19,10 @@ public class MyFoodora {
 	
 	private MyFoodora() {
 		super();
-		this.serviceFee = 0.0;
-		this.markupPercentage = 0.0;
-		this.deliveryCost = 0.0;
-		this.userService = new UserService();
+		this.managerService = new ManagerService();
+		this.customerService = new CustomerService();
+		this.restaurantService = new RestaurantService();
+		this.courierService = new CourierService();
 		this.orderService = new OrderService();
 	}
 }

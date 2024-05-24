@@ -14,6 +14,10 @@ public class FidelityCard {
 		this.restaurant = restaurant;
 		this.points = 0;
 	}
+	
+	public Double applyDiscount(Double fullPrice) {
+		return fullPrice;
+	}
 
 	public Integer getPoints() {
 		return points;

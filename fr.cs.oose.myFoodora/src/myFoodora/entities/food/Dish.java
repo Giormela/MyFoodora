@@ -1,19 +1,18 @@
 package myFoodora.entities.food;
 
-import myFoodora.enums.foodEnum.CategoryEnum;
+import myFoodora.enums.DishType;
 
-public class Dish {
+public class Dish extends Food{
     private String name;
     private double price;
-    private CategoryEnum category;
-    private boolean vegetarian;
-    private boolean glutenFree;
+    private DishType category;
 
-    public Dish(String name, double price, CategoryEnum category, boolean vegetarian, boolean glutenFree) {
+
+    public Dish(String name, double price, DishType category, boolean vegetarian, boolean glutenFree) {
         this.name = name;
         this.price = price;
         this.category = category;
-        this.vegetarian = vegetarian;
+        this.vegeterian = vegetarian;
         this.glutenFree = glutenFree;
     }
 
@@ -25,7 +24,8 @@ public class Dish {
         this.name = name;
     }
 
-    public double getPrice() {
+    @Override
+    public Double getPrice() {
         return price;
     }
 
@@ -33,20 +33,20 @@ public class Dish {
         this.price = price;
     }
 
-    public CategoryEnum getCategory() {
+    public DishType getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryEnum category) {
+    public void setCategory(DishType category) {
         this.category = category;
     }
 
     public boolean isVegetarian() {
-        return vegetarian;
+        return this.vegeterian;
     }
 
     public void setVegetarian(boolean vegetarian) {
-        this.vegetarian = vegetarian;
+        this.vegeterian = vegetarian;
     }
 
     public boolean isGlutenFree() {

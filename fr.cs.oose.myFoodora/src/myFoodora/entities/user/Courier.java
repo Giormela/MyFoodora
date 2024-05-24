@@ -5,12 +5,10 @@ import myFoodora.enums.CourierState;
 public class Courier extends LocalizedUser {
 	private String surname;
 	private String phone;
-	private Integer count;
 	private CourierState state;
 	
 	public Courier() {
 		super();
-		this.count = 0; 
 		this.state = CourierState.OffDuty;
 	}
 	
@@ -18,8 +16,8 @@ public class Courier extends LocalizedUser {
 		this.state = state;
 	}
 
-	public Integer getCount() {
-		return count;
+	public Integer getOrderCount() {
+		return orderHistory.size();
 	}
 
 	public CourierState getState() {
@@ -37,6 +35,9 @@ public class Courier extends LocalizedUser {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public boolean isOffDuty() {
+		return this.state == CourierState.OffDuty;
 	}
 	
 }

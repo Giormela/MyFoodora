@@ -1,17 +1,18 @@
 package myFoodora.entities;
 
-import myFoodora.enums.UserType;
+import myFoodora.enums.PermissionType;
 
 public class Credential {
 	private String username;
 	private String password;
 	private Integer userId;
-	private UserType permission;
+	private PermissionType permission;
 	
-	public Credential(String username, String password, Integer userID,  UserType permission) {
+	public Credential(String username, String password, Integer userId,  PermissionType permission) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.userId = userId;
 		this.permission = permission;
 	}
 	
@@ -39,15 +40,11 @@ public class Credential {
 		this.password = password;
 	}
 
-	public UserType getPermission() {
+	public PermissionType getPermission() {
 		return permission;
 	}
 
-	public void setPermission(UserType permission) {
+	public void setPermission(PermissionType permission) {
 		this.permission = permission;
 	}
-	
-	
-	
-	
 }
