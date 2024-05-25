@@ -13,6 +13,13 @@ public class Dish extends Food{
         this.vegetarian = vegetarian;
         this.glutenFree = glutenFree;
     }
+    public Dish(String name, double price, DishType category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.vegetarian = false;
+        this.glutenFree = false;
+    }
 
     public String getName() {
         return name;

@@ -1,4 +1,4 @@
-package myFoodora.entities.Fidelity;
+package myFoodora.entities.fidelityCard;
 
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;

@@ -1,102 +1,106 @@
 package myFoodora.clui;
 
-import java.util.HashSet;
+import java.io.PrintStream;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import myFoodora.MyFoodora;
 import myFoodora.entities.*;
+import myFoodora.entities.food.Dish;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
 import myFoodora.entities.user.User;
+import myFoodora.enums.DishType;
 import myFoodora.enums.PermissionType;
 import myFoodora.exceptions.CommandException;
 import myFoodora.exceptions.UserRegistrationException;
 import myFoodora.services.UserBuilder;
 
 public class UserInterface {
+	private final Map<String, Command> COMMANDS;
+	
 	private Boolean runnning;
-	private Scanner scanner;	
+	private Scanner input;
+	private PrintStream output;
 	private Set<String> allowedCommands;
 
 	public UserInterface() {
 		this.runnning = true;
-		this.scanner = new Scanner(System.in);
-		this.allowedCommands = new HashSet<String>();
+		this.input = new Scanner(System.in);
+		this.output = System.out;
+		this.allowedCommands = new TreeSet<String>();
+		this.COMMANDS = initializeCommands();
 	}
 
 	
 	public void renderLoop() {
+		printWelcome();
 		while (runnning) {
 			updateAllowedCommands();
-			
-			renderUI();
 			
 			try {
 				readCommand();
 			} catch (CommandException e) {
-				System.out.println(colorText(e.message, Color.RED));
+				print(e.message, Color.RED);
 			}
 		}
 	}
 	
-	private void renderUI() {
-		Optional<User> loggedUser = MyFoodora.getInstance().getLoggedUser();
-		if (loggedUser.isEmpty()) {
-			System.out.println(colorText("\t\tWelcome to MyFoodora!", Color.BLUE));
-			System.out.println("Digit 'help' to see the list of possible commands");
-		} else {
-			System.out.println(colorText("\t\tWelcome!", Color.BLUE));
-		}
+	private void print(String text, Color color) {
+		output.println(Color.colorText(text, color));
 	}
 	
-	private void readCommand() throws CommandException{
-		String commandName = scanner.next();
+	private void print(String text) {
+		output.println(text);
+	}
+	
+	private void printWelcome() {
+		String welcome = "**********************************************\n"
+                + "*                                            *\n"
+                + "*           Welcome to MyFoodora!            *\n"
+                + "*                                            *\n"
+                + "*  Delivering Happiness, One Meal at a Time  *\n"
+                + "*                                            *\n"
+                + "**********************************************\n"
+                + "\n";
+        String assisntance = "Need assistance? Type 'help' to see the list of available commands and get support.";
+        print(welcome, Color.CYAN);
+        print(assisntance);
+	}
+	
+	private void readCommand() throws CommandException {
+		String commandName = input.next();
 		
-		if (commandName.equals("help")) {
-			allowedCommands.stream()
-				.map(c->commands.get(c).toString())
-				.forEach(System.out::print);
+		if (allowedCommands.contains(commandName)) {
+			Command command = COMMANDS.get(commandName);
+			String[] args = command.readArguments();
+			command.run(args);
 		} else {
-			if (allowedCommands.contains(commandName)) {
-				Command command = commands.get(commandName);
-				Integer n = command.getInputParameters();
-				String[] args = new String[n];
-				for (int i = 0; i < n; i++) {
-					try {
-						args[i] = scanner.next();
-					} catch (NoSuchElementException  e) {
-						throw new CommandException("Error in reading arguments");
-					}
-				}
-				command.getCommand().accept(args);
-			} else {
-				throw new CommandException("No allowed command named "+commandName+" found");
-			}
+			throw new CommandException("No allowed command named "+commandName+" found");
 		}
 	}
+
 	
 	private void updateAllowedCommands() {
 		allowedCommands.clear();
 		Optional<User> loggedUser = MyFoodora.getInstance().getLoggedUser();
 		
+		allowedCommands.add("help");
 		allowedCommands.add("close");
 		if (loggedUser.isEmpty()) {
 			allowedCommands.add("login");
 		} else {
 			allowedCommands.add("logout");
 			allowedCommands.addAll(
-					commands.entrySet().stream()
-					.filter(e->e.getValue().getPermission() == loggedUser.get().getCredential().getPermission())
+					COMMANDS.entrySet().stream()
+					.filter(e->e.getValue().permission == loggedUser.get().getCredential().getPermission())
 					.map(Map.Entry::getKey)
 					.toList());
 		}
@@ -105,60 +109,147 @@ public class UserInterface {
 	public void setRunnning(Boolean runnning) {
 		this.runnning = runnning;
 	}
-	
-	public static String colorText(String testo, Color colore) {
-        return colore.getColorCode() + testo + "\033[0m";
-    }
 
-	private static final Map<String, Command> commands = Stream.of(new Command[] {
-			new Command("close", "description", null, 0, (agrs)->MyFoodora.getInstance().close()),
-			new Command("logout", "description", null, 0, (args)->MyFoodora.getInstance().logout()),
-			new Command("login", "description", null, 2, (args)->{
-				MyFoodora app = MyFoodora.getInstance();
-				Optional<User> user = app.credentialService.tryLogin(args[0], args[1]);
-				if (user.isEmpty()) 
-					System.out.println(colorText("Login failed", Color.YELLOW));
-				else 
-					System.out.println(colorText("Login was successful", Color.GREEN));
-				app.login(user);
-			}),
-			new Command("registerRestaurant", "description", PermissionType.Manager, 4, (args)->{
-				Restaurant restaurant = UserBuilder.buildUserOfType(Restaurant.class)
-						.addName(args[0])
-						.addLocation(Location.convertFromAdressToCoordinates(args[1]))
-						.addCredential(args[2], args[3])
-						.getResult();
+	class Command {
+		private String name;
+		private String description;
+		private PermissionType permission;
+		private Integer numberParameter;
+		private Consumer<String[]> function;
+		
+		private Command(String name, String description, PermissionType permission, Integer numberParameter, Consumer<String[]> function) {
+			super();
+			this.name = name;
+			this.description = description;
+			this.permission = permission;
+			this.numberParameter = numberParameter;
+			this.function = function;
+		}
+		private Command(String name, String description, Integer numberParameter, Consumer<String[]> function) {
+			super();
+			this.name = name;
+			this.description = description;
+			this.permission = null;
+			this.numberParameter = numberParameter;
+			this.function = function;
+		}
+		
+		
+		private String[] readArguments() throws CommandException {
+			String[] args = new String[numberParameter];
+			for (int i = 0; i < numberParameter; i++) {
 				try {
-					MyFoodora.getInstance().restaurantService.registerUser(restaurant);
-				} catch (UserRegistrationException e) {
-					System.out.println(colorText(e.message, Color.RED));
+					args[i] = input.next();
+				} catch (NoSuchElementException  e) {
+					throw new CommandException("Error in reading arguments");
 				}
-			}),
-			new Command("registerCustomer", "description", null, 4, (args)->{
-				Customer customer = UserBuilder.buildUserOfType(Customer.class)
-						.addName(args[0])
-						.addSurname(args[1])
-						.addCredential(args[2], args[4])
-						.addLocation(Location.convertFromAdressToCoordinates(args[3]))
-						.getResult();
-				try {
-					MyFoodora.getInstance().customerService.registerUser(customer);
-				} catch (UserRegistrationException e) {
-					System.out.println(colorText(e.message, Color.RED));
-				}
-			}),
-			new Command("registerCourier", "description", PermissionType.Manager, 4, (args)->{
-				Courier courier = UserBuilder.buildUserOfType(Courier.class)
-						.addName(args[0])
-						.addSurname(args[1])
-						.addCredential(args[2], args[4])
-						.addLocation(Location.convertFromAdressToCoordinates(args[3]))
-						.getResult();
-				try {
-					MyFoodora.getInstance().courierService.registerUser(courier);
-				} catch (UserRegistrationException e) {
-					System.out.println(colorText(e.message, Color.RED));
-				}
-			})
-	}).collect(Collectors.toMap(c->c.getName(), c->c));
+			}
+			return args;
+		}
+		
+		private  void run(String[] args) {
+			function.accept(args);
+		}
+		
+		public String toString() {
+			return Color.colorText(name, Color.YELLOW)+" "+description;
+		}
+	}
+	
+	private Map<String, Command> initializeCommands(){
+		return Stream.of(new Command[] {
+				new Command("help", 
+						"<> \n\tSee the list of available commands", 
+						0, 
+						(args)->allowedCommands.stream()
+							.map(c->COMMANDS.get(c).toString())
+							.forEach(this::print)
+						),
+				new Command("close", 
+						"<> \n\tdescription", 
+						0,  
+						(agrs)->this.setRunnning(false)),
+				new Command("logout", 
+						"<> \n\tdescription",  
+						0, 
+						(args)->MyFoodora.getInstance().logout()),
+				new Command("login", 
+						"<> \n\tdescription", 
+						2, 
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Optional<User> user = app.credentialService.tryLogin(args[0], args[1]);
+							if (user.isEmpty()) 
+								print("Login failed", Color.YELLOW);
+							else 
+								print("Login was successful - Permissions of "+user.get().getCredential().getPermission()+" granted", Color.GREEN);
+							app.login(user);
+						}),
+				new Command("registerRestaurant", 
+						"<> \n\tdescription", 
+						PermissionType.Manager, 
+						4, 
+						(args)->{
+					Restaurant r = UserBuilder.buildUserOfType(Restaurant.class)
+							.addName(args[0])
+							.addLocation(Location.convertFromAdressToCoordinates(args[1]))
+							.addCredential(args[2], args[3])
+							.getResult();
+					try {
+						MyFoodora.getInstance().restaurantService.registerUser(r);
+					} catch (UserRegistrationException e) {
+						print(e.message, Color.RED);
+					}
+				}),
+				new Command("registerCustomer", 
+						"<> \n\tdescription", 
+						null, 
+						4, 
+						(args)->{
+							Customer c = UserBuilder.buildUserOfType(Customer.class)
+									.addName(args[0])
+									.addSurname(args[1])
+									.addCredential(args[2], args[4])
+									.addLocation(Location.convertFromAdressToCoordinates(args[3]))
+									.getResult();
+							try {
+								MyFoodora.getInstance().customerService.registerUser(c);
+							} catch (UserRegistrationException e) {
+								print(e.message, Color.RED);
+							}
+						}),
+				new Command("registerCourier", 
+						"<> \n\tdescription", 
+						PermissionType.Manager, 
+						4, 
+						(args)->{
+							Courier c = UserBuilder.buildUserOfType(Courier.class)
+									.addName(args[0])
+									.addSurname(args[1])
+									.addCredential(args[2], args[4])
+									.addLocation(Location.convertFromAdressToCoordinates(args[3]))
+									.getResult();
+							try {
+								MyFoodora.getInstance().courierService.registerUser(c);
+							} catch (UserRegistrationException e) {
+								print(e.message, Color.RED);
+							}
+						}),
+				new Command("addDishRestaurantMenu", 
+						"<> \n\tdescription", 
+						PermissionType.Restaurant, 
+						4, 
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Dish d = new Dish(args[0], Double.valueOf(args[3]), DishType.fromString(args[1]));
+							try {
+								Restaurant r = (Restaurant) app.getLoggedUser().get();
+								r.addDish(d);
+								print("Dish added", Color.GREEN);
+							} catch (NoSuchElementException | ClassCastException e) {
+								print("Unable to get information from logged Restaurant", Color.RED);
+							} 
+						})
+		}).collect(Collectors.toMap(c->c.name, c->c));
+	}
 }

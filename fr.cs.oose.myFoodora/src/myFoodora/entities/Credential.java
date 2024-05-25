@@ -18,7 +18,7 @@ public class Credential {
 	}
 	
 	public boolean checkCorrespondance(String username, String password) {
-		return (this.username == username && this.password == password);
+		return (this.username.equals(username) && this.password.equals(password));
 	}
 
 	public User getUser() {

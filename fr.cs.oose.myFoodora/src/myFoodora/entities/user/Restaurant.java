@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import myFoodora.entities.Fidelity.FidelityCard;
 import myFoodora.entities.Order;
+import myFoodora.entities.fidelityCard.FidelityCard;
 import myFoodora.entities.food.Dish;
 import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
@@ -75,10 +75,6 @@ public class Restaurant extends LocalizedUser {
 
     public void removeMeal(Meal meal) {
         meals.remove(meal.hashCode());
-    }
-
-    private Collection<Dish> getDishesOfType(DishType dishCategory) {
-        return menu.values().stream().filter(d -> d.getCategory() == dishCategory).toList();
     }
 
     public Double getProfit() {

@@ -11,6 +11,7 @@ public class MyFoodora {
 	
 	private UserInterface userInterface;
 	private Optional<User> loggedUser;
+	
 	public CredentialService credentialService;
 	public ManagerService managerService;
 	public CustomerService customerService;
@@ -51,9 +52,5 @@ public class MyFoodora {
 	public void logout() {
 		loggedUser = Optional.empty();
 	}
-	
-	public void close() {
-		userInterface.setRunnning(false);
-	}
-	
+		
 }

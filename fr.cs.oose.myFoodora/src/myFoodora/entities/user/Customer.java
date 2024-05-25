@@ -1,7 +1,7 @@
 package myFoodora.entities.user;
 
-import myFoodora.entities.Fidelity.FidelityCard;
 import myFoodora.entities.Order;
+import myFoodora.entities.fidelityCard.FidelityCard;
 
 import java.util.HashMap;
 import java.util.HashSet;

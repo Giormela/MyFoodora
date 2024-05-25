@@ -19,5 +19,9 @@ public enum Color {
     public String getColorCode() {
         return colorCode;
     }
+    
+    public static String colorText(String text, Color color) {
+        return color.getColorCode() + text + "\033[0m";
+    }
 }
 

@@ -1,6 +1,7 @@
 package myFoodora;
 import myFoodora.entities.food.Dish;
 import myFoodora.enums.DishType;
+import myFoodora.setup.Setup;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,27 +12,28 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+    	Setup.setup();
     	MyFoodora app = MyFoodora.getInstance();
     	app.run();
-        boolean running = true;
-        while (running) {
-            System.out.println("Press 1 to create a dish, 2 to print all dishes, 3 to exit:");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline left-over
-            switch (choice) {
-                case 1:
-                    createDish();
-                    break;
-                case 2:
-                    printDishes();
-                    break;
-                case 3:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid input. Please try again.");
-            }
-        }
+//        boolean running = true;
+//        while (running) {
+//            System.out.println("Press 1 to create a dish, 2 to print all dishes, 3 to exit:");
+//            int choice = scanner.nextInt();
+//            scanner.nextLine(); // consume newline left-over
+//            switch (choice) {
+//                case 1:
+//                    createDish();
+//                    break;
+//                case 2:
+//                    printDishes();
+//                    break;
+//                case 3:
+//                    running = false;
+//                    break;
+//                default:
+//                    System.out.println("Invalid input. Please try again.");
+//            }
+//        }
     }
 
     private static void createDish() {
