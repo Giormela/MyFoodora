@@ -40,4 +40,14 @@ public class Courier extends LocalizedUser {
 		return this.state == CourierState.OffDuty;
 	}
 	
+	@Override
+	public String display() {
+		StringBuilder sb = new StringBuilder(super.display());
+		sb.append(String.format(" Name       : %s %s\n", name, surname));
+        sb.append(String.format(" Location   : %s\n", location));
+        sb.append(String.format(" Phone      : %s\n", phone));
+        sb.append("=====================================\n");
+        return sb.toString();
+	}
+	
 }

@@ -40,15 +40,11 @@ public class Meal extends Food {
         }
     }
 
-    public Boolean isVegeterianAndGlutenFree() {
-        return vegetarian && glutenFree;
-    }
-
     public MealType getMealType() {
         return mealType;
     }
 
-    public Boolean getMealOfTheWeek() {
+    public Boolean isMealOfTheWeek() {
         return mealOfTheWeek;
     }
 
@@ -59,4 +55,11 @@ public class Meal extends Food {
     public String getName() {
         return name;
     }
+    
+    @Override
+	public String display() {
+    	StringBuilder sb = new StringBuilder(super.display());
+    	dishes.stream().forEach(d->sb.append(" \t"+d.getName()));
+		return sb.toString();
+	}
 }

@@ -1,5 +1,6 @@
 package myFoodora.clui;
 
+import java.awt.MultipleGradientPaint.CycleMethod;
 import java.io.PrintStream;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -97,6 +98,7 @@ public class UserInterface {
 		if (loggedUser.isEmpty()) {
 			allowedCommands.add("login");
 		} else {
+			allowedCommands.add("profile");
 			allowedCommands.add("logout");
 			allowedCommands.addAll(
 					COMMANDS.entrySet().stream()
@@ -181,8 +183,10 @@ public class UserInterface {
 							Optional<User> user = app.credentialService.tryLogin(args[0], args[1]);
 							if (user.isEmpty()) 
 								print("Login failed", Color.YELLOW);
-							else 
+							else {
 								print("Login was successful - Permissions of "+user.get().getCredential().getPermission()+" granted", Color.GREEN);
+								print("Hi "+user.get().getName()+"!");
+							}
 							app.login(user);
 						}),
 				new Command("registerRestaurant", 
@@ -249,7 +253,15 @@ public class UserInterface {
 							} catch (NoSuchElementException | ClassCastException e) {
 								print("Unable to get information from logged Restaurant", Color.RED);
 							} 
-						})
+						}),
+				new Command("profile",
+						"\n\tShow your profile",
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							print(app.getLoggedUser().get().display(), Color.CYAN);
+						}),
+				
 		}).collect(Collectors.toMap(c->c.name, c->c));
 	}
 }

@@ -18,7 +18,7 @@ public class Restaurant extends LocalizedUser {
     private Double specialDiscountFactor;
     private Map<Customer, FidelityCard> fidelityCards;
     private Map<String, Dish> menu;
-    private Map<Integer, Meal> meals;
+    private Map<String, Meal> meals;
 
     public Restaurant() {
         super();
@@ -26,23 +26,22 @@ public class Restaurant extends LocalizedUser {
         this.specialDiscountFactor = 10.0;
         this.fidelityCards = new HashMap<Customer, FidelityCard>();
         this.menu = new HashMap<String, Dish>();
-        this.meals = new HashMap<Integer, Meal>();
+        this.meals = new HashMap<String, Meal>();
     }
 
     public Collection<Meal> getSortedMeals() {
         Stream<Meal> allMealsOrdered = orderHistory.stream()
                 .flatMap(Order::getMeals)
                 .filter(m -> m.getMealType() == MealType.Half_Meal);
-        return sortByFrequence(allMealsOrdered);
+        return sortFoodByFrequence(allMealsOrdered);
     }
 
     public Collection<Dish> getSortedDishes() {
         Stream<Dish> allDishesOrdered = orderHistory.stream().flatMap(Order::getDishes);
-        return sortByFrequence(allDishesOrdered);
+        return sortFoodByFrequence(allDishesOrdered);
     }
 
-
-    private <T extends Food> Collection<T> sortByFrequence(Stream<T> stream) {
+    private <T extends Food> Collection<T> sortFoodByFrequence(Stream<T> stream) {
         return stream.collect(Collectors.toMap(f -> f, f -> 1, (a, b) -> a + b))
                 .entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry::getValue))
@@ -60,21 +59,26 @@ public class Restaurant extends LocalizedUser {
 
     public void addMeal(Collection<Dish> dishes, String name) throws MealCreationException {
         Meal newMeal = new Meal(dishes, name, this);
-        meals.put(newMeal.hashCode(), newMeal);
+        meals.put(newMeal.getName(), newMeal);
     }
 
-    public void changeMealOfTheWeek(String name) {
-        meals.values().stream().forEach(m -> m.setMealOfTheWeek(false));
-        Meal meal = meals.values().stream().filter(m -> m.getName().equals(name)).findFirst().get();
-        meal.setMealOfTheWeek(true);
+    public void setMealOfTheWeek(String mealName) {
+    	if (meals.containsKey(mealName)) {
+    		meals.values().stream()
+        		.filter(Meal::isMealOfTheWeek)
+        		.forEach(m->m.setMealOfTheWeek(false));
+    		meals.get(mealName).setMealOfTheWeek(true);
+    	}
     }
 
-    public String getMealOfTheWeek() {
-        return meals.values().stream().filter(Meal::getMealOfTheWeek).findFirst().get().getName();
+    public Optional<Meal> getMealOfTheWeek() {
+        return meals.values().stream()
+        		.filter(Meal::isMealOfTheWeek)
+        		.findFirst();
     }
 
-    public void removeMeal(Meal meal) {
-        meals.remove(meal.hashCode());
+    public void removeMeal(String mealName) {
+        meals.remove(mealName);
     }
 
     public Double getProfit() {
@@ -85,9 +89,9 @@ public class Restaurant extends LocalizedUser {
 //        this.fidelityCards.putIfAbsent(fidelityCard.getCustomer(), fidelityCard);
 //    }
 
-    public void removeFidelityCard(Customer customer) {
-        this.fidelityCards.remove(customer);
-    }
+//    public void removeFidelityCard(Customer customer) {
+//        this.fidelityCards.remove(customer);
+//    }
 
     public Double getGenericDiscountFactor() {
         return genericDiscountFactor;
@@ -105,28 +109,41 @@ public class Restaurant extends LocalizedUser {
         this.specialDiscountFactor = specialDiscountFactor;
     }
 
-    public Map<Integer, Meal> getMeals() {
-        return meals;
-    }
+	@Override
+	public String display() {
+		StringBuilder sb = new StringBuilder(super.display());
+		sb.append(String.format(" Name             : %s\n", name));
+        sb.append(String.format(" Location         : %s\n", location));
+        sb.append(String.format(" Generic Discount : %s\n", genericDiscountFactor));
+        sb.append(String.format(" Special Discount : %s\n", specialDiscountFactor));
+        sb.append("-------------------------------------\n");
+        sb.append("                Menù                 \n");
+        menu.values().stream().forEach(d->sb.append(d.display()));
+        sb.append("-------------------------------------\n");
+        sb.append("                Meals                \n");
+        meals.values().stream().forEach(m->sb.append(m.display()));
+        sb.append("=====================================\n");
+        return sb.toString();
+	}
 
 
-    public static void main(String[] args) throws MealCreationException {
-        Dish dish1 = new Dish("dish1", 10.0, DishType.Starter, true, false);
-        Dish dish2 = new Dish("dish2", 20.0, DishType.MainDish, false, true);
-        Dish dish3 = new Dish("dish3", 30.0, DishType.Dessert, true, true);
-        Restaurant restaurant = new Restaurant();
-        restaurant.addMeal(List.of(dish1, dish2), "meal1");
-        restaurant.addMeal(List.of(dish1, dish2, dish3), "meal2");
-        //print all meals of this restaurant
-        restaurant.getMeals().values().stream().forEach(meal -> System.out.println(meal.getName()));
-        // make meal 2 the meal of the week
-        restaurant.changeMealOfTheWeek("meal2");
-        // print the name of the meal of the week
-        System.out.println("The meal of the week is: ");
-        System.out.println(restaurant.getMealOfTheWeek());
-
-        //get price of both meals
-        System.out.println("Price of meal1: " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal1")).findFirst().get().hashCode()).getPrice());
-        System.out.println("Price of meal2: (meal of the week) " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal2")).findFirst().get().hashCode()).getPrice());
-    }
+//    public static void main(String[] args) throws MealCreationException {
+//        Dish dish1 = new Dish("dish1", 10.0, DishType.Starter, true, false);
+//        Dish dish2 = new Dish("dish2", 20.0, DishType.MainDish, false, true);
+//        Dish dish3 = new Dish("dish3", 30.0, DishType.Dessert, true, true);
+//        Restaurant restaurant = new Restaurant();
+//        restaurant.addMeal(List.of(dish1, dish2), "meal1");
+//        restaurant.addMeal(List.of(dish1, dish2, dish3), "meal2");
+//        //print all meals of this restaurant
+//        restaurant.getMeals().values().stream().forEach(meal -> System.out.println(meal.getName()));
+//        // make meal 2 the meal of the week
+//        restaurant.changeMealOfTheWeek("meal2");
+//        // print the name of the meal of the week
+//        System.out.println("The meal of the week is: ");
+//        System.out.println(restaurant.getMealOfTheWeek());
+//
+//        //get price of both meals
+//        System.out.println("Price of meal1: " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal1")).findFirst().get().hashCode()).getPrice());
+//        System.out.println("Price of meal2: (meal of the week) " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal2")).findFirst().get().hashCode()).getPrice());
+//    }
 }

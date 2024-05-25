@@ -4,6 +4,7 @@ import myFoodora.enums.DishType;
 
 public class Dish extends Food{
     private DishType category;
+    private Double price;
 
 
     public Dish(String name, double price, DishType category, boolean vegetarian, boolean glutenFree) {
@@ -44,21 +45,5 @@ public class Dish extends Food{
 
     public void setCategory(DishType category) {
         this.category = category;
-    }
-
-    public boolean isVegetarian() {
-        return this.vegetarian;
-    }
-
-    public void setVegetarian(boolean vegetarian) {
-        this.vegetarian = vegetarian;
-    }
-
-    public boolean isGlutenFree() {
-        return glutenFree;
-    }
-
-    public void setGlutenFree(boolean glutenFree) {
-        this.glutenFree = glutenFree;
     }
 }

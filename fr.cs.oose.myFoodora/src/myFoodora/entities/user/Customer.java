@@ -1,5 +1,6 @@
 package myFoodora.entities.user;
 
+import myFoodora.clui.Display;
 import myFoodora.entities.Order;
 import myFoodora.entities.fidelityCard.FidelityCard;
 
@@ -80,6 +81,18 @@ public class Customer extends LocalizedUser {
 
 	public FidelityCard getFidelityCardForRestaurant(Restaurant restaurant) {
 		return this.fidelityCards.get(restaurant);
+	}
+	
+	@Override
+	public String display() {
+		StringBuilder sb = new StringBuilder(super.display());
+		sb.append(String.format(" Name       : %s %s\n", name, surname));
+        sb.append(String.format(" Location   : %s\n", location));
+        sb.append(String.format(" Email      : %s\n", email));
+        sb.append(String.format(" Phone      : %s\n", phone));
+        sb.append(String.format(" Newsletter : %s\n", consent));
+        sb.append("=====================================\n");
+        return sb.toString();
 	}
 
 }
