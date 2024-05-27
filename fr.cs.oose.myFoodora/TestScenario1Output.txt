@@ -1,0 +1,9 @@
+Login was successful - Permissions of Manager granted
+Hi Giovanni!
+=====================================
+   	Manager Giovanni
+-------------------------------------
+ Name       : Giovanni Vitelli
+=====================================
+
+Operation successfully completed

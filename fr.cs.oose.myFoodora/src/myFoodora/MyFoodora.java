@@ -8,8 +8,7 @@ import myFoodora.services.*;
 
 public class MyFoodora {
 	private static MyFoodora instance;
-	
-	private UserInterface userInterface;
+
 	private Optional<User> loggedUser;
 	
 	public CredentialService credentialService;
@@ -28,7 +27,6 @@ public class MyFoodora {
 	private MyFoodora() {
 		super();
 		this.loggedUser = Optional.empty();
-		this.userInterface = new UserInterface();
 		this.credentialService = new CredentialService();
 		this.managerService = new ManagerService();
 		this.customerService = new CustomerService();
@@ -38,6 +36,7 @@ public class MyFoodora {
 	}
 	
 	public void run() {
+		UserInterface userInterface = UserInterface.createConsoleInterface();
 		userInterface.renderLoop();
 	}
 	

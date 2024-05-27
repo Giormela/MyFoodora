@@ -1,11 +1,18 @@
 package myFoodora.clui;
 
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Consumer;
@@ -27,24 +34,30 @@ import myFoodora.services.UserBuilder;
 public class UserInterface {
 	private final Map<String, Command> COMMANDS;
 	
-	private Boolean runnning;
-	private Scanner input;
-	private PrintStream output;
-	private Set<String> allowedCommands;
-
-	public UserInterface() {
+	protected Boolean runnning;
+	protected BufferedReader input;
+	protected BufferedWriter output;
+	protected Set<String> allowedCommands;
+	
+	protected UserInterface(Reader input, Writer output) {
 		this.runnning = true;
-		this.input = new Scanner(System.in);
-		this.output = System.out;
+		this.input = new BufferedReader(input);
+		this.output = new BufferedWriter(output);
 		this.allowedCommands = new TreeSet<String>();
 		this.COMMANDS = initializeCommands();
 	}
-
+	
+	public static UserInterface createConsoleInterface() {
+		Reader input = new InputStreamReader(System.in);
+		Writer output = new OutputStreamWriter(System.out);
+		return new UserInterface(input, output);
+	}
 	
 	public void renderLoop() {
 		printWelcome();
 		while (runnning) {
 			updateAllowedCommands();
+			flush();
 			
 			try {
 				readCommand();
@@ -54,12 +67,29 @@ public class UserInterface {
 		}
 	}
 	
-	private void print(String text, Color color) {
-		output.println(Color.colorText(text, color));
+	protected void printError(String message) {
+		print(message, Color.RED);
 	}
 	
-	private void print(String text) {
-		output.println(text);
+	protected void printSuccess(String message) {
+		print(message, Color.GREEN);
+	}
+	
+	protected void printSuccess() {
+		print("Operation successfully completed", Color.GREEN);
+	}
+	
+	protected void print(String text, Color color) {
+		print(Color.colorText(text, color));
+	}
+	
+	protected void print(String text) {
+		try {
+			output.write(text);
+			output.newLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void printWelcome() {
@@ -76,33 +106,50 @@ public class UserInterface {
         print(assisntance);
 	}
 	
-	private void readCommand() throws CommandException {
-		String commandName = input.next();
+	protected void readCommand() throws CommandException {
+		String line;
+		try {
+			line = input.readLine();
+		} catch (IOException e) {
+			throw new CommandException(e.getMessage());
+		}
 		
+		String[] words = line.split("\\s+");
+		String commandName = words[0];
 		if (allowedCommands.contains(commandName)) {
 			Command command = COMMANDS.get(commandName);
-			String[] args = command.readArguments();
+			String[] args = Arrays.copyOfRange(words, 1, words.length);
 			command.run(args);
 		} else {
 			throw new CommandException("No allowed command named "+commandName+" found");
 		}
 	}
+	
+	protected void flush() {
+		try {
+			output.flush();
+		} catch (IOException e) {
+			print(e.getMessage(), Color.RED);
+		}
+	}
 
 	
-	private void updateAllowedCommands() {
+	protected void updateAllowedCommands() {
 		allowedCommands.clear();
 		Optional<User> loggedUser = MyFoodora.getInstance().getLoggedUser();
 		
 		allowedCommands.add("help");
 		allowedCommands.add("close");
+		allowedCommands.add("file");
 		if (loggedUser.isEmpty()) {
 			allowedCommands.add("login");
+			allowedCommands.add("registerCustomer");
 		} else {
 			allowedCommands.add("profile");
 			allowedCommands.add("logout");
 			allowedCommands.addAll(
 					COMMANDS.entrySet().stream()
-					.filter(e->e.getValue().permission == loggedUser.get().getCredential().getPermission())
+					.filter(e->e.getValue().permission == loggedUser.get().getCredential().getPermission() || e.getValue().permission == null)
 					.map(Map.Entry::getKey)
 					.toList());
 		}
@@ -137,46 +184,77 @@ public class UserInterface {
 		}
 		
 		
-		private String[] readArguments() throws CommandException {
-			String[] args = new String[numberParameter];
-			for (int i = 0; i < numberParameter; i++) {
-				try {
-					args[i] = input.next();
-				} catch (NoSuchElementException  e) {
-					throw new CommandException("Error in reading arguments");
-				}
-			}
-			return args;
-		}
+//		private String[] readArguments() throws CommandException {
+//			String[] args = new String[numberParameter];
+//			for (int i = 0; i < numberParameter; i++) {
+//				try {
+//					args[i] = input.next();
+//				} catch (NoSuchElementException  e) {
+//					throw new CommandException("Error in reading arguments");
+//				}
+//			}
+//			return args;
+//		}
 		
-		private  void run(String[] args) {
+		private void run(String[] args) throws CommandException {
+			if (args.length != numberParameter) {
+				throw new CommandException("Number of arguments doesn't matches");
+			}
 			function.accept(args);
 		}
 		
 		public String toString() {
-			return Color.colorText(name, Color.YELLOW)+" "+description;
+			return " "+Color.colorText(name, Color.YELLOW)+" "+description;
 		}
 	}
 	
 	private Map<String, Command> initializeCommands(){
 		return Stream.of(new Command[] {
-				new Command("help", 
-						"<> \n\tSee the list of available commands", 
+				new Command(
+						"help", 
+						"\n\tSee the list of available commands", 
 						0, 
-						(args)->allowedCommands.stream()
-							.map(c->COMMANDS.get(c).toString())
-							.forEach(this::print)
-						),
+						(args)->{
+							allowedCommands.stream()
+								.map(c->COMMANDS.get(c).toString())
+								.forEach(this::print);
+						}),
+				new Command(
+						"file", 
+						"<path> \n\tExecute the commands inside the specified file", 
+						1, 
+						(args)->{
+							try {
+								UserInterface userInterface = new UserInterfaceFile(args[0]);
+								userInterface.renderLoop();
+								printSuccess();
+							} catch (IOException e) {
+								printError(e.getMessage());							
+							}
+						}),
 				new Command("close", 
-						"<> \n\tdescription", 
+						" \n\tClose application", 
 						0,  
-						(agrs)->this.setRunnning(false)),
+						(agrs)->{
+							setRunnning(false);
+							try {
+								flush();
+								input.close();
+								output.close();
+							} catch (IOException e) {
+								printError(e.getMessage());
+							}
+							
+						}),
 				new Command("logout", 
-						"<> \n\tdescription",  
+						" \n\tdescription",  
 						0, 
-						(args)->MyFoodora.getInstance().logout()),
+						(args)->{
+							MyFoodora.getInstance().logout();
+							printSuccess();
+						}),
 				new Command("login", 
-						"<> \n\tdescription", 
+						"<username> <password> \n\tdescription", 
 						2, 
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();
@@ -184,13 +262,13 @@ public class UserInterface {
 							if (user.isEmpty()) 
 								print("Login failed", Color.YELLOW);
 							else {
-								print("Login was successful - Permissions of "+user.get().getCredential().getPermission()+" granted", Color.GREEN);
+								printSuccess("Login was successful - Permissions of "+user.get().getCredential().getPermission()+" granted");
 								print("Hi "+user.get().getName()+"!");
 							}
 							app.login(user);
 						}),
 				new Command("registerRestaurant", 
-						"<> \n\tdescription", 
+						"<name> <address> <username> <password> \n\tRegister a new restaurant in the system", 
 						PermissionType.Manager, 
 						4, 
 						(args)->{
@@ -201,12 +279,13 @@ public class UserInterface {
 							.getResult();
 					try {
 						MyFoodora.getInstance().restaurantService.registerUser(r);
+						printSuccess();
 					} catch (UserRegistrationException e) {
-						print(e.message, Color.RED);
+						printError(e.message);
 					}
 				}),
 				new Command("registerCustomer", 
-						"<> \n\tdescription", 
+						"<firstName> <lastName> <username> <position> <password> \n\tRegister a new customer in the system", 
 						null, 
 						4, 
 						(args)->{
@@ -218,12 +297,13 @@ public class UserInterface {
 									.getResult();
 							try {
 								MyFoodora.getInstance().customerService.registerUser(c);
+								printSuccess();
 							} catch (UserRegistrationException e) {
-								print(e.message, Color.RED);
+								printError(e.message);
 							}
 						}),
 				new Command("registerCourier", 
-						"<> \n\tdescription", 
+						"<firstName> <lastName> <username> <position> <password> \n\tRegister a new courier in the system", 
 						PermissionType.Manager, 
 						4, 
 						(args)->{
@@ -235,12 +315,13 @@ public class UserInterface {
 									.getResult();
 							try {
 								MyFoodora.getInstance().courierService.registerUser(c);
+								printSuccess();
 							} catch (UserRegistrationException e) {
-								print(e.message, Color.RED);
+								printError(e.message);
 							}
 						}),
 				new Command("addDishRestaurantMenu", 
-						"<> \n\tdescription", 
+						"<dishName> <dishCategory> <foodCategory> <unitPrice> \n\tAdd a new dish to your menu", 
 						PermissionType.Restaurant, 
 						4, 
 						(args)->{
@@ -249,9 +330,9 @@ public class UserInterface {
 							try {
 								Restaurant r = (Restaurant) app.getLoggedUser().get();
 								r.addDish(d);
-								print("Dish added", Color.GREEN);
+								printSuccess();
 							} catch (NoSuchElementException | ClassCastException e) {
-								print("Unable to get information from logged Restaurant", Color.RED);
+								printError(e.getMessage());
 							} 
 						}),
 				new Command("profile",
@@ -261,7 +342,6 @@ public class UserInterface {
 							MyFoodora app = MyFoodora.getInstance();
 							print(app.getLoggedUser().get().display(), Color.CYAN);
 						}),
-				
 		}).collect(Collectors.toMap(c->c.name, c->c));
 	}
 }
