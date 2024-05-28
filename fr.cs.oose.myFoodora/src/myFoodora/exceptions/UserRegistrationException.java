@@ -1,10 +1,8 @@
 package myFoodora.exceptions;
 
-public class UserRegistrationException extends Exception {
-	public String message;
+public class UserRegistrationException extends CommandException {
 
 	public UserRegistrationException(String message) {
-		super();
-		this.message = message;
+		super(message);
 	}
 }

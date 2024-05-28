@@ -29,9 +29,9 @@ public class CredentialService {
 			throw new UserRegistrationException("Username already used");
 	}
 	
-	public Optional<User> tryLogin(String username, String password) {
+	public Optional<Credential> tryLogin(String username, String password) {
 		if (credentials.containsKey(username) && credentials.get(username).checkCorrespondance(username, password))
-			return Optional.of(credentials.get(username).getUser());
+			return Optional.of(credentials.get(username));
 		return Optional.empty();
 	}
 }

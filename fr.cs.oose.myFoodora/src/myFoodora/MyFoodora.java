@@ -3,13 +3,16 @@ package myFoodora;
 import java.util.Optional;
 
 import myFoodora.clui.UserInterface;
+import myFoodora.entities.Credential;
+import myFoodora.entities.user.Manager;
 import myFoodora.entities.user.User;
+import myFoodora.exceptions.UserRegistrationException;
 import myFoodora.services.*;
 
 public class MyFoodora {
 	private static MyFoodora instance;
 
-	private Optional<User> loggedUser;
+	private Optional<Credential> loggedUser;
 	
 	public CredentialService credentialService;
 	public ManagerService managerService;
@@ -19,8 +22,10 @@ public class MyFoodora {
 	public OrderService orderService;
 	
 	public static MyFoodora getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new MyFoodora();
+			instance.setup();
+		}	
 		return instance;
 	}
 	
@@ -35,17 +40,28 @@ public class MyFoodora {
 		this.orderService = new OrderService();
 	}
 	
+	private void setup() {
+		Manager m = UserBuilder.buildUserOfType(Manager.class)
+				.addName("Giovanni")
+				.addSurname("Vitelli")
+				.addCredential("ceo", "123456789")
+				.getResult();
+		try {
+			managerService.registerUser(m);
+		} catch (UserRegistrationException e) {}
+	}
+	
 	public void run() {
 		UserInterface userInterface = UserInterface.createConsoleInterface();
 		userInterface.renderLoop();
 	}
 	
-	public Optional<User> getLoggedUser() {
+	public Optional<Credential> getLoggedUser() {
 		return loggedUser;
 	}
 	
-	public void login(Optional<User> user) {
-		loggedUser = user;
+	public void login(Optional<Credential> credential) {
+		loggedUser = credential;
 	}
 	
 	public void logout() {

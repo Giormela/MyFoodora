@@ -1,8 +1,10 @@
 package myFoodora.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import myFoodora.entities.fidelityCard.FidelityCard;
 import myFoodora.entities.food.Dish;
 import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
@@ -12,22 +14,31 @@ import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.OrderState;
 
 public class Order {
+	private String name;
 	private Customer customer;
 	private Restaurant restaurant;
 	private Collection<Food> food;
 	private Courier courier;
-	private Date data;
+	private Date date;
 	private OrderState state;
-	private Double profit;
+	private Double pricePayed;
+	private Double generatedProfit;
 	
 	
-	public Order(Customer customer, Restaurant restaurant, Collection<Food> food) {
+	public Order(Customer customer, Restaurant restaurant, String name) {
 		super();
+		this.name = name;
 		this.customer = customer;
 		this.restaurant = restaurant;
-		this.food = food;
-		this.data = Date.now();
+		this.food = new ArrayList<Food>();
+		this.date = Date.now();
 		this.state = OrderState.Pending;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Customer getCustomer() {
 		return customer;
@@ -54,13 +65,19 @@ public class Order {
 		this.state = state;
 	}
 	public Double getProfit() {
-		return profit;
+		return generatedProfit;
 	}
 	public void setProfit(Double profit) {
-		this.profit = profit;
+		this.generatedProfit = profit;
 	}
 	public Date getData() {
-		return data;
+		return date;
+	}
+	public Double getPricePayed() {
+		return pricePayed;
+	}
+	public void addFood(Food f) {
+		food.add(f);
 	}
 	public Stream<Meal> getMeals(){
 		return food.stream().filter(f->f instanceof Meal).map(f->(Meal)f);
@@ -71,10 +88,10 @@ public class Order {
 	public Collection<Food> getFood() {
 		return food;
 	}
-	public Double getPrice() {
+	public void pay(FidelityCard fidelityCard, Date date) {
+		this.date = date;
 		Double fullPrice = food.stream().mapToDouble(Food::getPrice).sum();
-		Double discountedPrice = customer.applyFidelityCard(restaurant, fullPrice);
-		return discountedPrice;
-	}
-	
+		Double discountedPrice = fidelityCard.apply(fullPrice);
+		pricePayed = discountedPrice;
+	}	
 }

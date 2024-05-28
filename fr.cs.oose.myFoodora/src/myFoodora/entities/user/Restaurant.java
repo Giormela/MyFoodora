@@ -11,6 +11,7 @@ import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
 import myFoodora.enums.DishType;
 import myFoodora.enums.MealType;
+import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.exceptions.MealCreationException;
 
 public class Restaurant extends LocalizedUser {
@@ -19,6 +20,10 @@ public class Restaurant extends LocalizedUser {
     private Map<Customer, FidelityCard> fidelityCards;
     private Map<String, Dish> menu;
     private Map<String, Meal> meals;
+    
+    
+    
+    
 
     public Restaurant() {
         super();
@@ -56,6 +61,15 @@ public class Restaurant extends LocalizedUser {
     public void removeDish(String dishName) {
         menu.remove(dishName);
     }
+    
+    public Food getFood(String foodName) throws ElementNotFoundException{  		
+    	if (menu.containsKey(foodName) || meals.containsKey(foodName)) {
+    		Dish d = menu.get(foodName);
+    		Meal m = meals.get(foodName);
+    		return d==null?m:d;
+    	}
+    	throw new ElementNotFoundException("The restaurant "+getName()+" doesn't contain any item called "+foodName);
+    }
 
     public void addMeal(Collection<Dish> dishes, String name) throws MealCreationException {
         Meal newMeal = new Meal(dishes, name, this);
@@ -63,19 +77,16 @@ public class Restaurant extends LocalizedUser {
     }
 
     public void setMealOfTheWeek(String mealName) {
-    	if (meals.containsKey(mealName)) {
-    		meals.values().stream()
-        		.filter(Meal::isMealOfTheWeek)
-        		.forEach(m->m.setMealOfTheWeek(false));
+    	if (meals.containsKey(mealName)) 
     		meals.get(mealName).setMealOfTheWeek(true);
-    	}
+    }
+    
+    public void setNotMealOfTheWeek(String mealName) {
+    	if (meals.containsKey(mealName)) 
+    		meals.get(mealName).setMealOfTheWeek(false);
     }
 
-    public Optional<Meal> getMealOfTheWeek() {
-        return meals.values().stream()
-        		.filter(Meal::isMealOfTheWeek)
-        		.findFirst();
-    }
+   
 
     public void removeMeal(String mealName) {
         meals.remove(mealName);

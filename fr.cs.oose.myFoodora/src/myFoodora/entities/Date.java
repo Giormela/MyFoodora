@@ -36,5 +36,10 @@ public class Date implements Comparable<Date>{
 		}
 		return this.year.compareTo(o.year);
 	}
+
+	public static Date from(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

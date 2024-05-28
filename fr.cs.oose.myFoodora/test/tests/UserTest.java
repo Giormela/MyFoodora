@@ -13,6 +13,7 @@ class UserTest {
 
 	@Test
 	void creatingManager() {
+		
 		Manager m = UserBuilder.buildUserOfType(Manager.class)
 			.addName("Mario")
 			.addSurname("Rossi")

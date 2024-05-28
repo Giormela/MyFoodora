@@ -1,24 +1,14 @@
 package myFoodora.entities.fidelityCard;
 
-import myFoodora.entities.user.Customer;
-import myFoodora.entities.user.Restaurant;
-import myFoodora.enums.FidelityCardType;
-
-public class PointFidelityCard extends FidelityCard {
-    private int points = 0;
-
-    public PointFidelityCard(Restaurant restaurant, Customer customer) {
-        this.restaurant = restaurant;
-        this.customer = customer;
-        this.type = FidelityCardType.Point;
-    }
+public class PointFidelityCard implements FidelityCard {
+    private int points;
 
     @Override
-    public Double applyDiscount(Double fullPrice, Customer customer) {
+    public Double apply(Double fullPrice) {
         addPoints((int) (fullPrice / 10));
 
         if (points >= 100) {
-            resetPoints();
+            removePoints(100);
             return fullPrice * 0.9;
         }
         return fullPrice;
@@ -27,8 +17,8 @@ public class PointFidelityCard extends FidelityCard {
     private void addPoints(int pointsToAdd) {
         this.points += pointsToAdd;
     }
-
-    private void resetPoints() {
-        this.points = 0;
+    
+    private void removePoints(int pointsToAdd) {
+        this.points -= pointsToAdd;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import myFoodora.MyFoodora;
 import myFoodora.entities.Credential;
 import myFoodora.entities.user.*;
+import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.exceptions.UserRegistrationException;
 
 abstract class UserService <U extends User> {
@@ -24,6 +25,12 @@ abstract class UserService <U extends User> {
 	
 	public U getUserById(Integer userId) {
 		return users.get(userId);
+	}
+	
+	public U getUserByName(String name) throws ElementNotFoundException{
+		return users.values().stream()
+				.filter(u->u.getName().equals(name))
+				.findFirst().orElseThrow(()->new ElementNotFoundException("No user has a name such as "+name));
 	}
 
 	public void registerUser(U newUser) throws UserRegistrationException{

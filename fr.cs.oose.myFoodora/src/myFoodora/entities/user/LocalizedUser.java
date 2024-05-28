@@ -17,7 +17,7 @@ public abstract class LocalizedUser extends User {
 		this.orderHistory = new HashSet<Order>();
 	}
 	
-	public void addOrder(Order order) {
+	public void addOrderToHistory(Order order) {
 		orderHistory.add(order);
 	}
 	

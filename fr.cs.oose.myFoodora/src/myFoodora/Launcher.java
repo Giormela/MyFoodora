@@ -1,18 +1,16 @@
 package myFoodora;
 import myFoodora.entities.food.Dish;
 import myFoodora.enums.DishType;
-import myFoodora.setup.Setup;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Launcher {
 
     private static ArrayList<Dish> dishes = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-    	Setup.setup();
     	MyFoodora app = MyFoodora.getInstance();
     	app.run();
 //        boolean running = true;

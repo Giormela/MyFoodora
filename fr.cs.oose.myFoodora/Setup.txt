@@ -1,0 +1,4 @@
+registerRestaurant Augusto 1RueJoliot aug 123
+registerRestaurant FratelliLaCozza 1RueJoliot fra 123
+registerCustomer Giorgio Bonessa gio 1RueJoliot 123
+registerCustomer Riccardo Zanchetta ric 1RueJoliot 123

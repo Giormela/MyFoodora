@@ -14,21 +14,17 @@ class UserInterfaceFile extends UserInterface {
 			new FileWriter(path.substring(0, path.length() - 4)+"Output.txt")
 		);		
 	}
-	
-	@Override
-	protected void print(String text, Color color) {
-		print(text);
-	}
 
 	@Override
 	public void renderLoop() {
 		while (runnning) {
 			updateAllowedCommands();
-			
+
 			try {
 				if (input.ready())
 					readCommand();
 				else {
+					flush();
 					break;
 				}
 			} catch (CommandException | IOException e) {
@@ -36,8 +32,6 @@ class UserInterfaceFile extends UserInterface {
 				break;
 			}
 		}
-		
-		flush();
 	}
 	
 }

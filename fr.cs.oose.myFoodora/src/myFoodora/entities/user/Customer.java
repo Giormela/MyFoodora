@@ -1,8 +1,11 @@
 package myFoodora.entities.user;
 
-import myFoodora.clui.Display;
+import myFoodora.entities.Date;
 import myFoodora.entities.Order;
+import myFoodora.entities.fidelityCard.BasicFidelityCard;
 import myFoodora.entities.fidelityCard.FidelityCard;
+import myFoodora.entities.food.Food;
+import myFoodora.exceptions.ElementNotFoundException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,73 +17,77 @@ public class Customer extends LocalizedUser {
 	private String email;
 	private String phone;
 	private Boolean consent;
-	private Map<Restaurant, FidelityCard> fidelityCards;
-	
+	private FidelityCard fidelityCard;
+	//private Map<Restaurant, FidelityCard> fidelityCards;
+	private Map<String, Order> cart;
 	
 	
 	public Customer() {
 		super();
 		this.consent = false;
 		this.orderHistory = new HashSet<Order>();
-		this.fidelityCards = new HashMap<Restaurant, FidelityCard>();
+		this.fidelityCard = new BasicFidelityCard();
 	}
-	
 	public String getSurname() {
 		return surname;
 	}
-
-
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-
-
 	public String getEmail() {
 		return email;
 	}
-	
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-
 	public Boolean getConsent() {
 		return consent;
 	}
-
 	public void setConsent(Boolean consensus) {
 		this.consent = consensus;
 	}
-
-	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
-		if(fidelityCards.containsKey(restaurant)) {
-			return fidelityCards.get(restaurant).applyDiscount(fullPrice, this);
+//	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
+//		if(fidelityCards.containsKey(restaurant)) {
+//			return fidelityCards.get(restaurant).applyDiscount(fullPrice);
+//		}
+//		return fullPrice;
+//	}
+//	public void addFidelityCard(Restaurant restaurant, FidelityCard fidelityCard) {
+//		this.fidelityCards.putIfAbsent(restaurant, fidelityCard);
+//	}
+//	public void removeFidelityCard(Restaurant restaurant) {
+//		this.fidelityCards.remove(restaurant);
+//	}
+//	public Set<Restaurant> getRestaurantsWithFidelityCards() {
+//		return this.fidelityCards.keySet();
+//	}
+//	public FidelityCard getFidelityCardForRestaurant(Restaurant restaurant) {
+//		return this.fidelityCards.get(restaurant);
+//	}
+	public void prepareNewOrder(Order newOrder) {
+		cart.put(newOrder.getName(), newOrder);
+	}
+	public void addFoodToOrder(String orderName, String foodName) throws ElementNotFoundException{
+		if (!cart.containsKey(orderName)) {
+			throw new ElementNotFoundException("There is no order named "+orderName+" in your cart");
 		}
-		return fullPrice;
+		Order order = cart.get(orderName);
+		Food food = order.getRestaurant().getFood(foodName);
+		order.addFood(food);
 	}
-
-	public void addFidelityCard(Restaurant restaurant, FidelityCard fidelityCard) {
-		this.fidelityCards.putIfAbsent(restaurant, fidelityCard);
-	}
-
-	public void removeFidelityCard(Restaurant restaurant) {
-		this.fidelityCards.remove(restaurant);
-	}
-
-	public Set<Restaurant> getRestaurantsWithFidelityCards() {
-		return this.fidelityCards.keySet();
-	}
-
-	public FidelityCard getFidelityCardForRestaurant(Restaurant restaurant) {
-		return this.fidelityCards.get(restaurant);
+	public Order payOrder(String orderName, Date date) throws ElementNotFoundException{
+		if (!cart.containsKey(orderName)) {
+			throw new ElementNotFoundException("There is no order named "+orderName+" in your cart");
+		}
+		Order order = cart.remove(orderName);
+		order.pay(fidelityCard, date);
+		return order;
 	}
 	
 	@Override
@@ -94,5 +101,4 @@ public class Customer extends LocalizedUser {
         sb.append("=====================================\n");
         return sb.toString();
 	}
-
 }

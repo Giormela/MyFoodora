@@ -36,11 +36,10 @@ public class OrderService {
 	 * @param food a collection of buyable items constituting the order
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	public void registerOrder(Customer customer, Restaurant restaurant, Collection<Food> food) {
-		Order newOrder = new Order(customer, restaurant, food);
+	public void registerOrder(Order newOrder) {
 		setProfitToOrder(newOrder);
-		customer.addOrder(newOrder);
-		restaurant.addOrder(newOrder);
+		newOrder.getCustomer().addOrderToHistory(newOrder);
+		newOrder.getRestaurant().addOrderToHistory(newOrder);
 		this.orders.add(newOrder);
 	}
 	
@@ -51,7 +50,7 @@ public class OrderService {
 	 * @throws NullPointerException if the order argument is null
 	 */
 	private void setProfitToOrder(Order order) {
-		Double orderPrice = order.getPrice();
+		Double orderPrice = order.getPricePayed();
 		Double orderProfit = orderPrice * markupPercentage + serviceFee - deliveryCost;
 		order.setProfit(orderProfit);
 	}
