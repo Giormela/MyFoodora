@@ -1,9 +1,37 @@
 Login was successful - Permissions of Manager granted
-Hi Giovanni!
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Customer granted
 =====================================
-   	Manager Giovanni
+   	Restaurant Augusto
 -------------------------------------
- Name       : Giovanni Vitelli
+ Name             : Augusto
+ Generic Discount : 5.0
+ Special Discount : 10.0
+-------------------------------------
+                Menù                 
+ Pizza4Stagioni                  9.0
+ PizzaMargherita                 7.0
+ PizzaSalsicciaFriarielli        8.5
+-------------------------------------
+                Meals                
+=====================================
+=====================================
+   	Restaurant FratelliLaCozza
+-------------------------------------
+ Name             : FratelliLaCozza
+ Generic Discount : 5.0
+ Special Discount : 10.0
+-------------------------------------
+                Menù                 
+-------------------------------------
+                Meals                
 =====================================
 
 Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Manager granted
+The total profit is 84.0

@@ -1,6 +1,7 @@
 package myFoodora.entities;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Date implements Comparable<Date>{
 	private Integer year;
@@ -38,8 +39,12 @@ public class Date implements Comparable<Date>{
 	}
 
 	public static Date from(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		String[] fields = string.split("/");
+		return new Date(Integer.valueOf(fields[2]), Integer.valueOf(fields[1]), Integer.valueOf(fields[0]));
 	}
 	
+	@Override
+	public String toString() {
+		return day+"/"+month+"/"+year;
+	}
 }

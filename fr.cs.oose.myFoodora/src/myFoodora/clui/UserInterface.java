@@ -155,7 +155,7 @@ public class UserInterface {
 		this.runnning = runnning;
 	}
 
-	class Command {
+	private class Command {
 		private String name;
 		private String description;
 		private PermissionType permission;
@@ -179,7 +179,7 @@ public class UserInterface {
 			this.function = function;
 		}
 		
-		protected void run(String[] args) throws CommandException {
+		protected void run(String[] args) throws CommandException {	
 			if (args.length != numberParameter) {
 				throw new CommandException("Number of arguments doesn't matches");
 			}
@@ -389,6 +389,26 @@ public class UserInterface {
 								.map(Restaurant::display)
 								.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
 							print(sb.toString(), Color.CYAN);
+						}),
+				new Command("showTotalProfit",
+						" \n\tDESCRIPTION",
+						PermissionType.Manager,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Double profit = app.orderService.getTotalProfit();
+							print("The total profit is "+profit.toString(), Color.CYAN);
+						}),
+				new Command("showTotalProfitBetween",
+						"<startDate> <endDate> \n\tDESCRIPTION",
+						PermissionType.Manager,
+						2,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Date from = Date.from(args[0]);
+							Date to = Date.from(args[1]);
+							Double profit = app.orderService.getTotalProfit(from, to);
+							print("The profit between "+from.toString()+" and "+to.toString()+" is equal to "+profit.toString(), Color.CYAN);
 						}),
 //				new Command("profile",
 //						"\n\tShow your profile",

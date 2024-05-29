@@ -1,6 +1,7 @@
 package myFoodora.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 import myFoodora.entities.Date;
@@ -15,9 +16,9 @@ public class OrderService {
 
 	public OrderService() {
 		super();
-		this.serviceFee = 0.0;
-		this.markupPercentage = 0.0;
-		this.deliveryCost = 0.0;
+		this.serviceFee = 1.0;
+		this.markupPercentage = 5.0;
+		this.deliveryCost = 1.0;
 		this.orders = new HashSet<Order>();
 	}
 
@@ -74,6 +75,18 @@ public class OrderService {
 	 */
 	public Double getTotalProfit(Date from, Date to) {
 		return getOrdersInRange(from, to)
+			.mapToDouble(Order::getProfit)
+			.sum();
+	}
+	
+	/**
+	 * Calculates the total profit for orders.
+	 * 
+	 * @return the total profit for all orders
+	 * @throws NullPointerException if either of the date arguments (`from` or `to`) is null
+	 */
+	public Double getTotalProfit() {
+		return orders.stream()
 			.mapToDouble(Order::getProfit)
 			.sum();
 	}
