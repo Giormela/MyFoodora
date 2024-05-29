@@ -14,13 +14,6 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>TestScenario1Output.txt</name>
-			<type>1</type>
-			<location>C:/Users/cioci/git/MyFoodora/fr.cs.oose.myFoodora/TestScenario1Output.txt</location>
-		</link>
-	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1715091275628</id>

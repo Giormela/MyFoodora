@@ -2,3 +2,10 @@ registerRestaurant Augusto 1RueJoliot aug 123
 registerRestaurant FratelliLaCozza 1RueJoliot fra 123
 registerCustomer Giorgio Bonessa gio 1RueJoliot 123
 registerCustomer Riccardo Zanchetta ric 1RueJoliot 123
+logout
+login aug 123
+addDishRestaurantMenu PizzaMargherita MainDish Vegeterian 7.00
+addDishRestaurantMenu Pizza4Stagioni MainDish Standard 9.00
+addDishRestaurantMenu PizzaSalsicciaFriarielli MainDish Standard 8.50
+logout
+login ceo 123456789

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import myFoodora.entities.Credential;
-import myFoodora.entities.user.User;
 import myFoodora.exceptions.UserRegistrationException;
 
 public class CredentialService {

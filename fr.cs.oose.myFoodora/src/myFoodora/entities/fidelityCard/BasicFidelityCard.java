@@ -1,9 +1,5 @@
 package myFoodora.entities.fidelityCard;
 
-import myFoodora.entities.user.Customer;
-import myFoodora.entities.user.Restaurant;
-import myFoodora.enums.FidelityCardType;
-
 public class BasicFidelityCard implements FidelityCard {
     @Override
     public Double apply(Double fullPrice) {

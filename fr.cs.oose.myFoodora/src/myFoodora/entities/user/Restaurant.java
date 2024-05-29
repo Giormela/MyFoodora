@@ -3,13 +3,10 @@ package myFoodora.entities.user;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import myFoodora.entities.Order;
-import myFoodora.entities.fidelityCard.FidelityCard;
 import myFoodora.entities.food.Dish;
 import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
-import myFoodora.enums.DishType;
 import myFoodora.enums.MealType;
 import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.exceptions.MealCreationException;
@@ -17,7 +14,7 @@ import myFoodora.exceptions.MealCreationException;
 public class Restaurant extends LocalizedUser {
     private Double genericDiscountFactor;
     private Double specialDiscountFactor;
-    private Map<Customer, FidelityCard> fidelityCards;
+    //private Map<Customer, FidelityCard> fidelityCards;
     private Map<String, Dish> menu;
     private Map<String, Meal> meals;
     
@@ -29,7 +26,7 @@ public class Restaurant extends LocalizedUser {
         super();
         this.genericDiscountFactor = 5.0;
         this.specialDiscountFactor = 10.0;
-        this.fidelityCards = new HashMap<Customer, FidelityCard>();
+        //this.fidelityCards = new HashMap<Customer, FidelityCard>();
         this.menu = new HashMap<String, Dish>();
         this.meals = new HashMap<String, Meal>();
     }
@@ -124,7 +121,7 @@ public class Restaurant extends LocalizedUser {
 	public String display() {
 		StringBuilder sb = new StringBuilder(super.display());
 		sb.append(String.format(" Name             : %s\n", name));
-        sb.append(String.format(" Location         : %s\n", location));
+        //sb.append(String.format(" Location         : %s\n", location));
         sb.append(String.format(" Generic Discount : %s\n", genericDiscountFactor));
         sb.append(String.format(" Special Discount : %s\n", specialDiscountFactor));
         sb.append("-------------------------------------\n");

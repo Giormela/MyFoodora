@@ -1,15 +1,10 @@
 package myFoodora.services;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import myFoodora.entities.Date;
 import myFoodora.entities.Order;
-import myFoodora.entities.food.Food;
-import myFoodora.entities.user.Customer;
-import myFoodora.entities.user.Restaurant;
 
 public class OrderService {
 	private Double serviceFee;

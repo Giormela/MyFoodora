@@ -16,6 +16,12 @@ class UserInterfaceFile extends UserInterface {
 	}
 
 	@Override
+	protected void print(String text, Color color) {
+		print(text);
+	}
+	
+
+	@Override
 	public void renderLoop() {
 		while (runnning) {
 			updateAllowedCommands();

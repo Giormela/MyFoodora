@@ -1,3 +1,7 @@
-login ceo 123456789
-profile
+setup
 logout
+login gio 123 
+showRestaurants
+createOrder Augusto testOrder
+addItem2Order testOrder PizzaMargherita
+addItem2Order testOrder PizzaMargherita

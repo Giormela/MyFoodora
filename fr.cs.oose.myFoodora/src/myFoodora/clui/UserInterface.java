@@ -2,21 +2,16 @@ package myFoodora.clui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.annotation.Retention;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import myFoodora.MyFoodora;
@@ -25,11 +20,9 @@ import myFoodora.entities.food.Dish;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
-import myFoodora.entities.user.User;
 import myFoodora.enums.DishType;
 import myFoodora.enums.PermissionType;
 import myFoodora.exceptions.CommandException;
-import myFoodora.exceptions.UserRegistrationException;
 import myFoodora.services.UserBuilder;
 
 public class UserInterface {
@@ -210,7 +203,7 @@ public class UserInterface {
 								.forEach(this::print);
 						}),
 				new Command(
-						"file", 
+						"runTest", 
 						"<path> \n\tExecute the commands inside the specified file", 
 						1, 
 						(args)->{
@@ -333,6 +326,7 @@ public class UserInterface {
 							Restaurant r = app.restaurantService.getUserById(loggedUser.getUserId());
 							
 							r.setMealOfTheWeek(args[0]);
+							printSuccess();
 						}),
 				new Command("removeFromSpecialOffer",
 						" <mealName>\n\tDESCRIPTION",
@@ -344,6 +338,7 @@ public class UserInterface {
 							Restaurant r = app.restaurantService.getUserById(loggedUser.getUserId());
 							
 							r.setNotMealOfTheWeek(args[0]);
+							printSuccess();
 						}),
 				new Command("createOrder",
 						" <restaurantName> <orderName>\n\tDESCRIPTION",
@@ -357,6 +352,7 @@ public class UserInterface {
 							Order newOrder = new Order(c, r, args[1]);
 							
 							c.prepareNewOrder(newOrder);
+							printSuccess();
 						}),
 				new Command("addItem2Order",
 						" <orderName> <itemName>\n\tDESCRIPTION",
@@ -368,6 +364,7 @@ public class UserInterface {
 							Customer c = app.customerService.getUserById(loggedUser.getUserId());
 							
 							c.addFoodToOrder(args[0], args[1]);
+							printSuccess();
 						}),
 				new Command("endOrder",
 						" <orderName> <date>\n\tDESCRIPTION",
@@ -378,7 +375,20 @@ public class UserInterface {
 							Credential loggedUser = getLoggedUser();
 							Customer c = app.customerService.getUserById(loggedUser.getUserId());
 							
-							c.payOrder(args[0], Date.from(args[1]));
+							Order payedOrder = c.payOrder(args[0], Date.from(args[1]));
+							app.orderService.registerOrder(payedOrder);
+							printSuccess();
+						}),
+				new Command("showRestaurants",
+						" \n\tDESCRIPTION",
+						PermissionType.Customer,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							StringBuilder sb = app.restaurantService.getList().stream()
+								.map(Restaurant::display)
+								.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+							print(sb.toString(), Color.CYAN);
 						}),
 //				new Command("profile",
 //						"\n\tShow your profile",

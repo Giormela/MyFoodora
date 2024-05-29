@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import myFoodora.MyFoodora;
-import myFoodora.entities.Credential;
 import myFoodora.entities.user.*;
 import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.exceptions.UserRegistrationException;

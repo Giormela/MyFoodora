@@ -6,11 +6,9 @@ import myFoodora.entities.fidelityCard.BasicFidelityCard;
 import myFoodora.entities.fidelityCard.FidelityCard;
 import myFoodora.entities.food.Food;
 import myFoodora.exceptions.ElementNotFoundException;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Customer extends LocalizedUser {
 	private String surname;
@@ -27,6 +25,7 @@ public class Customer extends LocalizedUser {
 		this.consent = false;
 		this.orderHistory = new HashSet<Order>();
 		this.fidelityCard = new BasicFidelityCard();
+		this.cart = new HashMap<String, Order>();
 	}
 	public String getSurname() {
 		return surname;

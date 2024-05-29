@@ -30,6 +30,8 @@ abstract public class Food implements Display{
     
     @Override
     public String display() {
-    	return " "+name+" "+(isVegetarian()?"veg ":"\t")+(isGlutenFree()?"0gl ":"\t")+"\t\t"+getPrice()+"\n";
+    	String title = " "+name+" "+(isVegetarian()?"veg ":"")+(isGlutenFree()?"0gl ":"");
+    	String padding = " ".repeat(33 - title.length());
+    	return title+padding+getPrice()+"\n";
 	}
 }
