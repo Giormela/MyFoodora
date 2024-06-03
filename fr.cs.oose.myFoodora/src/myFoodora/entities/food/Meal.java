@@ -1,34 +1,21 @@
 package myFoodora.entities.food;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.MealType;
-import myFoodora.exceptions.MealCreationException;
-
 
 public class Meal extends Food {
-    //private MealCategory mealCategory; // Standard, Vegetarian, GlutenFree, VegetarianGlutenFree
-    private MealType mealType; // Half_Meal, Full_Meal
+    private MealType mealType; 
     private Collection<Dish> dishes;
-    private Boolean mealOfTheWeek;
-
-    public Meal(Collection<Dish> dishes, String name, Restaurant restaurant) throws MealCreationException {//throws Exception{
-        if (dishes.size() != 2 && dishes.size() != 3) {
-            throw new MealCreationException("A meal must have 2 or 3 dishes");
-        }
-        if (dishes.size() == 2) {
-            this.mealType = MealType.Half_Meal;
-        }
-        if (dishes.size() == 3) {
-            this.mealType = MealType.Full_Meal;
-        }
-        this.dishes = dishes;
-        this.restaurant = restaurant;
-        this.vegetarian = dishes.stream().allMatch(Dish::isVegetarian);
-        this.glutenFree = dishes.stream().allMatch(Dish::isGlutenFree);
-        this.mealOfTheWeek = false;
-        this.name = name;
+	private Boolean mealOfTheWeek;
+    
+    public Meal(Restaurant restaurant, String name) {
+    	this.restaurant = restaurant;
+    	this.name = name;
+    	this.dishes = new ArrayList<Dish>();
+    	this.mealOfTheWeek = false;
     }
 
     @Override
@@ -40,26 +27,31 @@ public class Meal extends Food {
         }
     }
 
+    public void addDish(Dish dish) {
+    	dishes.add(dish);
+    }
+    public void setMealType(MealType mealType) {
+		this.mealType = mealType;
+	}
     public MealType getMealType() {
         return mealType;
     }
-
     public Boolean isMealOfTheWeek() {
         return mealOfTheWeek;
     }
-
     public void setMealOfTheWeek(Boolean mealOfTheWeek) {
         this.mealOfTheWeek = mealOfTheWeek;
     }
-
-    public String getName() {
-        return name;
-    }
+    public Collection<Dish> getDishes() {
+		return dishes;
+	}
     
     @Override
 	public String display() {
-    	StringBuilder sb = new StringBuilder(super.display());
-    	dishes.stream().forEach(d->sb.append(" \t"+d.getName()));
+    	StringBuilder sb = new StringBuilder(" "+name+"\n");
+    	dishes.stream().forEach(d->sb.append("    "+d.getName()+" ".repeat(29-d.getName().length())+d.getPrice()+"\n"));
+    	sb.append(" ".repeat(29)+"- "+(isMealOfTheWeek()?restaurant.getSpecialDiscountFactor():restaurant.getGenericDiscountFactor())+" %\n");
+    	sb.append(" ".repeat(31)+getPrice()+"\n");
 		return sb.toString();
 	}
 }

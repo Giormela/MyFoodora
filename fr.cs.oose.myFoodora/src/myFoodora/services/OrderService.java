@@ -1,11 +1,14 @@
 package myFoodora.services;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import myFoodora.MyFoodora;
 import myFoodora.entities.Date;
 import myFoodora.entities.Order;
+import myFoodora.enums.OrderState;
 
 public class OrderService {
 	private Double serviceFee;
@@ -20,6 +23,10 @@ public class OrderService {
 		this.markupPercentage = 5.0;
 		this.deliveryCost = 1.0;
 		this.orders = new HashSet<Order>();
+	}
+	
+	public Collection<Order> getPendingOrders() {
+		return orders.stream().filter(o->o.getState().equals(OrderState.Pending)).toList();
 	}
 
 	/**

@@ -7,6 +7,7 @@ import myFoodora.entities.Order;
 import myFoodora.entities.food.Dish;
 import myFoodora.entities.food.Food;
 import myFoodora.entities.food.Meal;
+import myFoodora.entities.food.MealBuilder;
 import myFoodora.enums.MealType;
 import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.exceptions.MealCreationException;
@@ -17,6 +18,7 @@ public class Restaurant extends LocalizedUser {
     //private Map<Customer, FidelityCard> fidelityCards;
     private Map<String, Dish> menu;
     private Map<String, Meal> meals;
+    private Map<String, MealBuilder> unreadyMeals;
     
     
     
@@ -29,6 +31,7 @@ public class Restaurant extends LocalizedUser {
         //this.fidelityCards = new HashMap<Customer, FidelityCard>();
         this.menu = new HashMap<String, Dish>();
         this.meals = new HashMap<String, Meal>();
+        this.unreadyMeals = new HashMap<String, MealBuilder>();
     }
 
     public Collection<Meal> getSortedMeals() {
@@ -67,10 +70,41 @@ public class Restaurant extends LocalizedUser {
     	}
     	throw new ElementNotFoundException("The restaurant "+getName()+" doesn't contain any item called "+foodName);
     }
+    
+    public void createMeal(String mealName) throws MealCreationException {
+    	if (unreadyMeals.containsKey(mealName))
+    		throw new MealCreationException("The restaurant "+getName()+" was already creating the meal "+mealName);
+    	unreadyMeals.put(mealName, new MealBuilder(this, mealName));
+    }
+    
+    public void addDishToMeal(String mealName, String dishName) throws ElementNotFoundException, MealCreationException {
+    	if (!(menu.containsKey(dishName) && unreadyMeals.containsKey(mealName))) 
+    		throw new ElementNotFoundException("The restaurant "+getName()+" didn't find the meal "+mealName+" or the dish "+dishName);
+    	
+    	unreadyMeals.get(mealName).addDish(menu.get(dishName));
+    }
 
-    public void addMeal(Collection<Dish> dishes, String name) throws MealCreationException {
-        Meal newMeal = new Meal(dishes, name, this);
+    public void saveMeal(String mealName) throws ElementNotFoundException, MealCreationException {
+    	if (!unreadyMeals.containsKey(mealName))
+    		throw new ElementNotFoundException("The restaurant "+getName()+" doesn't contain any meal called "+mealName);
+    	
+    	
+    	Meal newMeal = unreadyMeals.get(mealName).build();
         meals.put(newMeal.getName(), newMeal);
+        unreadyMeals.remove(mealName);
+    }
+    
+    public String displayMeal(String mealName) throws ElementNotFoundException {
+    	if (!(unreadyMeals.containsKey(mealName) || meals.containsKey(mealName)))
+    		throw new ElementNotFoundException("The restaurant "+getName()+" doesn't contain any meal called "+mealName);
+    	
+    	return Stream.concat(
+    			meals.entrySet().stream(),
+    			unreadyMeals.entrySet().stream()
+    			)
+    		.filter(e->e.getKey().equals(mealName))
+    		.map(e->e.getValue().display())
+    		.findFirst().get();
     }
 
     public void setMealOfTheWeek(String mealName) {
@@ -83,8 +117,6 @@ public class Restaurant extends LocalizedUser {
     		meals.get(mealName).setMealOfTheWeek(false);
     }
 
-   
-
     public void removeMeal(String mealName) {
         meals.remove(mealName);
     }
@@ -92,14 +124,6 @@ public class Restaurant extends LocalizedUser {
     public Double getProfit() {
         return orderHistory.stream().mapToDouble(Order::getProfit).sum();
     }
-
-//    public void addFidelityCard(FidelityCard fidelityCard) {
-//        this.fidelityCards.putIfAbsent(fidelityCard.getCustomer(), fidelityCard);
-//    }
-
-//    public void removeFidelityCard(Customer customer) {
-//        this.fidelityCards.remove(customer);
-//    }
 
     public Double getGenericDiscountFactor() {
         return genericDiscountFactor;
@@ -133,25 +157,4 @@ public class Restaurant extends LocalizedUser {
         sb.append("=====================================\n");
         return sb.toString();
 	}
-
-
-//    public static void main(String[] args) throws MealCreationException {
-//        Dish dish1 = new Dish("dish1", 10.0, DishType.Starter, true, false);
-//        Dish dish2 = new Dish("dish2", 20.0, DishType.MainDish, false, true);
-//        Dish dish3 = new Dish("dish3", 30.0, DishType.Dessert, true, true);
-//        Restaurant restaurant = new Restaurant();
-//        restaurant.addMeal(List.of(dish1, dish2), "meal1");
-//        restaurant.addMeal(List.of(dish1, dish2, dish3), "meal2");
-//        //print all meals of this restaurant
-//        restaurant.getMeals().values().stream().forEach(meal -> System.out.println(meal.getName()));
-//        // make meal 2 the meal of the week
-//        restaurant.changeMealOfTheWeek("meal2");
-//        // print the name of the meal of the week
-//        System.out.println("The meal of the week is: ");
-//        System.out.println(restaurant.getMealOfTheWeek());
-//
-//        //get price of both meals
-//        System.out.println("Price of meal1: " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal1")).findFirst().get().hashCode()).getPrice());
-//        System.out.println("Price of meal2: (meal of the week) " + restaurant.getMeals().get(restaurant.getMeals().values().stream().filter(m -> m.getName().equals("meal2")).findFirst().get().hashCode()).getPrice());
-//    }
 }

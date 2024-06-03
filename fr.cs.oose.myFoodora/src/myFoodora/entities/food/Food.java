@@ -2,35 +2,31 @@ package myFoodora.entities.food;
 
 import myFoodora.clui.Display;
 import myFoodora.entities.user.Restaurant;
+import myFoodora.enums.FoodCategory;
 
 abstract public class Food implements Display{
 	protected Restaurant restaurant;
-	protected Boolean glutenFree;
-	protected Boolean vegetarian;
-	//protected Double price;
+	protected FoodCategory foodCategory;
 	protected String name;
 	
 	public abstract Double getPrice();
 	
-	public boolean isVegetarian() {
-        return this.vegetarian;
+	
+	public FoodCategory getFoodCategory() {
+		return foodCategory;
+	}
+	public void setFoodCategory(FoodCategory foodCategory) {
+		this.foodCategory = foodCategory;
+	}
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+    public String getName() {
+        return name;
     }
-
-    public void setVegetarian(boolean vegetarian) {
-        this.vegetarian = vegetarian;
-    }
-
-    public boolean isGlutenFree() {
-        return glutenFree;
-    }
-
-    public void setGlutenFree(boolean glutenFree) {
-        this.glutenFree = glutenFree;
-    }
-    
     @Override
     public String display() {
-    	String title = " "+name+" "+(isVegetarian()?"veg ":"")+(isGlutenFree()?"0gl ":"");
+    	String title = " "+name;
     	String padding = " ".repeat(33 - title.length());
     	return title+padding+getPrice()+"\n";
 	}

@@ -1,25 +1,34 @@
 package myFoodora.entities.user;
 
+import java.util.Optional;
+
+import myFoodora.entities.Notification;
+import myFoodora.entities.Order;
 import myFoodora.enums.CourierState;
 
 public class Courier extends LocalizedUser {
 	private String surname;
 	private String phone;
 	private CourierState state;
+	private Optional<Order> assignedOrder;
 	
 	public Courier() {
 		super();
 		this.state = CourierState.OffDuty;
+		this.assignedOrder = Optional.empty();
 	}
 	
+	public void asssignOrder(Order order) {
+		assignedOrder = Optional.of(order);
+		addNotificationTo(new Notification("You have been assigned to a new order!"));;
+		setState(CourierState.OffDuty);
+	}
 	public void setState(CourierState state) {
 		this.state = state;
 	}
-
 	public Integer getOrderCount() {
 		return orderHistory.size();
 	}
-
 	public CourierState getState() {
 		return state;
 	}

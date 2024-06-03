@@ -3,7 +3,6 @@ package myFoodora.services;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import myFoodora.MyFoodora;
 import myFoodora.entities.user.*;
@@ -52,7 +51,7 @@ abstract class UserService <U extends User> {
 			MyFoodora.getInstance().credentialService.removeCredential(removedUser.getCredential().getUsername());
 	}
 	
-	public Optional<U> tryLogin(String username, String password) {
-		return MyFoodora.getInstance().credentialService.tryLogin(username, password).map(id->users.get(id));
-	}
+//	public Optional<U> tryLogin(String username, String password) {
+//		return MyFoodora.getInstance().credentialService.tryLogin(username, password).map(id->users.get(id));
+//	}
 }

@@ -34,4 +34,4 @@ Operation successfully completed
 Operation successfully completed
 Operation successfully completed
 Login was successful - Permissions of Manager granted
-The total profit is 84.0
+The total profit is 70.0

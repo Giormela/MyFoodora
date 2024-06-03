@@ -20,7 +20,10 @@ import myFoodora.entities.food.Dish;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
+import myFoodora.entities.user.User;
+import myFoodora.enums.CourierState;
 import myFoodora.enums.DishType;
+import myFoodora.enums.FoodCategory;
 import myFoodora.enums.PermissionType;
 import myFoodora.exceptions.CommandException;
 import myFoodora.services.UserBuilder;
@@ -61,28 +64,24 @@ public class UserInterface {
 		}
 	}
 	
-	protected Credential getLoggedUser() throws CommandException{
+	protected User getLoggedUser() throws CommandException{
 		MyFoodora app = MyFoodora.getInstance();
-		return app.getLoggedUser().orElseThrow(()->new CommandException("A problem has arisen with your account permissions"));
+		return app.getLoggedUser().orElseThrow(()->new CommandException("A problem has arisen with your account permissions")).getUser();
 	}
-	
 	protected void printError(String message) {
 		print(message, Color.RED);
 	}
-	
 	protected void printSuccess(String message) {
 		print(message, Color.GREEN);
 	}
-	
 	protected void printSuccess() {
 		print("Operation successfully completed", Color.GREEN);
 	}
-	
 	protected void print(String text, Color color) {
 		print(Color.colorText(text, color));
 	}
-	
 	protected void print(String text) {
+		if (text.isEmpty()) return;
 		try {
 			output.write(text);
 			output.newLine();
@@ -90,7 +89,6 @@ public class UserInterface {
 			e.printStackTrace();
 		}
 	}
-	
 	private void printWelcome() {
 		String welcome = "**********************************************\n"
                 + "*                                            *\n"
@@ -257,9 +255,15 @@ public class UserInterface {
 							Optional<Credential> credential = app.credentialService.tryLogin(args[0], args[1]);
 							if (credential.isEmpty()) 
 								print("Login failed", Color.YELLOW);
-							else 
-								printSuccess("Login was successful - Permissions of "+credential.get().getPermission()+" granted");							
-							app.login(credential);
+							else {
+								app.login(credential);
+								printSuccess("Login was successful - Permissions of "+credential.get().getPermission()+" granted");	
+								String notificationMessage = getLoggedUser().getNotifications().stream()
+										.map(Display::display)
+										.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+										.toString();
+								print(notificationMessage, Color.PURPLE);
+							}
 						}),
 				new Command("registerRestaurant", 
 						"<name> <address> <username> <password> \n\tRegister a new restaurant in the system", 
@@ -307,10 +311,8 @@ public class UserInterface {
 						PermissionType.Restaurant, 
 						4, 
 						(args)->{
-							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Restaurant r = app.restaurantService.getUserById(loggedUser.getUserId());
-							Dish d = new Dish(args[0], Double.valueOf(args[3]), DishType.fromString(args[1]));
+							Restaurant r = (Restaurant)getLoggedUser();
+							Dish d = new Dish(r, args[0], DishType.fromString(args[1]), FoodCategory.fromString(args[2]), Double.valueOf(args[3]));
 							
 							r.addDish(d);
 							printSuccess();
@@ -321,9 +323,7 @@ public class UserInterface {
 						PermissionType.Restaurant,
 						1,
 						(args)->{
-							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Restaurant r = app.restaurantService.getUserById(loggedUser.getUserId());
+							Restaurant r = (Restaurant)getLoggedUser();
 							
 							r.setMealOfTheWeek(args[0]);
 							printSuccess();
@@ -333,9 +333,7 @@ public class UserInterface {
 						PermissionType.Restaurant,
 						1,
 						(args)->{
-							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Restaurant r = app.restaurantService.getUserById(loggedUser.getUserId());
+							Restaurant r = (Restaurant)getLoggedUser();
 							
 							r.setNotMealOfTheWeek(args[0]);
 							printSuccess();
@@ -346,8 +344,7 @@ public class UserInterface {
 						2,
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Customer c = app.customerService.getUserById(loggedUser.getUserId());
+							Customer c = (Customer)getLoggedUser();
 							Restaurant r = app.restaurantService.getUserByName(args[0]);
 							Order newOrder = new Order(c, r, args[1]);
 							
@@ -359,9 +356,7 @@ public class UserInterface {
 						PermissionType.Customer,
 						2,
 						(args)->{
-							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Customer c = app.customerService.getUserById(loggedUser.getUserId());
+							Customer c = (Customer)getLoggedUser();
 							
 							c.addFoodToOrder(args[0], args[1]);
 							printSuccess();
@@ -372,8 +367,7 @@ public class UserInterface {
 						2,
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();
-							Credential loggedUser = getLoggedUser();
-							Customer c = app.customerService.getUserById(loggedUser.getUserId());
+							Customer c = (Customer)getLoggedUser();
 							
 							Order payedOrder = c.payOrder(args[0], Date.from(args[1]));
 							app.orderService.registerOrder(payedOrder);
@@ -410,13 +404,85 @@ public class UserInterface {
 							Double profit = app.orderService.getTotalProfit(from, to);
 							print("The profit between "+from.toString()+" and "+to.toString()+" is equal to "+profit.toString(), Color.CYAN);
 						}),
-//				new Command("profile",
-//						"\n\tShow your profile",
-//						0,
-//						(args)->{
-//							MyFoodora app = MyFoodora.getInstance();
-//							print(app.getLoggedUser().get().display(), Color.CYAN);
-//						}),
+				new Command("createMeal",
+						" <mealName>\n\tDESCRIPTION",
+						PermissionType.Restaurant,
+						1,
+						(args)->{
+							Restaurant r = (Restaurant)getLoggedUser();
+							
+							r.createMeal(args[0]);
+							printSuccess();
+						}),
+				new Command("addDish2Meal",
+						" <dishName> <mealName>\n\tDESCRIPTION",
+						PermissionType.Restaurant,
+						2,
+						(args)->{
+							Restaurant r = (Restaurant)getLoggedUser();
+							
+							r.addDishToMeal(args[1], args[0]);
+							printSuccess();
+						}),
+				new Command("showMeal",
+						" <mealName>\n\tDESCRIPTION",
+						PermissionType.Restaurant,
+						1,
+						(args)->{
+							Restaurant r = (Restaurant)getLoggedUser();
+							
+							print(r.displayMeal(args[0]), Color.CYAN);
+						}),
+				new Command("saveMeal",
+						" <mealName>\n\tDESCRIPTION",
+						PermissionType.Restaurant,
+						1,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Restaurant r = (Restaurant)getLoggedUser();
+							
+							r.saveMeal(args[0]);
+							Notification notification = new Notification(r.getName()+" has published the new meal "+args[0]);
+							app.customerService.sendNotifications(notification);
+							printSuccess();
+						}),
+				new Command("onDuty",
+						" \n\tDESCRIPTION",
+						PermissionType.Courier,
+						0,
+						(args)->{
+							Courier c = (Courier)getLoggedUser();
+							
+							c.setState(CourierState.OnDuty);
+							printSuccess();
+						}),
+				new Command("offDuty",
+						" \n\tDESCRIPTION",
+						PermissionType.Courier,
+						0,
+						(args)->{
+							Courier c = (Courier)getLoggedUser();
+							
+							c.setState(CourierState.OffDuty);
+							printSuccess();
+						}),
+				new Command("findDeliverer",
+						" \n\tDESCRIPTION",
+						PermissionType.Manager,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();							
+							for (Order pendingOrder : app.orderService.getPendingOrders()) {
+								app.courierService.assigneOrderToBestCourier(pendingOrder);
+							}
+							printSuccess();
+						}),
+				new Command("profile",
+						" \n\tShow your profile",
+						0,
+						(args)->{
+							print(getLoggedUser().display(), Color.CYAN);
+						}),
 		}).collect(Collectors.toMap(c->c.name, c->c));
 	}
 }

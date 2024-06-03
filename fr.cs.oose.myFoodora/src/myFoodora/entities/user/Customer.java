@@ -16,13 +16,12 @@ public class Customer extends LocalizedUser {
 	private String phone;
 	private Boolean consent;
 	private FidelityCard fidelityCard;
-	//private Map<Restaurant, FidelityCard> fidelityCards;
 	private Map<String, Order> cart;
 	
 	
 	public Customer() {
 		super();
-		this.consent = false;
+		this.consent = true;
 		this.orderHistory = new HashSet<Order>();
 		this.fidelityCard = new BasicFidelityCard();
 		this.cart = new HashMap<String, Order>();
@@ -51,24 +50,6 @@ public class Customer extends LocalizedUser {
 	public void setConsent(Boolean consensus) {
 		this.consent = consensus;
 	}
-//	public Double applyFidelityCard(Restaurant restaurant, Double fullPrice) {
-//		if(fidelityCards.containsKey(restaurant)) {
-//			return fidelityCards.get(restaurant).applyDiscount(fullPrice);
-//		}
-//		return fullPrice;
-//	}
-//	public void addFidelityCard(Restaurant restaurant, FidelityCard fidelityCard) {
-//		this.fidelityCards.putIfAbsent(restaurant, fidelityCard);
-//	}
-//	public void removeFidelityCard(Restaurant restaurant) {
-//		this.fidelityCards.remove(restaurant);
-//	}
-//	public Set<Restaurant> getRestaurantsWithFidelityCards() {
-//		return this.fidelityCards.keySet();
-//	}
-//	public FidelityCard getFidelityCardForRestaurant(Restaurant restaurant) {
-//		return this.fidelityCards.get(restaurant);
-//	}
 	public void prepareNewOrder(Order newOrder) {
 		cart.put(newOrder.getName(), newOrder);
 	}

@@ -1,15 +1,17 @@
 package myFoodora.enums;
 
-import java.util.NoSuchElementException;
 import java.util.stream.Stream;
+
+import myFoodora.exceptions.ElementNotFoundException;
 
 public enum DishType {
     Starter, MainDish, Dessert;
     
-    public static DishType fromString(String string) throws NoSuchElementException {
+    public static DishType fromString(String string) throws ElementNotFoundException {
     	return Stream.of(DishType.values())
-    			.filter(dt->dt.toString().equals(string))
+    			.filter(dt->dt.toString().toLowerCase().equals(string.toLowerCase()))
     			.findAny()
-    			.orElseThrow();  
+    			.orElseThrow(()->new ElementNotFoundException("DishType not found"));
+    			 
     }
 }

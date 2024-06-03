@@ -77,7 +77,7 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Manager> addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, this.user.getId(), PermissionType.Manager);
+			Credential credential = new Credential(username, password, this.user, PermissionType.Manager);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -110,7 +110,7 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Customer> addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, this.user.getId(), PermissionType.Customer);
+			Credential credential = new Credential(username, password, this.user, PermissionType.Customer);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -153,7 +153,7 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Restaurant> addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, this.user.getId(), PermissionType.Restaurant);
+			Credential credential = new Credential(username, password, this.user, PermissionType.Restaurant);
 			this.user.setCredential(credential);
 			return this;
 		}
@@ -186,7 +186,7 @@ public abstract class UserBuilder<U extends User> {
 		}
 		@Override
 		public UserBuilder<Courier> addCredential(String username, String password) {
-			Credential credential = new Credential(username, password, this.user.getId(), PermissionType.Courier);
+			Credential credential = new Credential(username, password, this.user, PermissionType.Courier);
 			this.user.setCredential(credential);
 			return this;
 		}

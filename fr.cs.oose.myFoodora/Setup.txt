@@ -7,5 +7,10 @@ login aug 123
 addDishRestaurantMenu PizzaMargherita MainDish Vegeterian 7.00
 addDishRestaurantMenu Pizza4Stagioni MainDish Standard 9.00
 addDishRestaurantMenu PizzaSalsicciaFriarielli MainDish Standard 8.50
+addDishRestaurantMenu Tiramisù Dessert Vegeterian 4.00
+createMeal Margherita+Tiramisù
+addDish2Meal PizzaMargherita Margherita+Tiramisù
+addDish2Meal Tiramisù Margherita+Tiramisù
+saveMeal Margherita+Tiramisù
 logout
-login ceo 123456789
+login gio 123

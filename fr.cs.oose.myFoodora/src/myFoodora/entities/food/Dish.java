@@ -1,33 +1,19 @@
 package myFoodora.entities.food;
 
+import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.DishType;
+import myFoodora.enums.FoodCategory;
 
 public class Dish extends Food{
-    private DishType category;
+    private DishType dishType;
     private Double price;
 
-
-    public Dish(String name, double price, DishType category, boolean vegetarian, boolean glutenFree) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.vegetarian = vegetarian;
-        this.glutenFree = glutenFree;
-    }
-    public Dish(String name, double price, DishType category) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.vegetarian = false;
-        this.glutenFree = false;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Dish(Restaurant restaurant, String name, DishType dishType, FoodCategory foodCategory, Double price) {
+    	this.restaurant = restaurant;
+    	this.name = name;
+    	this.dishType = dishType;
+    	this.foodCategory = foodCategory;
+    	this.price = price;
     }
 
     @Override
@@ -35,15 +21,11 @@ public class Dish extends Food{
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public DishType getDishType() {
+        return dishType;
     }
 
-    public DishType getCategory() {
-        return category;
-    }
-
-    public void setCategory(DishType category) {
-        this.category = category;
+    public void setDishType(DishType dishType) {
+        this.dishType = dishType;
     }
 }

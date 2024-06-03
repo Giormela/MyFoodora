@@ -5,7 +5,6 @@ import java.util.Optional;
 import myFoodora.clui.UserInterface;
 import myFoodora.entities.Credential;
 import myFoodora.entities.user.Manager;
-import myFoodora.entities.user.User;
 import myFoodora.exceptions.UserRegistrationException;
 import myFoodora.services.*;
 
@@ -24,7 +23,6 @@ public class MyFoodora {
 	public static MyFoodora getInstance() {
 		if (instance == null) {
 			instance = new MyFoodora();
-			instance.setup();
 		}	
 		return instance;
 	}
@@ -52,6 +50,7 @@ public class MyFoodora {
 	}
 	
 	public void run() {
+		setup();
 		UserInterface userInterface = UserInterface.createConsoleInterface();
 		userInterface.renderLoop();
 	}

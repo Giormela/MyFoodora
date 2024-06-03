@@ -3,10 +3,8 @@ package myFoodora.services;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
-
 import myFoodora.entities.Order;
 import myFoodora.entities.user.Courier;
-import myFoodora.entities.user.LocalizedUser;
 import myFoodora.enums.DeliveryPolicyType;
 
 public class CourierService extends UserService<Courier> {
@@ -17,12 +15,15 @@ public class CourierService extends UserService<Courier> {
 		selectDeliveryPolicy(DeliveryPolicyType.Fair);
 	}
 
-	public Optional<Courier> assigneCourier(Order orderToAssign) {
-		return getList().stream()
-			.filter(LocalizedUser::isActive)
-			.filter(Courier::isOffDuty)
-			.sorted(deliveryPolicy.apply(orderToAssign))
-			.findFirst();
+	public void assigneOrderToBestCourier(Order orderToAssign) {
+		Optional<Courier> bestCourier = getList().stream()
+				.filter(Courier::isActive)
+				.filter(Courier::isOffDuty)
+				.sorted(deliveryPolicy.apply(orderToAssign))
+				.findFirst();
+		if (bestCourier.isPresent()) {
+			bestCourier.get().asssignOrder(orderToAssign);
+		}
 	}
 
 	/**
