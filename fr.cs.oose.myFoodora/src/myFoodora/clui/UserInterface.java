@@ -490,7 +490,7 @@ public class UserInterface {
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();							
 							for (Order pendingOrder : app.orderService.getPendingOrders()) {
-								app.courierService.assigneOrderToBestCourier(pendingOrder);
+								app.courierService.assignOrderToBestCourier(pendingOrder);
 							}
 							printSuccess();
 						}),
@@ -531,17 +531,7 @@ public class UserInterface {
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();
 							DeliveryPolicyType deliveryPolicy = Command.enumFromString(DeliveryPolicyType.values(), args[0]);
-							app.courierService.setDeliveryPolicy(deliveryPolicy);
-							printSuccess();
-						}),
-				new Command("setDeliveryPolicy",
-						"<delPolicyName> \n\tdescription",
-						PermissionType.Manager,
-						1,
-						(args)->{
-							MyFoodora app = MyFoodora.getInstance();
-							DeliveryPolicyType deliveryPolicy = Command.enumFromString(DeliveryPolicyType.values(), args[0]);
-							app.courierService.setDeliveryPolicy(deliveryPolicy);
+							app.courierService.selectDeliveryPolicy(deliveryPolicy);
 							printSuccess();
 						}),
 		}).collect(Collectors.toMap(c->c.name, c->c));

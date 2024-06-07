@@ -4,6 +4,11 @@ import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.DishType;
 import myFoodora.enums.FoodCategory;
 
+/**
+ * Dish class. A dish is a food that can be ordered in a restaurant. It has a price and a type (starter, main course or dessert).
+ * It extends the Food class.
+ * @see Food
+ */
 public class Dish extends Food{
     private DishType dishType;
     private Double price;

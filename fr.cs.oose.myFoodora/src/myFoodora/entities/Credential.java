@@ -3,6 +3,12 @@ package myFoodora.entities;
 import myFoodora.entities.user.User;
 import myFoodora.enums.PermissionType;
 
+/**
+ *
+ * The class Credential represents the credentials of a user.
+ * It contains the username, the password, the user, and the permission of the user.
+ *
+ */
 public class Credential {
 	private String username;
 	private String password;

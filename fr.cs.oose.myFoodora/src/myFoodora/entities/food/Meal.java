@@ -6,6 +6,16 @@ import java.util.Collection;
 import myFoodora.entities.user.Restaurant;
 import myFoodora.enums.MealType;
 
+/**
+ * The class Meal represents a meal in the system. A meal is a set of dishes
+ * that can be ordered together. A meal can be of a specific type (starter,
+ * main, dessert) and can be the meal of the week.
+ *
+ * @see Food
+ * @see Dish
+ * @see MealType
+ * @see Restaurant
+ */
 public class Meal extends Food {
     private MealType mealType; 
     private Collection<Dish> dishes;

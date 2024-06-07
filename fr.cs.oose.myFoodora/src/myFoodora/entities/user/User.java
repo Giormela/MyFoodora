@@ -7,7 +7,12 @@ import myFoodora.clui.Display;
 import myFoodora.entities.Credential;
 import myFoodora.entities.Notification;
 
+/**User is an abstract class that represents a user of the system. It is extended by the classes Customer and Courier.
+ * A user has an id, a name, a credential, and a collection of notifications.
+ * A user can add a notification to its collection of notifications, get its credential, set its credential, get its name, set its name, get its id, get its notifications, and display itself.
+ */
 public abstract class User implements Display, Notifiable{
+
 	private static Integer count = 0;
 	
 	protected Integer id;

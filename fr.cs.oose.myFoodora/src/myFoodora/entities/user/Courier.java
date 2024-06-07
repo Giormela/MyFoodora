@@ -2,25 +2,36 @@ package myFoodora.entities.user;
 
 import java.util.Optional;
 
-import myFoodora.entities.Notification;
 import myFoodora.entities.Order;
 import myFoodora.enums.CourierState;
+
 
 public class Courier extends LocalizedUser {
 	private String surname;
 	private String phone;
 	private CourierState state;
 	private Optional<Order> assignedOrder;
-	
+
+	/**
+	 * Default constructor initializing the courier with default state as OffDuty
+	 * and no assigned orders.
+	 */
 	public Courier() {
 		super();
 		this.state = CourierState.OffDuty;
 		this.assignedOrder = Optional.empty();
 	}
-	
-	public void asssignOrder(Order order) {
+
+	/**
+	 * Assigns an order to this courier and updates the courier's state and notifications.
+	 * @param order The order to be assigned to the courier.
+	 */
+	public void assignOrder(Order order) {
 		assignedOrder = Optional.of(order);
-		setState(CourierState.OffDuty);
+		this.state = CourierState.OnDuty;
+	}
+	public Optional<Order> getAssignedOrder() {
+		return assignedOrder;
 	}
 	public void setState(CourierState state) {
 		this.state = state;
@@ -57,5 +68,4 @@ public class Courier extends LocalizedUser {
         sb.append("=====================================\n");
         return sb.toString();
 	}
-	
 }

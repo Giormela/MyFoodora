@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import myFoodora.entities.user.Restaurant;
 
+
 public class RestaurantService extends UserService<Restaurant> {
 	
 	

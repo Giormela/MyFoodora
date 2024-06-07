@@ -6,6 +6,9 @@ import java.util.Set;
 import myFoodora.entities.Location;
 import myFoodora.entities.Order;
 
+/**
+ * Represents a user with a location
+ */
 public abstract class LocalizedUser extends User {
 	protected Location location;
 	protected Set<Order> orderHistory;
@@ -18,6 +21,7 @@ public abstract class LocalizedUser extends User {
 	public void addOrderToHistory(Order order) {
 		orderHistory.add(order);
 	}
+
 	public Location getLocation() {
 		return location;
 	}
