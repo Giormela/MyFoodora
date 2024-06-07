@@ -32,12 +32,10 @@ public class OrderService {
 	/**
 	 * Registers a new order.
 	 *
-	 * This method creates a new Order object with the provided customer, restaurant, and collection of buyable items (food). It also calculates the profit for the order.
+	 * This method sets the profit for the order, adds the order to the customer's order history and the restaurant's order history, and adds the order to the list of orders.
 	 *
-	 * @param customer the customer who placed the order
-	 * @param restaurant the restaurant that will fulfill the order
-	 * @param food a collection of buyable items constituting the order
-	 * @throws NullPointerException if any of the arguments are null
+	 * @param newOrder the order to register
+	 * @throws NullPointerException if the order argument is null
 	 */
 	public void registerOrder(Order newOrder) {
 		setProfitToOrder(newOrder);

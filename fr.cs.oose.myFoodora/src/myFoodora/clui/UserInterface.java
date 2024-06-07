@@ -473,7 +473,7 @@ public class UserInterface {
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();							
 							for (Order pendingOrder : app.orderService.getPendingOrders()) {
-								app.courierService.assigneOrderToBestCourier(pendingOrder);
+								app.courierService.assignOrderToBestCourier(pendingOrder);
 							}
 							printSuccess();
 						}),

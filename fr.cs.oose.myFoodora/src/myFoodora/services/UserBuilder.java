@@ -5,9 +5,21 @@ import myFoodora.entities.Location;
 import myFoodora.entities.user.*;
 import myFoodora.enums.PermissionType;
 
+/**
+ * UserBuilder is an abstract class that provides a blueprint for building User objects.
+ * It is used to create User objects with a fluent interface.
+ *
+ * @param <U> the type of User to build
+ */
 public abstract class UserBuilder<U extends User> {	
 	protected U user;
-	
+
+	/**
+	 * Returns a UserBuilder instance for the specified user type.
+	 *
+	 * @param userType the type of user to build
+	 * @return a UserBuilder instance for the specified user type
+	 */
 	public static <T extends User> UserBuilder<T> buildUserOfType(Class<T> userType) {
 		if (Manager.class.isAssignableFrom(userType))
 			return (UserBuilder<T>) UserBuilder.ManagerBuilder.getInstance();
@@ -61,7 +73,11 @@ public abstract class UserBuilder<U extends User> {
 	public U getResult() {
 		return this.user;
 	}
-	
+
+	/**
+	 * ManagerBuilder is a concrete subclass of UserBuilder that provides a blueprint for building Manager objects.
+	 * It is used to create Manager objects with a fluent interface.
+	 */
 	static class ManagerBuilder extends UserBuilder<Manager>{
 		private static ManagerBuilder managerBuilder;
 		
@@ -87,14 +103,24 @@ public abstract class UserBuilder<U extends User> {
 			return this;
 		}
 	}
-	
+
+	/**
+	 * LocalizedUserBuilder is an abstract subclass of UserBuilder that provides a blueprint for building LocalizedUser objects.
+	 * It is used to create LocalizedUser objects with a fluent interface.
+	 *
+	 * @param <L> the type of LocalizedUser to build
+	 */
 	public abstract static class LocalizedUserBuilder<L extends LocalizedUser> extends UserBuilder<L>{
 		public UserBuilder<L> addLocation(Location location) {
 			this.user.setLocation(location);
 			return this;
 		}
 	}
-	
+
+	/**
+	 * CustomerBuilder is a concrete subclass of LocalizedUserBuilder that provides a blueprint for building Customer objects.
+	 * It is used to create Customer objects with a fluent interface.
+	 */
 	public static class CustomerBuilder extends LocalizedUserBuilder<Customer> {
 		private static CustomerBuilder customerBuilder;
 
@@ -137,7 +163,10 @@ public abstract class UserBuilder<U extends User> {
 	}
 	
 	
-	
+	/**
+	 * RestaurantBuilder is a concrete subclass of LocalizedUserBuilder that provides a blueprint for building Restaurant objects.
+	 * It is used to create Restaurant objects with a fluent interface.
+	 */
 	public static class RestaurantBuilder extends LocalizedUserBuilder<Restaurant> {
 		private static RestaurantBuilder restaurantBuilder;
 		
@@ -170,7 +199,10 @@ public abstract class UserBuilder<U extends User> {
 	}
 		
 
-	
+	/**
+	 * CourierBuilder is a concrete subclass of LocalizedUserBuilder that provides a blueprint for building Courier objects.
+	 * It is used to create Courier objects with a fluent interface.
+	 */
 	public static class CourierBuilder extends LocalizedUserBuilder<Courier> {
 		private static CourierBuilder courierBuilder;
 		

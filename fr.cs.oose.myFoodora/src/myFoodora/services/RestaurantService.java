@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import myFoodora.entities.user.Restaurant;
 
+
 public class RestaurantService extends UserService<Restaurant> {
 	public Optional<Restaurant> getBestRestaurant() {
 		return getList().stream()

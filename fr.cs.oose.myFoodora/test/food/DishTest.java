@@ -1,4 +1,4 @@
-package tests.food;
+
 
 import myFoodora.entities.Location;
 import myFoodora.entities.food.Dish;
