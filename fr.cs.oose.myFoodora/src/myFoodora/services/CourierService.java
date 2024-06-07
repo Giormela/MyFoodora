@@ -22,7 +22,7 @@ public class CourierService extends UserService<Courier> {
 				.sorted(deliveryPolicy.apply(orderToAssign))
 				.findFirst();
 		if (bestCourier.isPresent()) {
-			bestCourier.get().asssignOrder(orderToAssign);
+			bestCourier.get().assignOrder(orderToAssign);
 		}
 	}
 

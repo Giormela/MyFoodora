@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * Represents a customer in the system. A customer is a user that can order food
+ * from restaurants.
+ */
 public class Customer extends LocalizedUser {
 	private String surname;
 	private String email;
@@ -50,9 +54,24 @@ public class Customer extends LocalizedUser {
 	public void setConsent(Boolean consensus) {
 		this.consent = consensus;
 	}
+
+	/**
+	 * prepares a new order
+	 * @param newOrder the order to prepare
+	 */
 	public void prepareNewOrder(Order newOrder) {
 		cart.put(newOrder.getName(), newOrder);
 	}
+	public Map<String, Order> getCart() {
+		return cart;
+	}
+
+	/**
+	 * Adds a food to an order in the cart.
+	 * @param orderName the name of the order to add the food to
+	 * @param foodName the name of the food to add
+	 * @throws ElementNotFoundException if the order does not exist in the cart
+	 */
 	public void addFoodToOrder(String orderName, String foodName) throws ElementNotFoundException{
 		if (!cart.containsKey(orderName)) {
 			throw new ElementNotFoundException("There is no order named "+orderName+" in your cart");
@@ -61,6 +80,14 @@ public class Customer extends LocalizedUser {
 		Food food = order.getRestaurant().getFood(foodName);
 		order.addFood(food);
 	}
+
+	/**
+	 * Pays for an order in the cart.
+	 * @param orderName the name of the order to pay
+	 * @param date the date of the payment
+	 * @return the paid order
+	 * @throws ElementNotFoundException if the order does not exist in the cart
+	 */
 	public Order payOrder(String orderName, Date date) throws ElementNotFoundException{
 		if (!cart.containsKey(orderName)) {
 			throw new ElementNotFoundException("There is no order named "+orderName+" in your cart");

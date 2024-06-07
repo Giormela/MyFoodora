@@ -2,6 +2,7 @@ package myFoodora.entities;
 
 import myFoodora.clui.Display;
 
+/** This class represents a notification that can be displayed to the user. */
 public class Notification implements Display{
 	private String message;
 
@@ -20,5 +21,4 @@ public class Notification implements Display{
                 + "****"+"*".repeat(length)+"****\n";
 		return framedMessage;
 	}
-	
 }

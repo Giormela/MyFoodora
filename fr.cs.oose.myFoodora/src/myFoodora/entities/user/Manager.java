@@ -1,5 +1,10 @@
 package myFoodora.entities.user;
 
+/**
+ * The Manager class represents a manager of the system. It extends the User class.
+ * It has a surname.
+ * It has a display method to display the information of the manager.
+ */
 public class Manager extends User {
 	private String surname;
 

@@ -6,6 +6,9 @@ import java.util.Set;
 import myFoodora.entities.Location;
 import myFoodora.entities.Order;
 
+/**
+ * Represents a user with a location
+ */
 public abstract class LocalizedUser extends User {
 	protected Location location;
 	protected Boolean active;
@@ -26,7 +29,7 @@ public abstract class LocalizedUser extends User {
 	}
 
 
-	public void setAvtive(Boolean activate) {
+	public void setActive(Boolean activate) {
 		this.active = activate;
 	}
 
