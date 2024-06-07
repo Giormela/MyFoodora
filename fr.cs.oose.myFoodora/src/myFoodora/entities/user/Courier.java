@@ -20,7 +20,6 @@ public class Courier extends LocalizedUser {
 	
 	public void asssignOrder(Order order) {
 		assignedOrder = Optional.of(order);
-		addNotificationTo(new Notification("You have been assigned to a new order!"));;
 		setState(CourierState.OffDuty);
 	}
 	public void setState(CourierState state) {

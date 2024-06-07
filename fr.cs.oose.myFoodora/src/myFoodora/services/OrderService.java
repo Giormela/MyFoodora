@@ -54,7 +54,7 @@ public class OrderService {
 	 */
 	private void setProfitToOrder(Order order) {
 		Double orderPrice = order.getPricePayed();
-		Double orderProfit = orderPrice * markupPercentage + serviceFee - deliveryCost;
+		Double orderProfit = orderPrice * markupPercentage/100 + serviceFee - deliveryCost;
 		order.setProfit(orderProfit);
 	}
 	

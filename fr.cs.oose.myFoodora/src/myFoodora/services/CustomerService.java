@@ -7,6 +7,6 @@ public class CustomerService extends UserService<Customer> {
 	
 	
 	public void sendNotifications(Notification notification) {
-		getList().stream().filter(Customer::getConsent).forEach(c->c.addNotificationTo(notification));
+		getList().stream().filter(Customer::getConsent).forEach(c->c.notify(notification));
 	}
 }

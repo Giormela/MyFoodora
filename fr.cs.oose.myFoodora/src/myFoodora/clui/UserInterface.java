@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -22,10 +23,12 @@ import myFoodora.entities.user.Customer;
 import myFoodora.entities.user.Restaurant;
 import myFoodora.entities.user.User;
 import myFoodora.enums.CourierState;
+import myFoodora.enums.DeliveryPolicyType;
 import myFoodora.enums.DishType;
 import myFoodora.enums.FoodCategory;
 import myFoodora.enums.PermissionType;
 import myFoodora.exceptions.CommandException;
+import myFoodora.exceptions.ElementNotFoundException;
 import myFoodora.services.UserBuilder;
 
 public class UserInterface {
@@ -102,7 +105,12 @@ public class UserInterface {
         print(welcome, Color.CYAN);
         print(assisntance);
 	}
-	
+	protected static <T extends Display> String displayCollection(Collection<T> list) {
+		return list.stream()
+				.map(Display::display)
+				.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+				.toString();
+	}
 	protected void readCommand() throws CommandException {
 		String line;
 		try {
@@ -183,7 +191,13 @@ public class UserInterface {
 			}
 			function.run(args);
 		}
-		
+		protected static <T> T enumFromString(T[] enumValues, String string) throws ElementNotFoundException{
+			return Arrays.stream(enumValues)
+	    			.filter(dt->dt.toString().toLowerCase().equals(string.toLowerCase()))
+	    			.findAny()
+	    			.orElseThrow(()->new ElementNotFoundException("DishType not found"));
+		}
+		@Override
 		public String toString() {
 			return " "+Color.colorText(name, Color.YELLOW)+" "+description;
 		}
@@ -258,10 +272,7 @@ public class UserInterface {
 							else {
 								app.login(credential);
 								printSuccess("Login was successful - Permissions of "+credential.get().getPermission()+" granted");	
-								String notificationMessage = getLoggedUser().getNotifications().stream()
-										.map(Display::display)
-										.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-										.toString();
+								String notificationMessage = displayCollection(getLoggedUser().getNotifications());
 								print(notificationMessage, Color.PURPLE);
 							}
 						}),
@@ -312,7 +323,13 @@ public class UserInterface {
 						4, 
 						(args)->{
 							Restaurant r = (Restaurant)getLoggedUser();
-							Dish d = new Dish(r, args[0], DishType.fromString(args[1]), FoodCategory.fromString(args[2]), Double.valueOf(args[3]));
+							Dish d = new Dish(
+									r, 
+									args[0], 
+									Command.enumFromString(DishType.values(), args[1]), 
+									Command.enumFromString(FoodCategory.values(), args[2]),
+									Double.valueOf(args[3])
+							);
 							
 							r.addDish(d);
 							printSuccess();
@@ -482,6 +499,50 @@ public class UserInterface {
 						0,
 						(args)->{
 							print(getLoggedUser().display(), Color.CYAN);
+						}),
+				new Command("showRestaurantTop",
+						" \n\tdescription",
+						PermissionType.Manager,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							print(displayCollection(app.restaurantService.getTopRestaurant()), Color.CYAN);
+						}),
+				new Command("showCustomer",
+						" \n\tdescription",
+						PermissionType.Manager,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							print(displayCollection(app.customerService.getList()), Color.CYAN);
+						}),
+				new Command("showCouriersTop",
+						" \n\tdescription",
+						PermissionType.Manager,
+						0,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							print(displayCollection(app.courierService.getTopCouriers()), Color.CYAN);
+						}),
+				new Command("setDeliveryPolicy",
+						"<delPolicyName> \n\tdescription",
+						PermissionType.Manager,
+						1,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							DeliveryPolicyType deliveryPolicy = Command.enumFromString(DeliveryPolicyType.values(), args[0]);
+							app.courierService.setDeliveryPolicy(deliveryPolicy);
+							printSuccess();
+						}),
+				new Command("setDeliveryPolicy",
+						"<delPolicyName> \n\tdescription",
+						PermissionType.Manager,
+						1,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							DeliveryPolicyType deliveryPolicy = Command.enumFromString(DeliveryPolicyType.values(), args[0]);
+							app.courierService.setDeliveryPolicy(deliveryPolicy);
+							printSuccess();
 						}),
 		}).collect(Collectors.toMap(c->c.name, c->c));
 	}

@@ -3,6 +3,9 @@ Operation successfully completed
 Operation successfully completed
 Operation successfully completed
 Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
 Login was successful - Permissions of Restaurant granted
 Operation successfully completed
 Operation successfully completed
@@ -13,3 +16,10 @@ Operation successfully completed
 Operation successfully completed
 Operation successfully completed
 Operation successfully completed
+Login was successful - Permissions of Customer granted
+**************************************************************
+*                                                            *
+*   Augusto has published the new meal Margherita+Tiramisù   *
+*                                                            *
+**************************************************************
+

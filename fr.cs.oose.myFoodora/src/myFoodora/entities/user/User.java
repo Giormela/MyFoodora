@@ -7,7 +7,7 @@ import myFoodora.clui.Display;
 import myFoodora.entities.Credential;
 import myFoodora.entities.Notification;
 
-public abstract class User implements Display{
+public abstract class User implements Display, Notifiable{
 	private static Integer count = 0;
 	
 	protected Integer id;
@@ -21,9 +21,6 @@ public abstract class User implements Display{
 		this.notifications = new ArrayDeque<Notification>();
 	}
 
-	public void addNotificationTo(Notification notification) {
-		notifications.add(notification);
-	}
 	public Credential getCredential() {
 		return credential;
 	}
@@ -44,6 +41,7 @@ public abstract class User implements Display{
 		this.notifications.clear();		
 		return notifications;
 	}
+	@Override
 	public String display() {
 		StringBuilder sb = new StringBuilder();
         sb.append("=====================================\n");
@@ -51,5 +49,8 @@ public abstract class User implements Display{
         sb.append("-------------------------------------\n");
         return sb.toString();
 	}
-
+	@Override
+	public void notify(Notification notification) {
+		notifications.add(notification);
+	}
 }

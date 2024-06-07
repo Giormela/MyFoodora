@@ -2,6 +2,9 @@ registerRestaurant Augusto 1RueJoliot aug 123
 registerRestaurant FratelliLaCozza 1RueJoliot fra 123
 registerCustomer Giorgio Bonessa gio 1RueJoliot 123
 registerCustomer Riccardo Zanchetta ric 1RueJoliot 123
+registerCourier Emanuele Disegna ema 1RueJoliot 123
+registerCourier Elisa Gramaglia eli 1RueJoliot 123
+registerCourier Luca Allione luc 1RueJoliot 123
 logout
 login aug 123
 addDishRestaurantMenu PizzaMargherita MainDish Vegeterian 7.00

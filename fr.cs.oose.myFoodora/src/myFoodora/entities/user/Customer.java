@@ -1,6 +1,7 @@
 package myFoodora.entities.user;
 
 import myFoodora.entities.Date;
+import myFoodora.entities.Notification;
 import myFoodora.entities.Order;
 import myFoodora.entities.fidelityCard.BasicFidelityCard;
 import myFoodora.entities.fidelityCard.FidelityCard;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class Customer extends LocalizedUser {
+public class Customer extends LocalizedUser{
 	private String surname;
 	private String email;
 	private String phone;
