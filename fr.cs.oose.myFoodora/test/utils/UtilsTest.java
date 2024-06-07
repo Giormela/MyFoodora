@@ -1,4 +1,4 @@
-package myFoodora.tests.utils;
+package tests.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package myFoodora.tests.food;
+package tests.food;
 
 import myFoodora.entities.Location;
 import myFoodora.entities.food.Dish;
@@ -60,7 +60,7 @@ class MealTest {
         MealCreationException exception = assertThrows(MealCreationException.class, () -> {
             builder.addDish(new Dish(restaurant, "Another Soup", DishType.Starter, FoodCategory.Standard, 6.0));
         });
-        assertTrue(exception.getMessage().contains("Dish already present in the meal"));
+        assertTrue(exception.getMessage().contains("already present in the meal"));
     }
 
     @Test
