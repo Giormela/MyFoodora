@@ -1,3 +1,4 @@
+package myFoodora.tests;
 
 import myFoodora.entities.Location;
 import myFoodora.entities.food.Dish;

@@ -1,7 +1,5 @@
 package myFoodora.entities;
 
-import java.util.Calendar;
-
 public class Date implements Comparable<Date>{
 	private Integer year;
 	private Integer month;

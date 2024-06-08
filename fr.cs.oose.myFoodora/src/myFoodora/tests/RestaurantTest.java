@@ -1,4 +1,4 @@
-package user;
+package myFoodora.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import myFoodora.entities.Location;
