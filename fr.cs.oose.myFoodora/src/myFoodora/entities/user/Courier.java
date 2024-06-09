@@ -58,6 +58,14 @@ public class Courier extends LocalizedUser {
 	public boolean isOffDuty() {
 		return this.state == CourierState.OffDuty;
 	}
+	public void completeOrder() {
+		if (assignedOrder.isPresent()) {
+			Order completedOrder = assignedOrder.get();
+			this.orderHistory.add(completedOrder);
+		}
+		this.assignedOrder = Optional.empty();
+		this.state = CourierState.OffDuty;
+	}
 	
 	@Override
 	public String display() {
@@ -65,6 +73,7 @@ public class Courier extends LocalizedUser {
 		sb.append(String.format(" Name       : %s %s\n", name, surname));
         sb.append(String.format(" Location   : %s\n", location));
         sb.append(String.format(" Phone      : %s\n", phone));
+        sb.append(String.format(" OrderCount : %s\n", getOrderCount()));
         sb.append("=====================================\n");
         return sb.toString();
 	}

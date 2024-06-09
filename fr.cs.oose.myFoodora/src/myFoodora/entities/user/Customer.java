@@ -54,6 +54,9 @@ public class Customer extends LocalizedUser{
 	public void setConsent(Boolean consensus) {
 		this.consent = consensus;
 	}
+	public void setFidelityCard(FidelityCard fidelityCard) {
+		this.fidelityCard = fidelityCard;
+	}
 
 	/**
 	 * prepares a new order

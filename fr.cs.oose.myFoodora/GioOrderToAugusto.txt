@@ -1,0 +1,24 @@
+logout
+login gio 123
+createOrder Augusto test
+addItem2Order test PizzaMargherita
+addItem2Order test Margherita+Tiramisù
+endOrder test 09/06/2024
+logout
+login ceo 123456789
+showTotalProfit
+findDeliverer
+showCourierTop
+logout
+login ema 123
+completeOrder
+logout
+login eli 123
+completeOrder
+logout
+login luc 123
+completeOrder
+logout
+login ceo 123456789
+showCourierTop
+

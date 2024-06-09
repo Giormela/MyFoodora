@@ -35,6 +35,7 @@ class UserInterfaceFile extends UserInterface {
 				}
 			} catch (CommandException | IOException e) {
 				print(e.getMessage(), Color.RED);
+				flush();
 				break;
 			}
 		}

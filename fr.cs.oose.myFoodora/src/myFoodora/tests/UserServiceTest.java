@@ -26,7 +26,7 @@ class UserServiceTest {
 					.getResult()
 			);
 		} catch (UserRegistrationException e) {
-			System.out.println(e.message);
+			System.out.println(e.getMessage());
 		}
 		
 		User m = app.managerService.getUserById(0);
@@ -64,7 +64,7 @@ class UserServiceTest {
 						.getResult()
 				);
 		} catch (UserRegistrationException e) {
-			System.out.println(e.message);
+			System.out.println(e.getMessage());
 		}
 		
 		//assertEquals(2, app.userService.getUsersOfType(Restaurant.class).count());

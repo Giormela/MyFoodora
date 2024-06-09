@@ -38,7 +38,7 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return longitude + ", " + latitude;
+		return  String.format("%.2f", longitude) + ", " + String.format("%.2f", latitude);
 	}
 
 	public Double getLongitude() {

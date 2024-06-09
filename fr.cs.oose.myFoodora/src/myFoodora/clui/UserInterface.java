@@ -17,6 +17,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import myFoodora.MyFoodora;
 import myFoodora.entities.*;
+import myFoodora.entities.fidelityCard.BasicFidelityCard;
+import myFoodora.entities.fidelityCard.FidelityCard;
+import myFoodora.entities.fidelityCard.LotteryFidelityCard;
+import myFoodora.entities.fidelityCard.PointFidelityCard;
 import myFoodora.entities.food.Dish;
 import myFoodora.entities.user.Courier;
 import myFoodora.entities.user.Customer;
@@ -25,6 +29,7 @@ import myFoodora.entities.user.User;
 import myFoodora.enums.CourierState;
 import myFoodora.enums.DeliveryPolicyType;
 import myFoodora.enums.DishType;
+import myFoodora.enums.FidelityCardType;
 import myFoodora.enums.FoodCategory;
 import myFoodora.enums.PermissionType;
 import myFoodora.exceptions.CommandException;
@@ -62,7 +67,7 @@ public class UserInterface {
 			try {
 				readCommand();
 			} catch (CommandException e) {
-				print(e.message, Color.RED);
+				print(e.getMessage(), Color.RED);
 			}
 		}
 	}
@@ -516,13 +521,13 @@ public class UserInterface {
 							MyFoodora app = MyFoodora.getInstance();
 							print(displayCollection(app.customerService.getList()), Color.CYAN);
 						}),
-				new Command("showCouriersTop",
+				new Command("showCourierTop",
 						" \n\tdescription",
 						PermissionType.Manager,
 						0,
 						(args)->{
 							MyFoodora app = MyFoodora.getInstance();
-							print(displayCollection(app.courierService.getTopCouriers()), Color.CYAN);
+							print(displayCollection(app.courierService.getTopCourier()), Color.CYAN);
 						}),
 				new Command("setDeliveryPolicy",
 						"<delPolicyName> \n\tdescription",
@@ -532,6 +537,39 @@ public class UserInterface {
 							MyFoodora app = MyFoodora.getInstance();
 							DeliveryPolicyType deliveryPolicy = Command.enumFromString(DeliveryPolicyType.values(), args[0]);
 							app.courierService.selectDeliveryPolicy(deliveryPolicy);
+							printSuccess();
+						}),
+				new Command("associateCard",
+						"<userName> <cardType> \n\tdescription",
+						PermissionType.Manager,
+						2,
+						(args)->{
+							MyFoodora app = MyFoodora.getInstance();
+							Customer c = app.customerService.getUserByName(args[0]);
+							FidelityCard f;
+							FidelityCardType fidelityCardType = Command.enumFromString(FidelityCardType.values(), args[1]);
+							switch (fidelityCardType) {
+							case Lottery:
+								f = new LotteryFidelityCard();
+								break;
+							case Point:
+								f = new PointFidelityCard();
+							default:
+								f = new BasicFidelityCard();
+								break;
+							}
+							
+							c.setFidelityCard(f);
+							printSuccess();
+						}),
+				new Command("completeOrder",
+						" \n\tdescription",
+						PermissionType.Courier,
+						0,
+						(args)->{
+							Courier c = (Courier) getLoggedUser();
+							
+							c.completeOrder();
 							printSuccess();
 						}),
 		}).collect(Collectors.toMap(c->c.name, c->c));
