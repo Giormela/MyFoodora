@@ -1,0 +1,78 @@
+Operation successfully completed
+Login was successful - Permissions of Customer granted
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Manager granted
+The total profit is 2.6175
+Operation successfully completed
+=====================================
+   	Courier Emanuele
+-------------------------------------
+ Name       : Emanuele Disegna
+ Location   : 0,27, 0,89
+ Phone      : null
+ OrderCount : 1
+=====================================
+=====================================
+   	Courier Elisa
+-------------------------------------
+ Name       : Elisa Gramaglia
+ Location   : 0,10, 0,18
+ Phone      : null
+ OrderCount : 1
+=====================================
+=====================================
+   	Courier Luca
+-------------------------------------
+ Name       : Luca Allione
+ Location   : 0,55, 0,56
+ Phone      : null
+ OrderCount : 0
+=====================================
+
+Operation successfully completed
+Login was successful - Permissions of Courier granted
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Courier granted
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Courier granted
+**********************************************
+*                                            *
+*   You have been assigned to a new order!   *
+*                                            *
+**********************************************
+
+Operation successfully completed
+Operation successfully completed
+Login was successful - Permissions of Manager granted
+=====================================
+   	Courier Emanuele
+-------------------------------------
+ Name       : Emanuele Disegna
+ Location   : 0,27, 0,89
+ Phone      : null
+ OrderCount : 1
+=====================================
+=====================================
+   	Courier Elisa
+-------------------------------------
+ Name       : Elisa Gramaglia
+ Location   : 0,10, 0,18
+ Phone      : null
+ OrderCount : 1
+=====================================
+=====================================
+   	Courier Luca
+-------------------------------------
+ Name       : Luca Allione
+ Location   : 0,55, 0,56
+ Phone      : null
+ OrderCount : 1
+=====================================
+
+No allowed command named  found
