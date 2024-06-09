@@ -18,12 +18,4 @@ public class RestaurantService extends UserService<Restaurant> {
 			.sorted(Comparator.comparing(Restaurant::getProfit).reversed())
 			.toList();
 	}
-	
-	
-	
-	
-	@Test
-	public void test() {
-		assertEquals(true, true);
-	}
 }
